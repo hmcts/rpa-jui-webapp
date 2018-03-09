@@ -15,7 +15,7 @@
         "test:smoke": "echo 'smoke test not implemented'",
         "test:functional": "echo 'functional test not implemented'",
         "health-check": "echo 'healthcheck not implemented'",
-        "sonar-scan": "echo \"Test sonar\"",
+        "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
         "test:codacy-upload": "echo \"Test codacity\"",
         "test:codecov-upload": "\"echo \"Test codacity\""
     },
@@ -31,5 +31,8 @@
     "homepage": "https://github.com/hmcts/jui-webapp#readme",
     "dependencies": {
         "express": "^4.16.2"
+    },
+    "devDependencies": {
+        "sonar-scanner": "^3.0.3"
     }
 }

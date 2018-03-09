@@ -1,0 +1,28 @@
+#!groovy
+
+properties([
+  [
+    $class       : 'GithubProjectProperty',
+    displayName  : 'Judicial UI Web App',
+    projectUrlStr: 'https://github.com/hmcts/jui-webapp/'
+  ],
+  pipelineTriggers([
+    [$class: 'GitHubPushTrigger']
+  ])
+])
+
+@Library("Infrastructure") _
+
+def type = "nodejs"
+def product = "jui"
+def component = "web-app"
+
+def channel = '#jui-pipeline'
+
+withPipeline(type , product, component) {
+    after('checkout') {
+        echo '${component} out'
+    }
+
+    enableSlackNotifications(channel)
+}

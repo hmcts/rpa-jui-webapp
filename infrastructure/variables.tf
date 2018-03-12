@@ -27,7 +27,8 @@ variable "location" {
 
 variable "env" {
   type = "string"
-  description = "(Required) The environment in which to deploy the application infrastructure."
+  description = "(Required) The environment in which to deploy the application infrastructure.",
+  default = "saat"
 }
 
 variable "subscription" {

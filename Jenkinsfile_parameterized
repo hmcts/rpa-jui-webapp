@@ -4,7 +4,7 @@
 properties([
     parameters([
         string(name: 'PRODUCT_NAME', defaultValue: 'jui', description: ''),
-        string(name: 'APP', defaultValue: 'webapp', description: ''),
+        string(name: 'APP', defaultValue: 'webapp-web', description: ''),
         string(name: 'TYPE', defaultValue: 'nodejs', description: ''),
         string(name: 'ENVIRONMENT', defaultValue: 'sandbox', description: 'Environment where code should be build and deployed'),
         choice(name: 'SUBSCRIPTION', choices: 'sandbox\nnonprod\nprod', description: 'Azure subscriptions available to build in')

@@ -18,7 +18,7 @@ withParameterizedPipeline(params.TYPE, params.PRODUCT_NAME, params.APP, params.E
 
     after('build') {
             echo '--After build hook--'
-            sh `npm run build-universal`
+            sh 'npm run build-universal'
             echo '----'
      }
 }

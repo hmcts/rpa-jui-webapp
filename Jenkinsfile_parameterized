@@ -12,7 +12,13 @@ properties([
 ])
 
 withParameterizedPipeline(params.TYPE, params.PRODUCT_NAME, params.APP, params.ENVIRONMENT, params.SUBSCRIPTION) {
-after('checkout') {
+    after('checkout') {
         echo '${component} out'
     }
+
+    after('build') {
+            echo '--After build hook--'
+            npm run build:universal
+            echo '----'
+     }
 }

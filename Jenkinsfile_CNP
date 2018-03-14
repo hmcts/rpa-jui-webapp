@@ -21,7 +21,7 @@ def channel = '#jui-pipeline'
 
 withPipeline(type , product, component) {
     after('checkout') {
-        npm run build:universal
+        echo '${component} out'
     }
 
     enableSlackNotifications(channel)

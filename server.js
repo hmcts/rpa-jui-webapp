@@ -1,5 +1,4 @@
 require( 'zone.js/dist/zone-node');
-require( 'reflect-metadata');
 
 const express = require('express');
 const ngExpressEngine = require('@nguniversal/express-engine').ngExpressEngine;

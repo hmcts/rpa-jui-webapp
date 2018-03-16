@@ -4,7 +4,7 @@
     "license": "MIT",
     "scripts": {
         "ng": "ng",
-        "start": "nodemon server.js",
+        "start": "echo \"Npm start command\"",
         "build": "ng build --prod",
         "build-universal": "npm run build:client-and-server-bundles",
         "e2e": "ng e2e",

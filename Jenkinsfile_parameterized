@@ -13,7 +13,7 @@ properties([
 
 withParameterizedPipeline(params.TYPE, params.PRODUCT_NAME, params.APP, params.ENVIRONMENT, params.SUBSCRIPTION) {
     after('checkout') {
-        echo '${component} out'
+        sh 'yarn cache clean'
     }
 
     after('build') {

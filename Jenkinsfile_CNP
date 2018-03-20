@@ -24,5 +24,11 @@ withPipeline(type , product, component) {
         echo '${component} out'
     }
 
+    after('build') {
+                echo '--After build hook--'
+                sh 'npm run build-universal'
+                echo '----'
+         }
+
     enableSlackNotifications(channel)
 }

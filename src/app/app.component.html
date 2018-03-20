@@ -10,7 +10,7 @@
         <div class="header-proposition">
             <div class="content">
                 <nav id="proposition-menu">
-                    <a href="/" id="proposition-name">Judicial UI</a>
+                    <a routerLink="/" id="proposition-name">Judicial UI</a>
 
                     <ul id="proposition-links">
                         <!-- auth START-->
@@ -33,9 +33,11 @@
     <div class="phase-banner-alpha">
         <p>
             <strong class="phase-tag">ALPHA</strong>
-            <span>This is a new service – your <a href="#">feedback</a> will help us to improve it.</span>
+            <span>This is a new service – your <a routerLink="/feedback">feedback</a> will help us to improve it.</span>
         </p>
     </div>
+
+    <router-outlet></router-outlet>
 
     <!-- ng-component START-->
     <!--<router-outlet></router-outlet>-->

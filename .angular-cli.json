@@ -11,7 +11,11 @@
                 "assets",
                 "favicon.ico",
                 "assets",
-                { "glob": "**/*", "input": "../node_modules/govuk_template_jinja/assets/", "output": "./assets/" }
+                {
+                    "glob": "**/*",
+                    "input": "../node_modules/govuk_template_jinja/assets/",
+                    "output": "./assets/"
+                }
             ],
             "index": "index.html",
             "main": "main.ts",
@@ -43,7 +47,11 @@
                 "assets",
                 "favicon.ico",
                 "assets",
-                { "glob": "**/*", "input": "../node_modules/govuk_template_jinja/assets/", "output": "./assets/" }
+                {
+                    "glob": "**/*",
+                    "input": "../node_modules/govuk_template_jinja/assets/",
+                    "output": "./assets/"
+                }
             ],
             "platform": "server",
             "index": "index.html",
@@ -97,6 +105,9 @@
     "defaults": {
         "styleExt": "scss",
         "component": {
+        },
+        "serve": {
+            "port": 3000
         }
     }
 }

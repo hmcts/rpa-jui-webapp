@@ -21,14 +21,14 @@ def channel = '#jui-pipeline'
 
 withPipeline(type , product, component) {
     after('checkout') {
-        echo '${component} out'
+        sh 'yarn cache clean'
     }
 
     after('build') {
-                echo '--After build hook--'
-                sh 'npm run build-universal'
-                echo '----'
-         }
+        echo '--After build hook--'
+        sh 'npm run build-universal'
+        echo '----'
+     }
 
     enableSlackNotifications(channel)
 }

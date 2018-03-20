@@ -9,7 +9,9 @@
             "outDir": "dist",
             "assets": [
                 "assets",
-                "favicon.ico"
+                "favicon.ico",
+                "assets",
+                { "glob": "**/*", "input": "../node_modules/govuk_template_jinja/assets/", "output": "./assets/" }
             ],
             "index": "index.html",
             "main": "main.ts",
@@ -19,8 +21,14 @@
             "testTsconfig": "tsconfig.spec.json",
             "prefix": "app",
             "styles": [
-                "styles.css"
+                "styles.scss"
             ],
+            "stylePreprocessorOptions": {
+                "includePaths": [
+                    "../node_modules/govuk_frontend_toolkit/stylesheets",
+                    "../node_modules/govuk-elements-sass/public/sass"
+                ]
+            },
             "scripts": [],
             "environmentSource": "environments/environment.ts",
             "environments": {
@@ -31,16 +39,29 @@
         {
             "root": "src",
             "outDir": "dist-server",
-            "assets": ["assets", "favicon.ico"],
+            "assets": [
+                "assets",
+                "favicon.ico",
+                "assets",
+                { "glob": "**/*", "input": "../node_modules/govuk_template_jinja/assets/", "output": "./assets/" }
+            ],
+            "platform": "server",
             "index": "index.html",
             "main": "server.main.ts",
-            "platform": "server",
             "polyfills": "polyfills.ts",
             "test": "test.ts",
             "tsconfig": "tsconfig.server.json",
             "testTsconfig": "tsconfig.spec.json",
             "prefix": "app",
-            "styles": ["styles.css"],
+            "styles": [
+                "styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+                "includePaths": [
+                    "../node_modules/govuk_frontend_toolkit/stylesheets",
+                    "../node_modules/govuk-elements-sass/public/sass"
+                ]
+            },
             "scripts": [],
             "environmentSource": "environments/environment.ts",
             "environments": {
@@ -74,7 +95,8 @@
         }
     },
     "defaults": {
-        "styleExt": "css",
-        "component": {}
+        "styleExt": "scss",
+        "component": {
+        }
     }
 }

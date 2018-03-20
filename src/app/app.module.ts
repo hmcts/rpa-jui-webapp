@@ -1,19 +1,31 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+// import { AppRoutingModule } from './app-routing.module';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { PLATFORM_ID, APP_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { AppRoutingModule } from './/app-routing.module';
+import { HomeComponent } from './home/home.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 
+const routes: Routes = [
+    { path: '', component: HomeComponent },
+    { path: 'feedback', component: FeedbackComponent },
+];
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    FeedbackComponent
   ],
   imports: [
-      BrowserModule.withServerTransition({ appId: 'jui' })
+      BrowserModule.withServerTransition({ appId: 'jui' }),
+      AppRoutingModule,
+      RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]

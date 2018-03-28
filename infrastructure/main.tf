@@ -37,5 +37,7 @@ module "app" {
     ROOT_APPENDER = "${var.root_appender}"
     JSON_CONSOLE_PRETTY_PRINT = "${var.json_console_pretty_print}"
     LOG_OUTPUT = "${var.log_output}"
+
+    NODE_ENV = "${var.env}"
   }
 }

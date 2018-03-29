@@ -13,6 +13,7 @@ module "app" {
   ilbIp = "${var.ilbIp}"
   subscription = "${var.subscription}"
   is_frontend = true
+  capacity = "${var.capacity}"
 
   app_settings = {
     # REDIS_HOST = "${module.redis-cache.host_name}"

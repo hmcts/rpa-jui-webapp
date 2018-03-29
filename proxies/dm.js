@@ -5,7 +5,7 @@ let proxyMiddleware = require('http-proxy-middleware');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 process.env.NODE_ENV = process.env.NODE_ENV || 'local';
 // const baseUrl = 'https://api-gateway.test.dm.reform.hmcts.net';
-const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbV9ndyIsImV4cCI6MTUyMjI1MjI4M30.RmkWSr8xopWfv-9n1wAdxuKSNdbKOqMuqgKef76-2E91NhNYhQ3ABdv7RtSJgszEHpPoX-jEEDzcw4o5zXDQEA';
+const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbV9ndyIsImV4cCI6MTUyMjMyNTI4NH0.hlFX_7NNIEEbbna1J3u2FwrEdnP1jN8S_Vk0Nd6oZ6iu5dHmiEe5mFHlRBgG0AyVTzCzh99flHpl_OTuoH1--A';
 
 // const token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJsMXNqZHJhNjUyZGQ0amFuMHEyNnVrMDFwciIsInN1YiI6IjY2ODciLCJpYXQiOjE1MjIyMjg1MzMsImV4cCI6MTUyMjI1NzMzMywiZGF0YSI6ImNhc2V3b3JrZXItcHJvYmF0ZSxjYXNld29ya2VyLWNtYyxjYXNld29ya2VyLXNzY3MsY2FzZXdvcmtlci1kaXZvcmNlLGNhc2V3b3JrZXItdGVzdCxjYXNld29ya2VyLXJlZmVyZW5jZS1kYXRhLGNhc2V3b3JrZXIsY2FzZXdvcmtlci1wcm9iYXRlLWxvYTEsY2FzZXdvcmtlci1jbWMtbG9hMSxjYXNld29ya2VyLXNzY3MtbG9hMSxjYXNld29ya2VyLWRpdm9yY2UtbG9hMSxjYXNld29ya2VyLXRlc3QtbG9hMSxjYXNld29ya2VyLXJlZmVyZW5jZS1kYXRhLWxvYTEsY2FzZXdvcmtlci1sb2ExIiwidHlwZSI6IkFDQ0VTUyIsImlkIjoiNjY4NyIsImZvcmVuYW1lIjoiQ0NEIiwic3VybmFtZSI6IldlYiBkb21haW4iLCJkZWZhdWx0LXNlcnZpY2UiOiJDQ0QiLCJsb2EiOjEsImRlZmF1bHQtdXJsIjoiaHR0cHM6Ly9jYXNlLXdvcmtlci13ZWIudGVzdC5jY2QucmVmb3JtLmhtY3RzLm5ldCIsImdyb3VwIjoiY2FzZXdvcmtlciJ9.p7d_Gx0_wOYnB-xeSXqAAyVYhAXzlg65a_gwdhhKO6A";
 
@@ -26,6 +26,7 @@ function attachSSHProxy(proxy) {
             agent = new SocksProxyAgent(proxy, true);
         }
         proxy.agent = agent;
+        proxy.changeOrigin = true;
     }
     return proxy;
 }
@@ -40,7 +41,6 @@ module.exports = app => {
         // logLevel: 'debug',
         secure: false,
         rejectUnauthorized: false,
-        changeOrigin: true,
         pathRewrite: {
             '/demproxy/dm': '/'
         },

@@ -26,7 +26,6 @@ function attachSSHProxy(proxy) {
             agent = new SocksProxyAgent(proxy, true);
         }
         proxy.agent = agent;
-        proxy.changeOrigin = true;
     }
     return proxy;
 }
@@ -41,6 +40,7 @@ module.exports = app => {
         // logLevel: 'debug',
         secure: false,
         rejectUnauthorized: false,
+        changeOrigin: true,
         pathRewrite: {
             '/demproxy/dm': '/'
         },

@@ -5,13 +5,12 @@ let proxyMiddleware = require('http-proxy-middleware');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 process.env.NODE_ENV = process.env.NODE_ENV || 'local';
 
-
-let target = process.env.DM_STORE_URI || 'https://dm-store-aat.service.core-compute-aat.internal';
-
+// let DM_STORE_URI = process.env.DM_STORE_URI || 'https://dm-store-aat.service.core-compute-aat.internal';
+const DM_STORE_URI = process.env.DM_STORE_URI || 'http://localhost:4603';
 
 let sshProxy;
 function attachSSHProxy(proxy) {
-    if(process.env.NODE_ENV === 'local') {
+    if(process.env.NODE_ENV === 'local' && !proxy.target.startsWith('http://localhost')) {
         let agent;
         if(!sshProxy) {
             const SocksProxyAgent = require('socks-proxy-agent');
@@ -26,7 +25,7 @@ function attachSSHProxy(proxy) {
 module.exports = app => {
 
     const proxyConfig = attachSSHProxy({
-        target: target,
+        target: DM_STORE_URI,
         // logLevel: 'debug',
         secure: false,
         rejectUnauthorized: false,
@@ -117,6 +116,6 @@ module.exports = app => {
     //         response.pipe(res);
     //     });
     // });
-}
+};
 
 

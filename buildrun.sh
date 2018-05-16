@@ -10,8 +10,7 @@ PORT = 3000
 clear;
 ./bin/fakeversion.sh
 yarn cache clean
-yarn install
-#yarn build
-npm run build-universal
+yarn install --force
+yarn build-universal
 yarn start
 

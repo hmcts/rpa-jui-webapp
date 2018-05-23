@@ -5,11 +5,14 @@
 const express = require('express');
 const app = express();
 const serviceTokenMiddleware = require('./middleware/service-token');
-
+const apiRoute = require('./api');
 
 app.get('/health', (req,res) => {
     res.status(200).send('ok');
 });
+
+
+app.use('/api', apiRoute);
 
 app.use(serviceTokenMiddleware);
 

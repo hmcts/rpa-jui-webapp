@@ -32,17 +32,20 @@ const divorce = {
     ]
 }
 
+
+
+
 const sscs = {
     sections: [
         {
             id: 'summary',
             name: 'Summary',
-            type: 'section',
+            type: 'page',
             sections: [
                 {
                     id: 'case_details',
                     name: 'Case Details',
-                    type: 'panel',
+                    type: 'summary-panel',
                     fields: [
                         {
                             label: 'Parties',
@@ -63,16 +66,50 @@ const sscs = {
         {
             id: 'parties',
             name: 'Parties',
-            type: 'section',
+            type: 'page',
             sections: [
                 {
                     id: 'case_details',
                     name: 'Case Details',
-                    type: 'panel',
-                    fields: [
+                    type: 'parties-panel',
+                    sections: [
                         {
-                            label: 'Parties',
-                            lookup: '$.id'
+                            id: 'petitioner',
+                            name: 'Petitioner',
+                            type: 'tab',
+                            fields: [
+                                {
+                                    label: 'Parties',
+                                    lookup: '$.id'
+                                },
+                                {
+                                    label: 'Case number',
+                                    lookup: '$.id'
+                                },
+                                {
+                                    label: 'Case type',
+                                    lookup: '$.case_type_id'
+                                }
+                            ]
+                        },
+                        {
+                            id: 'respondent',
+                            name: 'Respondent',
+                            type: 'tab',
+                            fields: [
+                                {
+                                    label: 'Parties',
+                                    lookup: '$.id'
+                                },
+                                {
+                                    label: 'Case number',
+                                    lookup: '$.id'
+                                },
+                                {
+                                    label: 'Case type',
+                                    lookup: '$.case_type_id'
+                                }
+                            ]
                         }
                     ]
                 }
@@ -81,34 +118,21 @@ const sscs = {
         {
             id: 'casefile',
             name: 'Case file',
-            type: 'section',
+            type: 'page',
             sections: [
                 {
-                    id: 'case_details',
-                    name: 'Case Details',
-                    type: 'panel',
+                    id: 'documents',
+                    name: '',
+                    type: 'document-panel',
                     fields: [
                         {
-                            label: 'Parties',
-                            lookup: '$.id'
+                            lookup: '$.case_data.evidence.documents'
                         }
                     ]
                 }
             ]
         }
     ]
-    // representatives: {
-    //     judge: '',
-    //     medical: '',
-    //     disability_member: ''
-    // },
-    // case_summary: {
-    //     parties: '',
-    //     id: 'id',
-    //     type: 'jurisdiction',
-    //     tribunal: 'lookupfrom schema',
-    //     additional_requirements: ''
-    // }
 };
 
 

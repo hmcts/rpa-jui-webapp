@@ -3,11 +3,20 @@
 
 
         <div>
-            {{targetSection | json}}
+            <!--{{targetSection | json}}-->
         </div>
 
 
-        <app-panel *ngFor="let section of targetSection.sections" [panelData]="section"></app-panel>
+        <ng-container *ngIf="targetSection && targetSection.sections">
+            <ng-container *ngFor="let section of targetSection.sections">
+                <ng-container [ngSwitch]="section.type" >
+                    <app-summary-panel *ngSwitchCase="'summary-panel'" [panelData]="section"></app-summary-panel>
+                    <app-document-panel *ngSwitchCase="'document-panel'" [panelData]="section"></app-document-panel>
+                    <app-parties-panel *ngSwitchCase="'parties-panel'" [panelData]="section"></app-parties-panel>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+
 
 
     </div>

@@ -42,6 +42,9 @@
     "@angular/platform-browser-dynamic": "^6.0.0",
     "@angular/platform-server": "^6.0.0",
     "@angular/router": "^6.0.0",
+    "@hmcts/info-provider": "^1.0.0",
+    "@hmcts/nodejs-healthcheck": "^1.4.6",
+    "@hmcts/nodejs-logging": "^3.0.0",
     "@nguniversal/express-engine": "^6.0.0",
     "@nguniversal/module-map-ngfactory-loader": "^6.0.0",
     "core-js": "^2.4.1",
@@ -59,6 +62,7 @@
     "rxjs-compat": "^6.1.0",
     "ts-loader": "^4.0.1",
     "url": "^0.11.0",
+    "yarn": "1.6.0",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {

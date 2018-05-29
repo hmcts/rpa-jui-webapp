@@ -5,7 +5,6 @@ module.exports = {
         dm: "",
         idam: ""
     },
-    microservice: process.env.JUI_MICROSERVICE || "em_gw",
-    secret: process.env.JUI_SECRET || "AAAAAAAAAAAAAAAA",
+    microservice: "ccd_gw",
     useProxy: true
 };

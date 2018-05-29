@@ -3,5 +3,5 @@ const config = {
     local: require('./local.config.js'),
     aat: require('./aat.config.js')
 };
-const env = process.env.NODE_ENV || 'local';
+const env = typeof(process) !== 'undefined' ? (process.env.JUI_ENV || 'local') : 'local';
 module.exports = config[env];

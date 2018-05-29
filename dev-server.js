@@ -36,14 +36,4 @@ app.use(serviceTokenMiddleware);
 app.use('/api', apiRoute);
 
 
-
-
-const dmProxy = require('./proxies/dm');
-dmProxy(app);
-
-
-
-
-
-
 app.listen(3001, () => console.log('Example app listening on port 3001!'));

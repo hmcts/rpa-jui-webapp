@@ -8,6 +8,7 @@ const jwtDecode = require('jwt-decode');
 const schema = require('../benefit_schema.json');
 const sscsCaseTemplate = require('./sscsCase.template');
 const sscsCaseListTemplate = require('./sscsCaseList.template');
+
 const _token = '';
 
 function generateRequest(url, params) {

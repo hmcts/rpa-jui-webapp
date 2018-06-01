@@ -7,8 +7,9 @@ const config = require('./config');
 const app = express();
 
 
-
-
+app.get('/oauth2/callback', (req,res) => {
+    res.status(200).send('logged in!!!');
+});
 
 app.get("/health", healthcheck.configure({
   checks: {

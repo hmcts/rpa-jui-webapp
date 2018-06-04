@@ -3,7 +3,7 @@ const { InfoContributor, infoRequestHandler  } = require('@hmcts/info-provider')
 require( 'zone.js/dist/zone-node');
 const apiRoute = require('./api');
 const express = require('express');
-const serviceTokenMiddleware = require('./middleware/service-token');
+const serviceTokenMiddleware = require('./api/middleware/service-token');
 const ngExpressEngine = require('@nguniversal/express-engine').ngExpressEngine;
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 

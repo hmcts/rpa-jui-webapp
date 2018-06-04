@@ -3,12 +3,11 @@ const jp = require('jsonpath');
 const express = require('express');
 const router = express.Router();
 const config = require('../../config');
-const proxy = require('../../lib/proxy');
+const proxy = require('../lib/proxy');
 const jwtDecode = require('jwt-decode');
 const schema = require('../benefit_schema.json');
 const sscsCaseTemplate = require('./sscsCase.template');
 const sscsCaseListTemplate = require('./sscsCaseList.template');
-const _token = 'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1cHBubmdlbGp1ZzV1a2RpOHVmOGc3bXJvMiIsInN1YiI6IjU4OTkiLCJpYXQiOjE1Mjc4NDQ4ODIsImV4cCI6MTUyNzg3MzY4MiwiZGF0YSI6ImNhc2V3b3JrZXItcHJvYmF0ZSxjYXNld29ya2VyLXByb2JhdGUtaXNzdWVyLGNhc2V3b3JrZXItcHJvYmF0ZS1leGFtaW5lcixjYXNld29ya2VyLXByb2JhdGUtYXV0aG9yaXNlcixjYXNld29ya2VyLWNtYyxjYXNld29ya2VyLXNzY3MsY2FzZXdvcmtlci1kaXZvcmNlLGNhc2V3b3JrZXItZGl2b3JjZS1jb3VydGFkbWluLGNhc2V3b3JrZXItdGVzdCxjYXNld29ya2VyLXJlZmVyZW5jZS1kYXRhLGNhc2V3b3JrZXItc3Njcy1jYWxsYWdlbnQsY2FzZXdvcmtlcixjYXNld29ya2VyLXByb2JhdGUtbG9hMSxjYXNld29ya2VyLXByb2JhdGUtaXNzdWVyLWxvYTEsY2FzZXdvcmtlci1wcm9iYXRlLWV4YW1pbmVyLWxvYTEsY2FzZXdvcmtlci1wcm9iYXRlLWF1dGhvcmlzZXItbG9hMSxjYXNld29ya2VyLWNtYy1sb2ExLGNhc2V3b3JrZXItc3Njcy1sb2ExLGNhc2V3b3JrZXItZGl2b3JjZS1sb2ExLGNhc2V3b3JrZXItZGl2b3JjZS1jb3VydGFkbWluLWxvYTEsY2FzZXdvcmtlci10ZXN0LWxvYTEsY2FzZXdvcmtlci1yZWZlcmVuY2UtZGF0YS1sb2ExLGNhc2V3b3JrZXItc3Njcy1jYWxsYWdlbnQtbG9hMSxjYXNld29ya2VyLWxvYTEiLCJ0eXBlIjoiQUNDRVNTIiwiaWQiOiI1ODk5IiwiZm9yZW5hbWUiOiJTdHVhcnQiLCJzdXJuYW1lIjoiUGx1bW1lciIsImRlZmF1bHQtc2VydmljZSI6IkNDRCIsImxvYSI6MSwiZGVmYXVsdC11cmwiOiJodHRwczovL3d3dy5jY2QuZGVtby5wbGF0Zm9ybS5obWN0cy5uZXQiLCJncm91cCI6ImNhc2V3b3JrZXIifQ.KaLql7vVX8YbBRPStjXTLIf6c3ot4hj1wuUJTxLEk90';
 
 function generateRequest(url, params) {
   let options = {
@@ -27,7 +26,7 @@ function generateRequest(url, params) {
 
 
 function getCase(caseId, userId, options) {
-  return generateRequest(`${config.services.ccd_data_api}/caseworkers/5899/jurisdictions/SSCS/case-types/jui_test/cases/1526651248651203`, options)
+  return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/SSCS/case-types/jui_test/cases/${caseId}`, options)
 }
 
 function getCases(userId = '5899', options, caseStateId = 'appealCreated', jurisdiction = 'SSCS') {
@@ -69,14 +68,12 @@ function rawCasesReducer(cases) {
 
 //Get case
 router.get('/:case_id', (req, res, next) => {
-    const token = `Bearer ${_token}`;
-    const tokenData = jwtDecode(token);
+    const token = req.auth.token;
+    const userId = req.auth.sub;
     const caseId = req.params.case_id;
-    const userId = tokenData.id;
-
     getCase(caseId, userId, {
         headers: {
-            'Authorization': token,
+            'Authorization': `Bearer ${token}`,
             'ServiceAuthorization': req.headers.ServiceAuthorization
         }
     }).then(caseData => {
@@ -92,13 +89,12 @@ router.get('/:case_id', (req, res, next) => {
 
 //List of cases
 router.get('/', (req, res, next) => {
-    const token = `Bearer ${_token}`;
-    const tokenData = jwtDecode(token);
-    const userId = tokenData.id;
+    const token = req.auth.token;
+    const userId = req.auth.sub;
 
     getCases(userId, {
         headers: {
-            'Authorization': token,
+            'Authorization': `Bearer ${token}`,
             'ServiceAuthorization': req.headers.ServiceAuthorization
         }
     }).then(casesData => {

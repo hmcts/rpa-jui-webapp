@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {CookieService} from "ngx-cookie";
-import {jwtDecode} from 'jwt-decode';
+import * as jwtDecode from 'jwt-decode';
+import config from '../../../config';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    readonly COOKIE_KEY: string = '_JUI_AUTH_';
+    readonly COOKIE_KEY: string = config.cookieName;
 
     constructor(public router: Router, private cookieService: CookieService) {
     }
@@ -30,14 +31,22 @@ export class AuthService {
     }
 
     isAuthenticated(): boolean {
-        console.log('isAuthenticated');
-        const jwt = this.cookieService.get(this.COOKIE_KEY);
-        if(!jwt) return false;
-        const jwtData = jwtDecode(jwt);
-        if(jwtData) return false;
-        console.log(jwtData);
+        if(localStorage.getItem('bob')) {
+            console.log('isAuthenticated');
+            const jwt = this.cookieService.get(this.COOKIE_KEY);
 
-        //do stuff!!
-        return true;
+            // if(!jwt) return false;
+            const jwtData = jwtDecode(jwt);
+            console.log(jwtData);
+            // if(jwtData) return false;
+            const expired = jwtData.exp > new Date().getTime();
+            // do stuff!!
+            return !expired;
+        }
+        else {
+            localStorage.setItem('bob', 'true');
+            return false;
+        }
+
     }
 }

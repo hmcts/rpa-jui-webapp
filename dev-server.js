@@ -2,14 +2,13 @@ const healthcheck = require('@hmcts/nodejs-healthcheck');
 const { InfoContributor, infoRequestHandler  } = require('@hmcts/info-provider');
 const express = require('express');
 const apiRoute = require('./api');
-const serviceTokenMiddleware = require('./middleware/service-token');
+const serviceTokenMiddleware = require('./api/middleware/service-token');
 const config = require('./config');
 const app = express();
+const cookieParser = require('cookie-parser');
 
-
-app.get('/oauth2/callback', (req,res) => {
-    res.status(200).send('logged in!!!');
-});
+app.use(cookieParser());
+app.get('/oauth2/callback', apiRoute);
 
 app.get("/health", healthcheck.configure({
   checks: {

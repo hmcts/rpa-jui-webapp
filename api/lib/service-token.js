@@ -2,7 +2,7 @@ const otp = require('otp');
 const jwtDecode = require('jwt-decode');
 const request = require('request');
 const proxy = require('./proxy');
-const config = require('../config');
+const config = require('../../config/index');
 
 const microservice = config.microservice;
 const secret = process.env.JUI_SECRET;

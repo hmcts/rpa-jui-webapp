@@ -1,9 +1,10 @@
 module.exports = {
     services: {
-        ccd_data_api: "https://ccd-data-store-api-aat.service.core-compute-aat.internal",
-        s2s: "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal",
-        dm: "",
-        idam: ""
+        ccd_data_api: "http://localhost:4452",
+        s2s: "http://localhost:4502",
+        dm: "http://localhost:4603",
+        idam: "http://localhost:4501",
+        idamLogin: "http://localhost:3501"
     },
     microservice: "jui_webapp",
     useProxy: true

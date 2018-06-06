@@ -8,7 +8,7 @@ const config = require('../../config');
 function getTokenFromCode(code) {
     const secret = process.env.IDAM_SECRET;
     const Authorization = 'Basic ' + new Buffer(`${config.idam_client}:${secret}`).toString('base64');
-    let url = `${config.services.idam_web}/oauth2/token?grant_type=authorization_code&code=${code}&redirect_uri=http://localhost:3000/oauth2/callback`;
+    let url = `${config.services.idam_api}/oauth2/token?grant_type=authorization_code&code=${code}&redirect_uri=http://localhost:3000/oauth2/callback`;
     let options = {
         url: url,
         method: 'POST',
@@ -35,6 +35,7 @@ router.use((req, res) => {
         res.redirect('/');
     });
 });
+
 
 module.exports = router;
 

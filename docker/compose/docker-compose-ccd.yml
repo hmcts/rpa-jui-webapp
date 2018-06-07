@@ -4,10 +4,15 @@ services:
   ccd-case-management-web:
     image: hmcts/ccd-case-management-web
     environment:
-      - IDAM_LOGIN_URL=https://localhost:3501/login
-      - CCD_GATEWAY_BASE_URL=http://localhost:3453
-      - CCD_ACTIVITY_BASE_URL=http://localhost:3455
-      - DM_GATEWAY_BASE_URL=https://localhost:4603
+      - NODE_ENV=prod
+      - IDAM_LOGIN_URL = "https://localhost:3501/login"
+      - CCD_GW_LOGOUT_URL = "http://ccd-api-gateway:3453/logout"
+      - CCD_API_URL = "http://ccd-api-gateway:3453/aggregated"
+      - CCD_DATA_URL = "http://ccd-api-gateway:3453/data"
+      - CCD_GW_OAUTH2_URL = "http://ccd-api-gateway:3453/oauth2"
+      - CCD_GW_OAUTH2_CLIENT_ID = "ccd_gateway"
+      - DM_URL = "http://ccd-api-gateway:3453/documents"
+      - DM_URL_REMOTE = "http://dm-store:8080/documents"
     ports:
       - 3451:3451
 
@@ -113,7 +118,7 @@ services:
       - DATA_STORE_DB_USERNAME=ccd
       - DATA_STORE_DB_PASSWORD=ccd
       - DATA_STORE_IDAM_KEY=AAAAAAAAAAAAAAAA
-      - DATA_STORE_TOKEN_SECRET=iuasbcuasdcbasdgcasdgcuysachjsacyasdgjcgasdj
+      - DATA_STORE_TOKEN_SECRET=AAAAAAAAAA
       - DATA_STORE_S2S_AUTHORISED_SERVICES=ccd_gw
       - DEFINITION_STORE_HOST=http://ccd-definition-store-api:4451
       - USER_PROFILE_HOST=http://ccd-user-profile-api:4453

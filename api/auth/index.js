@@ -23,13 +23,36 @@ function getTokenFromCode(code) {
 }
 
 
+function getUserDetails(jwt) {
+    const Authorization = `Bearer ${jwt}`
+    let url = `${config.services.idam_api}/details`;
+    let options = {
+        url: url,
+        method: 'GET',
+        headers: {
+            'Authorization': Authorization
+        }
+    };
+    options = proxy(options);
+
+    return request(options).then(data => JSON.parse(data));
+}
+
+
 router.use((req, res) => {
     getTokenFromCode(req.query.code).then(data => {
         if(data.access_token) {
-            console.log(data.access_token);
-            res.cookie(config.cookieName, data.access_token);
+            getUserDetails(data.access_token).then(details => {
+                console.log(details);
+                console.log('-----------------------------');
+                res.cookie(config.cookieName, data.access_token);
+                res.cookie('__USERID__', details.id);
+                res.redirect('/');
+            });
+
+
         }
-        res.redirect('/');
+
     }).catch(e => {
         console.log('error - ', e);
         res.redirect('/');

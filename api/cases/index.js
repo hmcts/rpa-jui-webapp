@@ -29,8 +29,15 @@ function getCase(caseId, userId, options) {
   return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/SSCS/case-types/jui_test/cases/${caseId}`, options)
 }
 
-function getCases(userId = '5899', options, caseStateId = 'appealCreated', jurisdiction = 'SSCS') {
-    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/jui_test/cases?state=${caseStateId}&page=1`, options)
+function getCases(userId, options, caseStateId = 'appealCreated', jurisdiction = 'SSCS') {
+    // userId = '6687';
+    console.log('***********************************************************************************', userId);
+    jurisdiction = 'PROBATE';
+    caseStateId = 'CaseCreated'
+    // https://ccd-api-gateway-web-saat.service.core-compute-saat.internal/aggregated/caseworkers/:uid/jurisdictions/PROBATE/case-types/GrantOfRepresentation/cases?view=WORKBASKET&state=CaseCreated&page=1
+    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/GrantOfRepresentation/cases?state=${caseStateId}&page=1`, options);
+
+    // return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/jui_test/cases?state=${caseStateId}&page=1`, options)
 }
 
 function replaceSectionValues(section, caseData) {
@@ -53,7 +60,7 @@ function rawCasesReducer(cases) {
         acc.push({
             'case_id': curr.id, 'case_fields': {
                 'caseReference': null,
-                'parties': `${curr['case_data'].appeal.appellant.name.firstName} vs ${curr['case_data'].appeal.appellant.name.lastName}`,
+                // 'parties': `${curr['case_data'].appeal.appellant.name.firstName} vs ${curr['case_data'].appeal.appellant.name.lastName}`,
                 'type': curr.jurisdiction,
                 'status': 'unknown',
                 'caseCreated': curr.created_date,
@@ -90,7 +97,7 @@ router.get('/:case_id', (req, res, next) => {
 //List of cases
 router.get('/', (req, res, next) => {
     const token = req.auth.token;
-    const userId = req.auth.sub;
+    const userId = req.auth.userId;
 
     getCases(userId, {
         headers: {

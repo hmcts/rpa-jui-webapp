@@ -34,8 +34,8 @@ export class AuthService {
         if(localStorage.getItem('bob')) {
             console.log('isAuthenticated');
             const jwt = this.cookieService.get(this.COOKIE_KEY);
-
-            // if(!jwt) return false;
+            console.log(jwt);
+            if(!jwt) return false;
             const jwtData = jwtDecode(jwt);
             console.log(jwtData);
             // if(jwtData) return false;

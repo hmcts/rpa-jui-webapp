@@ -42,9 +42,9 @@ services:
     environment:
       - USER_PROFILE_DB_HOST=ccd-user-profile-database
       - USER_PROFILE_DB_PORT=5432
-      - USER_PROFILE_DB_USERNAME
-      - USER_PROFILE_DB_PASSWORD
-      - IDAM_S2S_URL
+      - USER_PROFILE_DB_USERNAME=ccduser
+      - USER_PROFILE_DB_PASSWORD=ccduser
+      - IDAM_S2S_URL=http://service-auth-provider-app:8489
       - REFORM_SERVICE_NAME=ccd-user-profile-api
       - REFORM_TEAM=ccd
       - REFORM_ENVIRONMENT=local
@@ -62,24 +62,23 @@ services:
       timeout: 10s
       retries: 10
     environment:
-      - USER_PROFILE_DB_USERNAME
-      - USER_PROFILE_DB_PASSWORD
-    ports:
-      - 5453:5432
+      - USER_PROFILE_DB_USERNAME=ccduser
+      - USER_PROFILE_DB_PASSWORD=ccduser
+#    ports:
+#      - 5453:5432
 
-services:
   ccd-definition-store-api:
     image: hmcts/ccd-definition-store-api
     environment:
       - DEFINITION_STORE_DB_HOST=ccd-definition-store-database
       - DEFINITION_STORE_DB_PORT=5432
-      - DEFINITION_STORE_DB_USERNAME
-      - DEFINITION_STORE_DB_PASSWORD
-      - DEFINITION_STORE_IDAM_KEY
+      - DEFINITION_STORE_DB_USERNAME=ccddefinition
+      - DEFINITION_STORE_DB_PASSWORD=ccddefinition
+      - DEFINITION_STORE_IDAM_KEY=AAAAAAAAAAAAAAAA
       - DEFINITION_STORE_S2S_AUTHORISED_SERVICES=ccd_data,ccd_gw
-      - USER_PROFILE_HOST
-      - IDAM_USER_URL
-      - IDAM_S2S_URL
+      - USER_PROFILE_HOST=http://ccd-user-profile-api:4453
+      - IDAM_USER_URL http://idam-api:8080
+      - IDAM_S2S_URL=http://service-auth-provider-app:8489
       - REFORM_SERVICE_NAME=ccd-definition-store-api
       - REFORM_TEAM=ccd
       - REFORM_ENVIRONMENT=local
@@ -91,31 +90,31 @@ services:
       - ccd-definition-store-database
 
   ccd-definition-store-database:
-    image: hmcts/ccd-definition-store-database
+    image: hmcts/ccd-definition-store-api-database
     healthcheck:
       interval: 10s
       timeout: 10s
       retries: 10
     environment:
-      - DEFINITION_STORE_DB_USERNAME
-      - DEFINITION_STORE_DB_PASSWORD
-    ports:
-      - 5451:5432
+      - DEFINITION_STORE_DB_USERNAME=ccddefinition
+      - DEFINITION_STORE_DB_PASSWORD=ccddefinition
+#    ports:
+#      - 5451:5432
 
   ccd-data-store-api:
     image: hmcts/ccd-data-store-api
     environment:
       - DATA_STORE_DB_HOST=ccd-data-store-database
       - DATA_STORE_DB_PORT=5432
-      - DATA_STORE_DB_USERNAME
-      - DATA_STORE_DB_PASSWORD
-      - DATA_STORE_IDAM_KEY
+      - DATA_STORE_DB_USERNAME=ccddata
+      - DATA_STORE_DB_PASSWORD=ccddata
+      - DATA_STORE_IDAM_KEY=AAAAAAAAAAAAAAAA
       - DATA_STORE_TOKEN_SECRET=iuasbcuasdcbasdgcasdgcuysachjsacyasdgjcgasdj
       - DATA_STORE_S2S_AUTHORISED_SERVICES=ccd_gw
-      - DEFINITION_STORE_HOST
-      - USER_PROFILE_HOST
-      - IDAM_USER_URL
-      - IDAM_S2S_URL
+      - DEFINITION_STORE_HOST=http://ccd-definition-store-api:4451
+      - USER_PROFILE_HOST=http://ccd-user-profile-api:4453
+      - IDAM_USER_URL http://idam-api:8080
+      - IDAM_S2S_URL=http://service-auth-provider-app:8489
       - REFORM_SERVICE_NAME=ccd-data-store-api
       - REFORM_TEAM=ccd
       - REFORM_ENVIRONMENT=local
@@ -127,14 +126,14 @@ services:
       - ccd-data-store-database
 
   ccd-data-store-database:
-    image: hmcts/ccd-data-store-database
+    image: hmcts/ccd-data-store-api-database
     healthcheck:
       interval: 10s
       timeout: 10s
       retries: 10
     environment:
-      - DATA_STORE_DB_USERNAME
-      - DATA_STORE_DB_PASSWORD
-    ports:
-      - 5452:5432
+      - DATA_STORE_DB_USERNAME=ccddata
+      - DATA_STORE_DB_PASSWORD=ccddata
+#    ports:
+#      - 5452:5432
 

@@ -28,6 +28,7 @@ module "app" {
 
     # NODE_ENV = "${var.env}"
     # PORT = "8080"
+    JUI_ENV = "${var.env}"
 
     # logging vars & healthcheck
     REFORM_SERVICE_NAME = "${local.app_full_name}"

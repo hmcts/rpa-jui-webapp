@@ -55,7 +55,7 @@ module "app" {
     S2S_SECRET = "${data.vault_generic_secret.s2s_secret.data["value"]}"
 
     IDAM_CLIENT_ID = "${data.vault_generic_secret.oauth2_secret.data["value"]}"
-    IDAM_API_OAUTH2_CLIENT_SECRETS = "${data.vault_generic_secret.oauth2_secret.data["value"]}"
+    IDAM_SECRET = "${data.vault_generic_secret.oauth2_secret.data["value"]}"
   }
 }
 

@@ -1,13 +1,15 @@
 module.exports = {
     services: {
-        ccd_data_api: "https://ccd-data-store-api-aat.service.core-compute-aat.internal",
-        idamLogin: "http://idam-web-public-idam-aat.service.core-compute-aat.internal",
-        idam: "http://idam-api-idam-aat.service.core-compute-aat.internal",
-        s2s: "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal",
-        dm_store_api: "http://dm-store-aat.service.core-compute-aat.internal",
-        em_anno_api: "http://em-anno-aat.service.core-compute-aat.internal",
-        em_redact_api: "http://em-redact-aat.service.core-compute-aat.internal"
+        ccd_data_api: process.env.CCD_DATA_URI || "https://ccd-data-store-api-aat.service.core-compute-aat.internal",
+        idam_web: process.env.IDAM_LOGIN_URL || "http://idam-web-public-idam-aat.service.core-compute-aat.internal",
+        idam_api: process.env.IDAM_API_URI || "http://idam-api-idam-aat.service.core-compute-aat.internal",
+        s2s: process.env.S2S_URI || "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal",
+        dm_store_api: process.env.DM_STORE_URI || "http://dm-store-aat.service.core-compute-aat.internal",
+        em_anno_api: process.env.EM_ANNO_URI || "http://em-anno-aat.service.core-compute-aat.internal",
+        em_redact_api: process.env.EM_REDACT_URI || "http://em-redact-aat.service.core-compute-aat.internal"
     },
     microservice: "jui_webapp",
-    useProxy: true
+    useProxy: true,
+    cookieName: '_JUI_AUTH_',
+    idam_client: 'jui_webapp'
 };

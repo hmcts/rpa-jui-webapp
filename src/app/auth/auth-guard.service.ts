@@ -3,7 +3,6 @@ import {AuthService} from './auth.service';
 import {Router} from '@angular/router';
 import {ConfigService} from "../config.service";
 import {DOCUMENT} from '@angular/common';
-import * as config from '../../../config';
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +19,7 @@ export class AuthGuardService {
     generateLoginUrl() {
         const base = this.configService.config.services.idam_web;
         const clientId = 'jui_webapp';
-        const callback = config.oauth_callback_url;
+        const callback = this.configService.config.oauth_callback_url;
         return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
     }
 

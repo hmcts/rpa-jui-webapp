@@ -44,7 +44,7 @@ module "app" {
     JSON_CONSOLE_PRETTY_PRINT = "${var.json_console_pretty_print}"
     LOG_OUTPUT = "${var.log_output}"
 
-    JUI_S2S_SECRET = "${data.vault_generic_secret.s2s_secret.data["value"]}"
+//    JUI_S2S_SECRET = "${data.vault_generic_secret.s2s_secret.data["value"]}"
     IDAM_SECRET = "${data.vault_generic_secret.oauth2_secret.data["value"]}"
   }
 }
@@ -53,10 +53,10 @@ provider "vault" {
   address = "https://vault.reform.hmcts.net:6200"
 }
 
-data "vault_generic_secret" "s2s_secret" {
-  //Temporarily use ccd_gw
-  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/ccd_gw"
-}
+//data "vault_generic_secret" "s2s_secret" {
+//  //Temporarily use ccd_gw
+//  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/ccd_gw"
+//}
 
 data "vault_generic_secret" "oauth2_secret" {
   path = "secret/${var.vault_section}/ccidam/idam-api/oauth2/client-secrets/juiwebapp"

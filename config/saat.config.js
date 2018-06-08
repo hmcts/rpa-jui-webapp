@@ -8,7 +8,7 @@ module.exports = {
         em_anno_api: "http://em-anno-saat.service.core-compute-saat.internal",
         em_redact_api: "http://em-redact-saat.service.core-compute-saat.internal"
     },
-    microservice: "jui_webapp",
+    microservice: "ccd_gw",
     useProxy: true,
     cookieName: '_JUI_AUTH_',
     idam_client: 'jui_webapp'

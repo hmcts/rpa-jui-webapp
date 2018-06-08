@@ -31,7 +31,9 @@ export class AuthService {
     }
 
     isAuthenticated(): boolean {
-        if(localStorage.getItem('bob')) {
+        const hasLocalStorage = typeof(localStorage)!=='undefined';
+
+        if(hasLocalStorage && localStorage.getItem('bob')) {
             console.log('isAuthenticated');
             const jwt = this.cookieService.get(this.COOKIE_KEY);
             console.log(jwt);
@@ -44,7 +46,9 @@ export class AuthService {
             return !expired;
         }
         else {
-            localStorage.setItem('bob', 'true');
+            if(hasLocalStorage) {
+                localStorage.setItem('bob', 'true');
+            }
             return false;
         }
 

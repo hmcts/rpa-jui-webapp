@@ -41,7 +41,7 @@ export class CasesService {
 
   search(): Observable<Object> {
     return this.httpClient
-       .get('http://localhost:3000/api/cases')
+       .get('/api/cases')
        .map(data => this.transform(data));
   }
 

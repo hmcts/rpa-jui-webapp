@@ -9,6 +9,6 @@ export class CaseService {
 
 
   fetch(caseId): Observable<Object> {
-        return this.httpClient.get(`http://localhost:3000/api/cases/${caseId}`);
+        return this.httpClient.get(`/api/cases/${caseId}`);
   }
 }

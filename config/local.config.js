@@ -8,6 +8,7 @@ module.exports = {
         em_anno_api: "http://em-anno-saat.service.core-compute-saat.internal",
         em_redact_api: "http://em-redact-saat.service.core-compute-saat.internal"
     },
+    "oauth_callback_url": "http://localhost:3000/oauth2/callback",
     microservice: "ccd_gw",
     useProxy: true,
     cookieName: '_JUI_AUTH_',

@@ -8,7 +8,6 @@ import { AuthGuardService } from '../auth/auth-guard.service';
 import { ViewCaseComponent } from './pages/view-case/view-case.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CaseService } from '../case.service';
-import { CasesService } from '../cases.service';
 import { DMStoreService } from '../dm-store.service';
 
 const routes: Routes = [
@@ -36,7 +35,6 @@ const routes: Routes = [
         ViewCaseComponent
     ],
     providers: [
-        CasesService,
         CaseService,
         DMStoreService
     ],

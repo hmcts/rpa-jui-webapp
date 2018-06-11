@@ -22,7 +22,25 @@ IDAM_JWT=$(${GET_IDAM_USER_TOKEN} test@TEST.COM 123 ${IDAM_USER_BASE_URL})
 S2S_JWT=$(${GET_IDAM_S2S_TOKEN} ccd_data ${IDAM_S2S_BASE_URL})
 
 CCD_TOKEN=$(${GET_CCD_CASE_TOKEN} ${USER_ID} ${JURISDICTION} ${CASE_TYPE} ${EVENT_TYPE} ${CCD_DATA_BASE_URL})
-CCD_PAYLOAD=$(echo '{ "event_token": "'${CCD_TOKEN}'", "event" : { "id":"appealCreated","summary":"xxx", "description":"xxxx" }, "data" : {"caseReference":"1234"} }')
+CCD_PAYLOAD=$(printf '{
+ "event_token": "'${CCD_TOKEN}'",
+  "event" : {
+   "id":"appealCreated",
+   "summary":"xxx",
+    "description":"xxxx"
+   },
+  "data" : {
+  "caseReference":"1234",
+  "appeal": {
+     "appellant": {
+        "name": {
+         "firstName": "Bob",
+         "lastName": "Bobby"
+         }
+      }
+    }
+  }
+}')
 
 curl -X POST \
 -H "Authorization:Bearer ${IDAM_JWT}" \

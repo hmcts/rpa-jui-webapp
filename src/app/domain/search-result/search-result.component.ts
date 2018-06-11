@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {CasesService} from '../../cases.service';
-// import { TransferState, makeStateKey } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-search-result',
@@ -14,9 +13,7 @@ export class SearchResultComponent implements OnInit {
     constructor(private casesService: CasesService) {
     }
 
-
     ngOnInit() {
         this.data = this.casesService.search();
     }
-
 }

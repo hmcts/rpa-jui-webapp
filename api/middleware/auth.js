@@ -5,7 +5,9 @@ module.exports = (req, res, next) => {
     const userId = req.cookies['__USERID__'];
     const jwt = req.cookies[config.cookieName];
     const jwtData = jwtDecode(jwt);
-    const expired = jwtData.exp > new Date().getTime();
+    const expires = new Date(jwtData.exp).getTime();
+    const now = new Date().getTime() / 1000;
+    const expired = expires < now;
 
     if(expired) {
         res.status(401).send('Token expired!');

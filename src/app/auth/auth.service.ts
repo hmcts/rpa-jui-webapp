@@ -1,28 +1,34 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Inject} from '@angular/core';
 import {Router} from '@angular/router';
 import {CookieService} from "ngx-cookie";
 import * as jwtDecode from 'jwt-decode';
-import * as config from '../../../config';
+import {ConfigService} from "../config.service";
+import {DOCUMENT} from '@angular/common';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    readonly COOKIE_KEY: string = config.cookieName;
+    COOKIE_KEY: string;
 
-    constructor(public router: Router, private cookieService: CookieService) {
+    constructor(public router: Router,
+                private configService: ConfigService,
+                private cookieService: CookieService,
+                @Inject(DOCUMENT) private document: any) {
+        this.COOKIE_KEY = this.configService.config.cookieName;
     }
 
-    createLoginUrl() {
-        //Base url plus callback url
 
+    generateLoginUrl() {
+        const base = this.configService.config.services.idam_web;
+        const clientId = 'jui_webapp';
+        const callback = this.configService.config.oauth_callback_url;
+        return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
     }
 
-    login() {
-        console.log('login');
-        // localStorage.setItem('LOGGED_IN', 'true');
-        // this.router.navigate(['']);
+    loginRedirect() {
+        this.document.location.href = this.generateLoginUrl();
     }
 
     logout() {

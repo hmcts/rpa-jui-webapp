@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CasesService} from '../../cases.service';
+import {CaseService} from '../../case.service';
 
 @Component({
     selector: 'app-search-result',
@@ -10,10 +10,10 @@ export class SearchResultComponent implements OnInit {
 
     data: Object;
 
-    constructor(private casesService: CasesService) {
+    constructor(private caseService: CaseService) {
     }
 
     ngOnInit() {
-        this.data = this.casesService.search();
+        this.data = this.caseService.search();
     }
 }

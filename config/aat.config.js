@@ -8,6 +8,7 @@ module.exports = {
         em_anno_api: "http://em-anno-aat.service.core-compute-aat.internal",
         em_redact_api: "http://em-redact-aat.service.core-compute-aat.internal"
     },
+    oauth_callback_url: "https://jui-webapp-aat.service.core-compute-aat.internal/oauth2/callback",
     microservice: "ccd_gw",
     useProxy: true,
     cookieName: '_JUI_AUTH_',

@@ -1,15 +1,16 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from './pages/home/home.component';
-import {SharedModule} from '../shared/shared.module';
-import {DomainModule} from '../domain/domain.module';
-import {LoginComponent} from './pages/login/login.component';
-import {AuthGuardService} from '../auth/auth-guard.service';
-import {ViewCaseComponent} from './pages/view-case/view-case.component';
-import {HttpClientModule} from '@angular/common/http';
-import {CaseService} from '../case.service';
-import {CasesService} from '../cases.service';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './pages/home/home.component';
+import { SharedModule } from '../shared/shared.module';
+import { DomainModule } from '../domain/domain.module';
+import { LoginComponent } from './pages/login/login.component';
+import { AuthGuardService } from '../auth/auth-guard.service';
+import { ViewCaseComponent } from './pages/view-case/view-case.component';
+import { HttpClientModule } from '@angular/common/http';
+import { CaseService } from '../case.service';
+import { CasesService } from '../cases.service';
+import { DMStoreService } from '../dm-store.service';
 
 const routes: Routes = [
     {
@@ -42,7 +43,8 @@ const routes: Routes = [
     ],
     providers: [
         CasesService,
-        CaseService
+        CaseService,
+        DMStoreService
     ],
     exports: [
         RouterModule

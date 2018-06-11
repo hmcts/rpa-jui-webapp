@@ -17,8 +17,9 @@ function getTokenFromCode(code) {
             'Authorization': Authorization
         }
     };
-    options = proxy(options);
-
+    if (config.useProxy) {
+        options = proxy(options);
+    }
     return request(options).then(data => JSON.parse(data));
 }
 
@@ -33,8 +34,9 @@ function getUserDetails(jwt) {
             'Authorization': Authorization
         }
     };
-    options = proxy(options);
-
+    if (config.useProxy) {
+        options = proxy(options);
+    }
     return request(options).then(data => JSON.parse(data));
 }
 
@@ -49,10 +51,7 @@ router.use((req, res) => {
                 res.cookie('__USERID__', details.id);
                 res.redirect('/');
             });
-
-
         }
-
     }).catch(e => {
         console.log('error - ', e);
         res.redirect('/');

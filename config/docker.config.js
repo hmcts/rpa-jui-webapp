@@ -8,8 +8,8 @@ module.exports = {
         em_anno_api: "http://localhost:3621",
         em_redact_api: "http://localhost:3623"
     },
-    "oauth_callback_url": "http://localhost:3000/oauth2/callback",
-    microservice: "jui_webapp",
+    oauth_callback_url: "http://localhost:3000/oauth2/callback",
+    microservice: "ccd_gw",
     useProxy: false,
     cookieName: '_JUI_AUTH_',
     idam_client: 'jui_webapp'

@@ -1,4 +1,4 @@
-import {Injectable, Inject} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {CookieService} from "ngx-cookie";
 import * as jwtDecode from 'jwt-decode';
@@ -19,7 +19,6 @@ export class AuthService {
         this.COOKIE_KEY = this.configService.config.cookieName;
     }
 
-
     generateLoginUrl() {
         const base = this.configService.config.services.idam_web;
         const clientId = 'jui_webapp';
@@ -27,36 +26,31 @@ export class AuthService {
         return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
     }
 
+    getAuthHeaders() {
+        return {
+            Authorization: this.cookieService.get(this.COOKIE_KEY),
+            __USERID__: this.cookieService.get('__USERID__'),
+        }
+    }
+
     loginRedirect() {
         this.document.location.href = this.generateLoginUrl();
     }
 
     logout() {
-        localStorage.removeItem('LOGGED_IN');
-        this.router.navigate(['login']);
+        // localStorage.removeItem('LOGGED_IN');
+        // this.router.navigate(['login']);
     }
 
     isAuthenticated(): boolean {
-        const hasLocalStorage = typeof(localStorage)!=='undefined';
-
-        if(hasLocalStorage && localStorage.getItem('bob')) {
-            console.log('isAuthenticated');
-            const jwt = this.cookieService.get(this.COOKIE_KEY);
-            console.log(jwt);
-            if(!jwt) return false;
-            const jwtData = jwtDecode(jwt);
-            console.log(jwtData);
-            // if(jwtData) return false;
-            const expired = jwtData.exp > new Date().getTime();
-            // do stuff!!
-            return !expired;
-        }
-        else {
-            if(hasLocalStorage) {
-                localStorage.setItem('bob', 'true');
-            }
-            return false;
-        }
-
+        const jwt = this.cookieService.get(this.COOKIE_KEY);
+        console.log(jwt);
+        if (!jwt) return false;
+        const jwtData = jwtDecode(jwt);
+        console.log(jwtData);
+        // if(jwtData) return false;
+        const expired = jwtData.exp > new Date().getTime();
+        // do stuff!!
+        return !expired;
     }
 }

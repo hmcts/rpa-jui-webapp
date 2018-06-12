@@ -1,16 +1,21 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
+import {ConfigService} from "./config.service";
+import {makeStateKey, TransferState} from '@angular/platform-browser';
+import {of} from 'rxjs/Observable/of';
+import "rxjs/operators/map";
 
 @Injectable()
 export class CaseService {
 
-  constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient, private configService: ConfigService, private state: TransferState) {
+    }
 
 
-  fetch(caseId): Observable<Object> {
-        return this.httpClient.get(`/api/cases/${caseId}`);
-  }
+    fetch(caseId): Observable<Object> {
+        return this.httpClient.get(`${this.configService.config.api_base_url}/api/cases/${caseId}`);
+    }
 
     getFixedList(listItems) {
         const obj = {};
@@ -43,8 +48,18 @@ export class CaseService {
     }
 
     search(): Observable<Object> {
+        const url = `${this.configService.config.api_base_url}/api/cases`;
+        const key = makeStateKey(url);
+        const cache = this.state.get(key, null as any);
+        if(cache) {
+            return of(cache)
+        }
         return this.httpClient
-            .get('/api/cases')
-            .map(data => this.transform(data));
+            .get(url)
+            .map(data => this.transform(data))
+            .map(data => {
+                this.state.set(key, data);
+                return data
+            });
     }
 }

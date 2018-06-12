@@ -34,7 +34,15 @@ app.get('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`);
     res.render('./dist/index', {
         req: req,
-        res: res
+        res: res,
+        providers: [
+            {
+                provide: 'REQUEST', useValue: (req)
+            },
+            {
+                provide: 'RESPONSE', useValue: (res)
+            }
+        ]
     });
     console.timeEnd(`GET: ${req.originalUrl}`);
 });

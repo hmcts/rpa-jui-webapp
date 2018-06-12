@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ConfigService} from "./config.service";
 import {makeStateKey, TransferState} from '@angular/platform-browser';
-import {of} from 'rxjs/Observable/of';
-import "rxjs/operators/map";
+import 'rxjs/operators/map';
 
 @Injectable()
 export class CaseService {

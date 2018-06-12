@@ -32,12 +32,12 @@ export class AuthService {
     }
 
     logout() {
-        localStorage.removeItem('LOGGED_IN');
-        this.router.navigate(['login']);
+        localStorage.removeItem('bob');
+        location.reload();
     }
 
     isAuthenticated(): boolean {
-        const hasLocalStorage = typeof(localStorage)!=='undefined';
+        const hasLocalStorage = typeof(localStorage) !== 'undefined';
 
         if(hasLocalStorage && localStorage.getItem('bob')) {
             console.log('isAuthenticated');

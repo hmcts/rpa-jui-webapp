@@ -13,7 +13,16 @@ export class CaseService {
 
 
     fetch(caseId): Observable<Object> {
-        return this.httpClient.get(`${this.configService.config.api_base_url}/api/cases/${caseId}`);
+        const url = `${this.configService.config.api_base_url}/api/cases/${caseId}`;
+        const key = makeStateKey(url);
+        const cache = this.state.get(key, null as any);
+        if(cache) {
+            return of(cache)
+        }
+        return this.httpClient.get(url).map(data => {
+            this.state.set(key, data);
+            return data
+        });
     }
 
     getFixedList(listItems) {

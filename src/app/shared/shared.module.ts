@@ -6,6 +6,8 @@ import { TabComponent } from './components/tab/tab.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { DatalistComponent } from './components/datalist/datalist.component';
 import { CaseFileViewerModule } from './components/case-file-viewer/case-file-viewer.module';
+import {HeaderComponent} from './components/header/header.component';
+import {FooterComponent} from './components/footer/footer.component';
 
 @NgModule({
     imports: [
@@ -16,14 +18,18 @@ import { CaseFileViewerModule } from './components/case-file-viewer/case-file-vi
         TabComponent,
         TabsComponent,
         TableComponent,
-        DatalistComponent
+        DatalistComponent,
+        HeaderComponent,
+        FooterComponent
     ],
     exports: [
         TabComponent,
         TabsComponent,
         TableComponent,
         DatalistComponent,
-        CaseFileViewerModule
+        CaseFileViewerModule,
+        HeaderComponent,
+        FooterComponent
     ]
 })
 

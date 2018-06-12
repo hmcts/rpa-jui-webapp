@@ -3,15 +3,15 @@
     <div class="jui-width-container">
 
         <div class="jui-header__service">
-            <a href="/app/dashboard">Judicial Case Manager</a>
+            <a routerLink="/">Judicial case manager</a>
         </div>
 
         <div class="jui-header__account">
 
             <nav class="jui-nav">
                 <ul class="jui-nav__list">
-                    <li class="jui-nav__item"><a class="jui-nav__link" href="/app/dashboard">Dashboard</a></li>
-                    <li class="jui-nav__item"><a class="jui-nav__link" href="/signout">Signout</a></li>
+                    <li class="jui-nav__item"><a class="jui-nav__link" routerLink="/">Dashboard</a></li>
+                    <li class="jui-nav__item"><a class="jui-nav__link" (click)="logout()">Signout</a></li>
                 </ul>
             </nav>
 

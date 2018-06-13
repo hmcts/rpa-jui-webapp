@@ -47,8 +47,8 @@ router.use((req, res) => {
             getUserDetails(data.access_token).then(details => {
                 console.log(details);
                 console.log('-----------------------------');
-                res.cookie(config.cookieName, data.access_token);
-                res.cookie('__USERID__', details.id);
+                res.cookie(config.cookies.token, data.access_token);
+                res.cookie(config.cookies.userId, details.id);
                 res.redirect('/');
             });
         }

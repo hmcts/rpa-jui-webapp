@@ -10,8 +10,5 @@ module.exports = {
     },
     api_base_url: "http://localhost:3000",
     oauth_callback_url: "http://localhost:3000/oauth2/callback",
-    microservice: "ccd_gw",
-    useProxy: true,
-    cookieName: '_JUI_AUTH_',
-    idam_client: 'jui_webapp'
+    useProxy: true
 };

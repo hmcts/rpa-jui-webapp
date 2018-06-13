@@ -1,12 +1,13 @@
+const applicationConfig = require('./application.config');
 const config = {
-    local: require('./local.config.js'),
-    docker: require('./docker.config.js'),
-    saat: require('./saat.config.js'),
-    sprod: require('./sprod.config.js'),
-    demo: require('./demo.config.js'),
-    aat: require('./aat.config.js'),
-    prod: require('./prod.config.js')
+    local: require('./environments/local.config.js'),
+    docker: require('./environments/docker.config.js'),
+    saat: require('./environments/saat.config.js'),
+    sprod: require('./environments/sprod.config.js'),
+    demo: require('./environments/demo.config.js'),
+    aat: require('./environments/aat.config.js'),
+    prod: require('./environments/prod.config.js')
 };
 const env = typeof(process) !== 'undefined' ? (process.env.JUI_ENV || 'local') : 'local';
 console.log('Using ' + env + ' Config');
-module.exports = config[env];
+module.exports = Object.assign(applicationConfig, config[env]);

@@ -10,27 +10,30 @@ import {DOCUMENT} from '@angular/common';
 })
 export class AuthService {
 
-    COOKIE_KEY: string;
+    COOKIE_KEYS;
 
     constructor(public router: Router,
                 private configService: ConfigService,
                 private cookieService: CookieService,
                 @Inject(DOCUMENT) private document: any) {
-        this.COOKIE_KEY = this.configService.config.cookieName;
+        this.COOKIE_KEYS = {
+            TOKEN: this.configService.config.cookies.token,
+            USER: this.configService.config.cookies.userId
+        };
     }
 
     generateLoginUrl() {
         const base = this.configService.config.services.idam_web;
-        const clientId = 'jui_webapp';
+        const clientId = this.configService.config.idam_client;
         const callback = this.configService.config.oauth_callback_url;
         return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
     }
 
     getAuthHeaders() {
         return {
-            Authorization: this.cookieService.get(this.COOKIE_KEY),
-            __USERID__: this.cookieService.get('__USERID__'),
-        }
+            Authorization: this.cookieService.get(this.COOKIE_KEYS.TOKEN),
+            [this.COOKIE_KEYS.USER]: this.cookieService.get(this.COOKIE_KEYS.USER),
+        };
     }
 
     loginRedirect() {
@@ -43,7 +46,7 @@ export class AuthService {
     }
 
     isAuthenticated(): boolean {
-        const jwt = this.cookieService.get(this.COOKIE_KEY);
+        const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
         console.log(jwt);
         if (!jwt) return false;
         const jwtData = jwtDecode(jwt);

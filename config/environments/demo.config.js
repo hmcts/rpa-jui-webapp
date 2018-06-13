@@ -10,8 +10,5 @@ module.exports = {
     },
     api_base_url: "https://jui-webapp-demo.service.core-compute-demo.internal",
     oauth_callback_url: "https://jui-webapp-demo.service.core-compute-demo.internal/oauth2/callback",
-    microservice: "ccd_gw",
-    useProxy: false,
-    cookieName: '_JUI_AUTH_',
-    idam_client: 'jui_webapp'
+    useProxy: false
 };

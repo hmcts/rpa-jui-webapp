@@ -2,8 +2,8 @@ const jwtDecode = require('jwt-decode');
 const config = require('../../config');
 
 module.exports = (req, res, next) => {
-    const userId = req.headers['__userid__'] || req.cookies['__USERID__'];
-    const jwt = req.headers['authorization'] || req.cookies[config.cookieName];
+    const userId = req.headers[config.cookies.userId] || req.cookies[config.cookies.userId];
+    const jwt = req.headers['authorization'] || req.cookies[config.cookies.token];
     const jwtData = jwtDecode(jwt);
     const expires = new Date(jwtData.exp).getTime();
     const now = new Date().getTime() / 1000;

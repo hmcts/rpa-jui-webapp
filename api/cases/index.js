@@ -11,6 +11,17 @@ function getCase(caseId, userId, options, caseType = 'Benefit', jurisdiction = '
     return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`, options)
 }
 
+function getCaseEvents(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
+    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`, options)
+}
+
+function getCaseWithEvents(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
+    return Promise.all([
+        getCase(caseId, userId, options, caseType, jurisdiction),
+        getCaseEvents(caseId, userId, options, caseType, jurisdiction)
+    ]);
+}
+
 function replaceSectionValues(section, caseData) {
     if(section.sections && section.sections.length) {
         section.sections.forEach(childSection => {
@@ -55,24 +66,26 @@ router.get('/:case_id', (req, res, next) => {
     const userId = req.auth.userId;
     const caseId = req.params.case_id;
 
-    getCase(caseId, userId, {
+    getCaseWithEvents(caseId, userId, {
         headers : {
             'Authorization' : `Bearer ${token}`,
             'ServiceAuthorization' : req.headers.ServiceAuthorization
         }
-    }).then(caseData => {
+    }).then(parts => {
 
-
+        const caseData = parts[0];
+        const caseEvents = parts[1];
 
         const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
         schema.sections.forEach(section => replaceSectionValues(section, caseData));
 
-        const rawCaseFile = schema.sections.filter(section => section.id === 'casefile')
+        const rawCaseFile = schema.sections.filter(section => section.id === 'casefile');
 
         const hasDocuments = rawCaseFile[0].sections[0].fields[0].value.length;
         const caseFile = hasDocuments ? caseFileReducer(caseId, rawCaseFile[0].sections[0].fields[0].value[0]) : null;
 
         schema.sections[schema.sections.findIndex(el => el.id === 'casefile')].sections = caseFile;
+        schema.events = caseEvents;
 
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.status(200).send(JSON.stringify(schema));

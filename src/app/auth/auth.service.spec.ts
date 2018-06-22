@@ -94,9 +94,11 @@ describe('AuthService', () => {
             expect(deleteCookiesSpy).toHaveBeenCalled();
         }));
 
-        it('should redirect to route', inject([AuthService], (service: AuthService) => {
+        it('should redirect to idam', inject([AuthService], (service: AuthService) => {
+            service.loginRedirect = () => {};
+            const redirectSpy = spyOn(service, 'loginRedirect');
             service.logout();
-            expect(routerNavigateSpy).toHaveBeenCalledWith(['']);
+            expect(redirectSpy).toHaveBeenCalled();
         }));
     });
 });

@@ -46,7 +46,7 @@ export class AuthService {
 
     logout() {
         this.cookieService.removeAll();
-        this.router.navigate(['']);
+        this.loginRedirect();
     }
 
     decodeJwt(jwt) {

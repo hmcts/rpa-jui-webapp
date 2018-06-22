@@ -30,9 +30,7 @@ const cookieService = {
     set: (key, value) => {
       this[key] = value;
     },
-    removeAll: () => {
-        console.log('bobobobo')
-    }
+    removeAll: () => {}
 };
 
 var deleteCookiesSpy;

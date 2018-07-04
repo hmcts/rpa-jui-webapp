@@ -6,7 +6,5 @@ import {Component, Input} from '@angular/core';
     styleUrls: ['./timeline-panel.component.scss']
 })
 export class TimelinePanelComponent {
-
     @Input() panelData;
-
 }

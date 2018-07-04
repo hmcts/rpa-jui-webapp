@@ -18,6 +18,17 @@ function getCaseWithEvents(caseId, userId, options, caseType = 'Benefit', jurisd
     ]);
 }
 
+function reduceEvent(event) {
+    if (event) {
+        return {
+            event_name:event.event_name,
+            user_first_name:event.user_first_name,
+            user_last_name:event.user_last_name,
+            created_date:event.created_date
+        }
+    }
+}
+
 function replaceSectionValues(section, caseData) {
     if(section.sections && section.sections.length) {
         section.sections.forEach(childSection => {
@@ -65,9 +76,9 @@ module.exports = (req, res, next) => {
             'Authorization' : `Bearer ${token}`,
             'ServiceAuthorization' : req.headers.ServiceAuthorization
         }
-    }).then( responses => {
-        const caseData = responses[0];
-        caseData.events = responses[1];
+    }).then( (caseData, events) => {
+
+        caseData.events = events ? events.map(e => reduceEvent(e)) : [];
 
         const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
         schema.sections.forEach(section => replaceSectionValues(section, caseData));

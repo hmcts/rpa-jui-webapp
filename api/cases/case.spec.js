@@ -22,7 +22,6 @@ describe('case spec', () => {
             } else {
                 return new Promise(httpResponse);
             }
-
         });
 
         route = proxyquire('./case', {
@@ -107,7 +106,38 @@ describe('case spec', () => {
                 resolve(caseData);
             };
             eventsHttpResponse = (resolve, reject) => {
-                resolve([]);
+                resolve([
+                    {
+                        id: 'hearingBooked',
+                        summary: 'xxx',
+                        description: 'xxxx',
+                        user_id: '28',
+                        user_last_name: 'PINEAPPLE',
+                        user_first_name: 'BOB',
+                        event_name: 'Hearing booked',
+                        created_date: '2018-07-03T10:58:37.474',
+                        case_type_id: 'Benefit',
+                        case_type_version: 1,
+                        state_id: 'appealCreated',
+                        state_name: 'Appeal Created',
+                        security_classification: 'PUBLIC'
+                    },
+                    {
+                        id: 'appealCreated',
+                        summary: 'xxx',
+                        description: 'xxxx',
+                        user_id: '28',
+                        user_last_name: 'PINEAPPLE',
+                        user_first_name: 'BOB',
+                        event_name: 'Appeal created',
+                        created_date: '2018-07-03T10:58:24.187',
+                        case_type_id: 'Benefit',
+                        case_type_version: 1,
+                        state_id: 'appealCreated',
+                        state_name: 'Appeal Created',
+                        security_classification: 'PUBLIC'
+                    }
+                ]);
             };
         });
 

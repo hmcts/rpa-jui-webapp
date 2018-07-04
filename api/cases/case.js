@@ -76,9 +76,9 @@ module.exports = (req, res, next) => {
             'Authorization' : `Bearer ${token}`,
             'ServiceAuthorization' : req.headers.ServiceAuthorization
         }
-    }).then( (caseData, events) => {
+    }).then( ([caseData, events])=> {
 
-        caseData.events = events ? events.map(e => reduceEvent(e)) : [];
+        caseData.events = events != null ? events.map(e => reduceEvent(e)) : [];
 
         const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
         schema.sections.forEach(section => replaceSectionValues(section, caseData));

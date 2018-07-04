@@ -146,6 +146,8 @@ describe('case spec', () => {
                 const jsonRes = JSON.parse(response.text);
                 const actualSummarySection = jsonRes.sections.filter(section => section.id === 'summary')[0];
 
+
+
                 const caseDetails = actualSummarySection.sections[0].sections[0];
                 const representatives = actualSummarySection.sections[0].sections[1];
                 expect(caseDetails.fields).toEqual([
@@ -177,6 +179,21 @@ describe('case spec', () => {
                         "value": caseData.case_data.panel.disabilityQualifiedMember
                     }
                 ]);
+
+                const timelineSection = jsonRes.sections.filter(section => section.id === 'timeline')[0];
+
+                expect(timelineSection.sections[0].fields[0].value[0]).toEqual({
+                    event_name: "Hearing booked",
+                    user_first_name: "BOB",
+                    user_last_name: "PINEAPPLE",
+                    created_date: "2018-07-03T10:58:37.474"
+                });
+                expect(timelineSection.sections[0].fields[0].value[1]).toEqual({
+                    event_name: "Appeal created",
+                    user_first_name: "BOB",
+                    user_last_name: "PINEAPPLE",
+                    created_date: "2018-07-03T10:58:24.187"
+                });
             });
         });
     });

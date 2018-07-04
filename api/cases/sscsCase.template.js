@@ -126,6 +126,9 @@ module.exports = {
                     name: '',
                     type: 'timeline-panel',
                     fields: [
+                        {
+                            value: '$.events'
+                        }
                     ]
                 }
             ]

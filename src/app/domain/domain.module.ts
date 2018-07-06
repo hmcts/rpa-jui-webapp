@@ -4,6 +4,7 @@ import {SearchResultComponent} from './components/search-result/search-result.co
 import {SharedModule} from '../shared/shared.module';
 import {CaseViewerModule} from './case-viewer/case-viewer.module';
 import { RouterModule } from '@angular/router';
+import {HeaderComponent} from './components/header/header.component';
 
 @NgModule({
     imports: [
@@ -13,10 +14,12 @@ import { RouterModule } from '@angular/router';
     ],
     exports: [
         SearchResultComponent,
+        HeaderComponent,
         CaseViewerModule
     ],
     declarations: [
-        SearchResultComponent
+        SearchResultComponent,
+        HeaderComponent
     ],
     providers: []
 })

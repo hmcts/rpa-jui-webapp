@@ -21,6 +21,6 @@ export class ConfigService {
     }
 
     getBaseUrl() {
-        return this.document.location.href.slice(0, -1);
+        return `${this.document.location.protocol}//${this.document.location.host}`;
     }
 }

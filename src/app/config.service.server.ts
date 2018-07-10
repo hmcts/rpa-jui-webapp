@@ -25,7 +25,7 @@ export class ServerConfigService {
     }
 
     getBaseUrl(config) {
-        const protocol = this.config.protocol;
+        const protocol = config.protocol;
         const host = this.request.get('host');
         console.log('********************', `${protocol}://${host}`)
         return `${protocol}://${host}`;

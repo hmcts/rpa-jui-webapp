@@ -3,8 +3,8 @@ const generateRequest = require('../lib/request');
 const config = require('../../config');
 const valueProcessor = require('../lib/value-processor');
 
-function getCases(userId, options, caseType = 'Benefit', caseStateId = 'appealCreated', jurisdiction = 'SSCS') {
-    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?state=${caseStateId}&page=1&sortDirection=DESC`, options)
+function getCases(userId, options, caseType = 'Benefit', caseStateId = 'appealCreated', jurisdiction = 'SSCS', benefitType = 'case.appeal.benefitType.code=PIP&') {
+    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?${benefitType}state=${caseStateId}&page=1&sortDirection=DESC`, options)
 }
 
 function rawCasesReducer(cases, columns) {

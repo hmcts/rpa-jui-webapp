@@ -19,11 +19,11 @@ function postHearing(caseId, userId, options, jurisdictionId = 'SSCS') {
         panel: [{identity_token: 'string', name: userId}],
         start_date: (new Date()).toISOString()
     };
-    
+
     return generatePostRequest(`${config.services.coh_cor_api}/continuous-online-hearings`, options)
         .then(hearing => hearing.online_hearing_id);
  }
- 
+
 function getHearingId(caseId, userId, options) {
     return generateRequest(`${config.services.coh_cor_api}/continuous-online-hearings?case_id=${caseId}`, options)
         .then(hearing => hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : postHearing(caseId, userId, options));
@@ -90,12 +90,12 @@ function caseFileReducer(caseId, caseFile) {
 
 function getDraftQuestions(questions) {
     return questions.reduce((acc, item) => {
-        if (item.current_question_state.state_name !== 'DRAFTED') return;
-        
+        if (item.current_question_state.state_name !== 'question_drafted') return;
+
         const key = parseInt(item['question_round']);
-        
+
         if (!acc[key]) acc[key] = [];
-        
+
         acc[key].push({
             id: item.question_id,
             header: item.question_header_text,
@@ -103,7 +103,7 @@ function getDraftQuestions(questions) {
             owner_reference: item.owner_reference,
             state_datetime: item.current_question_state.state_datetime
         });
-        
+
         return acc;
     }, []);
 }
@@ -119,19 +119,19 @@ module.exports = (req, res, next) => {
             'ServiceAuthorization' : req.headers.ServiceAuthorization
         }
     };
-    
+
     getHearingId(caseId, userId, options)
         .then(hearingId => getCaseWithEvents(caseId, userId, hearingId, options))
         .then( ([caseData, events, questions])=> {
             const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
-            
+
             caseData.events = events != null ? events.map(e => reduceEvent(e)) : [];
             caseData.draft_questions_to_appellant = questions && getDraftQuestions(questions.questions);
-            
+
             if(schema.details) replaceSectionValues(schema.details, caseData);
-            
+
             schema.sections.forEach(section => replaceSectionValues(section, caseData));
-    
+
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.status(200).send(JSON.stringify(schema));
         }).catch(response => {

@@ -13,6 +13,23 @@ describe('case spec', () => {
     let hearingHttpResponse;
     let questionsHttpResponse;
 
+
+    const eventsMock = {
+        getEvents: () => Promise.resolve([
+            {
+                field: 'value'
+            },
+            {
+                field: 'value'
+            }
+        ])
+    };
+
+    const documentsMock = {
+        getDocuments: () => Promise.resolve([])
+    };
+
+
     beforeEach(() => {
         httpResponse = (resolve, reject) => {
             resolve({});
@@ -31,7 +48,9 @@ describe('case spec', () => {
         });
 
         route = proxyquire('./case', {
-            '../lib/request': httpRequest
+            '../lib/request': httpRequest,
+            '../events': eventsMock,
+            '../documents': documentsMock
         });
         router.get('/:case_id', route);
         app = express();
@@ -143,38 +162,7 @@ describe('case spec', () => {
                 })
             };
             eventsHttpResponse = (resolve, reject) => {
-                resolve([
-                    {
-                        id: 'hearingBooked',
-                        summary: 'xxx',
-                        description: 'xxxx',
-                        user_id: '28',
-                        user_last_name: 'PINEAPPLE',
-                        user_first_name: 'BOB',
-                        event_name: 'Hearing booked',
-                        created_date: '2018-07-03T10:58:37.474',
-                        case_type_id: 'Benefit',
-                        case_type_version: 1,
-                        state_id: 'appealCreated',
-                        state_name: 'Appeal Created',
-                        security_classification: 'PUBLIC'
-                    },
-                    {
-                        id: 'appealCreated',
-                        summary: 'xxx',
-                        description: 'xxxx',
-                        user_id: '28',
-                        user_last_name: 'PINEAPPLE',
-                        user_first_name: 'BOB',
-                        event_name: 'Appeal created',
-                        created_date: '2018-07-03T10:58:24.187',
-                        case_type_id: 'Benefit',
-                        case_type_version: 1,
-                        state_id: 'appealCreated',
-                        state_name: 'Appeal Created',
-                        security_classification: 'PUBLIC'
-                    }
-                ]);
+                resolve();
             };
             questionsHttpResponse = (resolve, reject) => {
                 resolve({
@@ -212,6 +200,8 @@ describe('case spec', () => {
             return request.get('/api/cases/1').expect(200).then(response => {
                 const jsonRes = JSON.parse(response.text);
                 const actualSummarySection = jsonRes.sections.filter(section => section.id === 'summary')[0];
+
+
                 const caseDetails = actualSummarySection.sections[0].sections[0];
                 const representatives = actualSummarySection.sections[0].sections[1];
 
@@ -246,18 +236,8 @@ describe('case spec', () => {
                 ]);
 
                 const timelineSection = jsonRes.sections.filter(section => section.id === 'timeline')[0];
-
                 expect(timelineSection.sections[0].fields[0].value[0]).toEqual({
-                    event_name: "Hearing booked",
-                    user_first_name: "BOB",
-                    user_last_name: "PINEAPPLE",
-                    created_date: "2018-07-03T10:58:37.474"
-                });
-                expect(timelineSection.sections[0].fields[0].value[1]).toEqual({
-                    event_name: "Appeal created",
-                    user_first_name: "BOB",
-                    user_last_name: "PINEAPPLE",
-                    created_date: "2018-07-03T10:58:24.187"
+                    field: 'value'
                 });
 
                 const draftQuestionsToAppellant = jsonRes.sections

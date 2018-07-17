@@ -8,7 +8,6 @@ import { AuthGuardService } from '../auth/auth-guard.service';
 import { ViewCaseComponent } from './pages/view-case/view-case.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CaseService } from '../case.service';
-import { CaseFileService } from '../case-file.service';
 import { QuestionService } from '../domain/services/question.service';
 import { RedirectionService } from './redirection.service';
 import { CreateQuestionsComponent } from '../domain/components/questions/create/create.component';
@@ -22,14 +21,6 @@ const routes: Routes = [
         canActivate: [AuthGuardService]
     },
     {
-        path: 'viewcase/:case_id/:section',
-        component: ViewCaseComponent
-    },
-    {
-        path: 'viewcase/:case_id/casefile/:section_item_id',
-        component: ViewCaseComponent
-    },
-    {
         path: 'viewcase/:case_id/questions/new',
         component: CreateQuestionsComponent
     },
@@ -40,7 +31,15 @@ const routes: Routes = [
     {
         path: 'viewcase/:case_id/questions/:question_id',
         component: ViewQuestionComponent
-    }
+    },
+    {
+        path: 'viewcase/:case_id/:section',
+        component: ViewCaseComponent
+    },
+    {
+        path: 'viewcase/:case_id/:section/:section_item_id',
+        component: ViewCaseComponent
+    },
 ];
 
 @NgModule({
@@ -57,7 +56,6 @@ const routes: Routes = [
     ],
     providers: [
         CaseService,
-        CaseFileService,
         RedirectionService,
         QuestionService,
     ],

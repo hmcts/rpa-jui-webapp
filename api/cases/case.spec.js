@@ -187,7 +187,7 @@ describe('case spec', () => {
                             owner_reference: "5899",
                             question_id: "de8896df-1de7-4f46-a2e4-483d6bc3a27b",
                             current_question_state: {
-                                state_name: "DRAFTED",
+                                state_name: "question_drafted",
                                 state_datetime: "2018-07-13 15:54:07.376"
                             }
                         },
@@ -199,7 +199,7 @@ describe('case spec', () => {
                             owner_reference: "5899",
                             question_id: "re8896df-1de7-4f46-a2e4-483d6bc3a27b",
                             current_question_state: {
-                                state_name: "DRAFTED",
+                                state_name: "question_drafted",
                                 state_datetime: "2018-07-13 15:54:07.376"
                             }
                         }
@@ -265,7 +265,7 @@ describe('case spec', () => {
                     .filter(section => section.id === 'questions-to-appellant')[0].sections
                     .filter(section => section.id === 'draft-questions')[0].fields[0].value[1];
 
-                
+
                 expect(draftQuestionsToAppellant[0]).toEqual({
                     body: 'Describe what you are doing now.',
                     header: 'What are you doing?',
@@ -273,7 +273,7 @@ describe('case spec', () => {
                     owner_reference: '5899',
                     state_datetime: '2018-07-13 15:54:07.376'
                 });
-                
+
                 expect(draftQuestionsToAppellant[1]).toEqual({
                     body: 'Describe what you are doing tomorrow.',
                     header: 'What are you doing tomorrow?',

@@ -8,7 +8,7 @@ chai.use(chaiAsPromised);
 const config = {
     params: {
         serverUrls: {
-            local: 'http://localhost:3000',
+            local: 'https://jui-webapp-aat.service.core-compute-aat.internal/',
             // dev: 'https://forecaster-ui.dev.tmt.informa-labs.com',
             // prod: 'https://forecaster.ovum.com'
         },
@@ -54,7 +54,8 @@ const config = {
         format: ['node_modules/cucumber-pretty'],
         require: [
             '../support/world.js',
-            '../features/step_definitions/**/*.steps.js'
+            '../features/step_definitions/**/*_steps.js',
+
         ]
     }
 };

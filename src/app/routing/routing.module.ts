@@ -68,10 +68,6 @@ const routes: Routes = [
                         component: HearingCheckComponent
                     },
                     {
-                        path: 'casefile/:section_item_id',
-                        component: ViewCaseComponent
-                    },
-                    {
                         path: 'questions/new',
                         component: CreateQuestionsComponent
                     },

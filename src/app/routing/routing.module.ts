@@ -60,7 +60,7 @@ const routes: Routes = [
                         component: DecisionCheckComponent
                     },
                     {
-                        path: 'list-for-hearings',
+                        path: 'list-for-hearing',
                         component: HearingMakeComponent
                     },
                     {

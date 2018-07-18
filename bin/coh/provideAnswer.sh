@@ -2,7 +2,7 @@
 
 if [ -z "$1" ] || [ -z "$2" ]
   then
-    echo "Provide the CASE ID and the ROUND NUMBER and optionally the env (aat or demo, demo is the default)."
+    echo "Provide the CASE ID and the ROUND NUMBER and optionally the env."
     exit 1
 fi
 
@@ -13,7 +13,7 @@ COH_HOST=$3
 if [ -z "$COH_HOST" ]
 then
     COH_HOST='http://coh-cor-aat.service.core-compute-aat.internal'
-    echo "using the default target host $COH_HOST. Use http://coh-cor-demo.service.core-compute-demo.internal for DEMO"
+    echo "using the default target host $COH_HOST. Use http://coh-cor-demo.service.core-compute-demo.internal (third argument) for DEMO"
 fi
 
 echo "PROVIDING ANSWERS FOR CASE $CASE_ID (round $THE_ROUND, against $COH_HOST)"

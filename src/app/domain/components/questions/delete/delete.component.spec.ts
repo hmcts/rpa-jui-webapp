@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ViewQuestionComponent } from './view.component';
+import { DeleteQuestionComponent } from './delete.component';
 import { SharedModule } from '../../../../shared/shared.module';
 import { DomainModule } from '../../../domain.module';
 import { QuestionService } from '../../../services/question.service';
@@ -14,9 +14,9 @@ import { RedirectionService } from '../../../../routing/redirection.service';
 import { CaseService } from '../../../../case.service';
 import { of } from 'rxjs';
 
-xdescribe('ViewQuestionComponent', () => {
-    let component: ViewQuestionComponent;
-    let fixture: ComponentFixture<ViewQuestionComponent>;
+describe('DeleteQuestionComponent', () => {
+    let component: DeleteQuestionComponent;
+    let fixture: ComponentFixture<DeleteQuestionComponent>;
     let httpMock: HttpTestingController;
     let nativeElement;
 
@@ -43,23 +43,15 @@ xdescribe('ViewQuestionComponent', () => {
                 {
                     provide: ActivatedRoute,
                     useValue: {
-                        snapshot: {
-                            _lastPathIndex: 0
-                        },
+                        params: of({
+                            'question_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
+                        }),
+                        queryParams: of({}),
                         parent: {
                             params: of({
-                                'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
+                                'case_id': '99eb9981-9360-4d4b-b9fd-506b5818e7ff'
                             }),
-                            snapshot: {
-                                params: {
-                                    'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
-                                },
-                                queryParams: {}
-                            }
-                        },
-                        params: of({
-                            'question_id': '43eb9981-9360-4d4b-b9fd-506b5818e7ff'
-                        }),
+                        }
                     }
                 },
                 {
@@ -76,10 +68,37 @@ xdescribe('ViewQuestionComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ViewQuestionComponent);
+        fixture = TestBed.createComponent(DeleteQuestionComponent);
         component = fixture.componentInstance;
         nativeElement = fixture.nativeElement;
         httpMock = TestBed.get(HttpTestingController);
         fixture.detectChanges();
+    });
+
+    describe('When request is a success', () => {
+        beforeEach(async(() => {
+            fixture.whenStable()
+                   .then(() => {
+                       fixture.detectChanges();
+                   });
+        }));
+
+        it('submitting a form emits a delete request', () => {
+            component.remove();
+
+            httpMock
+                .expectOne('/api/cases/99eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/13eb9981-9360-4d4b-b9fd-506b5818e7ff')
+                .flush(null);
+        });
+    });
+
+    xit('should display a heading', () => {
+        expect(nativeElement.querySelector(Selector.selector('delete-heading')).textContent)
+            .toBe('Are you sue you want to delete this question?');
+    });
+
+    xit('should display a button to save question items', () => {
+        expect(nativeElement.querySelector(Selector.selector('delete-link')).textContent)
+            .toBe('Delete Question');
     });
 });

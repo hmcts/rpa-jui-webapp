@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-list-for-hearing',
@@ -9,16 +10,15 @@ export class HearingMakeComponent implements OnInit {
 
     error = false;
 
-    constructor() { }
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router
+    ) { }
 
     ngOnInit() {
     }
 
-    public toggle() {
-        this.error = !this.error;
-    }
-
     submitHearing() {
-
+        this.router.navigate(['../check-hearings-notes'], {relativeTo: this.route});
     }
 }

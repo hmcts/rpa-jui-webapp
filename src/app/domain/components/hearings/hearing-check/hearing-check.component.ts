@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-hearing-check',
@@ -10,9 +11,14 @@ export class HearingCheckComponent implements OnInit {
     answer: string;
 
 
-    constructor() { }
+    constructor(private route: ActivatedRoute,
+                private router: Router) { }
 
     ngOnInit() {
+    }
+
+    submitHearing() {
+        this.router.navigate(['../hearings-confirmation'], {relativeTo: this.route});
     }
 
 }

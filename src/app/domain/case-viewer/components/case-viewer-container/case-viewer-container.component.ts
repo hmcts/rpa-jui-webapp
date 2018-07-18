@@ -14,6 +14,11 @@ export class CaseViewerContainerComponent implements OnInit{
     sectionId: string;
     targetSection: any;
 
+    clearFocus(event) {
+        const target = event.target || event.srcElement || event.currentTarget;
+        target.blur();
+    }
+
     constructor(private router: Router, private route: ActivatedRoute) {
         this.route.parent.params.subscribe( params => this.caseid = params.case_id || null);
         this.route.params.subscribe( params => this.sectionId = params.section || null);

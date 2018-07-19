@@ -45,16 +45,21 @@ module.exports = (req, res, next) => {
 
     getCaseWithEventsAndQuestions(caseId, userId, options)
         .then(([caseData, events, questions]) => {
-            const questionsGroupedByState = questions[1].reduce(function (acc, obj) {
-                var key = obj.state;
-                if (!acc[key]) {
-                    acc[key] = [];
-                }
-                acc[key].push(obj);
-                return acc;
-            }, {});
-            caseData.draft_questions_to_appellant = questionsGroupedByState['question_drafted'] || [];
-            caseData.sent_questions_to_appellant = questionsGroupedByState['question_issued'] || [];
+            if (questions && questions.length) {
+                const questionsGroupedByState = questions[1].reduce(function (acc, obj) {
+                    var key = obj.state;
+                    if (!acc[key]) {
+                        acc[key] = [];
+                    }
+                    acc[key].push(obj);
+                    return acc;
+                }, {});
+                caseData.draft_questions_to_appellant = questionsGroupedByState['question_drafted'] || [];
+                caseData.sent_questions_to_appellant = questionsGroupedByState['question_issued'] || [];
+            } else {
+                caseData.draft_questions_to_appellant = [];
+                caseData.sent_questions_to_appellant = [];
+            }
             caseData.events = events;
 
             const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));

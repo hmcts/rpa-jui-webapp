@@ -38,7 +38,7 @@ describe('DecisionMakeComponent', () => {
                                         details: {
                                             fields: [
                                                 { value: '123' },
-                                                { value: 'bob vs bob' }
+                                                { value: 'bob v bob' }
                                             ]
                                         },
                                         decision: {

@@ -82,7 +82,7 @@ describe('case-list spec', () => {
                         case_id: caseData[0].id,
                         case_reference: caseData[0].case_data.caseReference,
                         case_fields: {
-                            parties: 'Louis Houghton vs DWP',
+                            parties: 'Louis Houghton v DWP',
                             type: 'PIP',
                             caseStartDate: createdDate.toISOString(),
                             dateOfLastAction: updatedDate.toISOString()
@@ -177,7 +177,7 @@ describe('case-list spec', () => {
                         case_id: caseData[0].id,
                         case_reference: caseData[0].case_data.caseReference,
                         case_fields: {
-                            parties: 'Louis Houghton vs DWP',
+                            parties: 'Louis Houghton v DWP',
                             type: 'PIP',
                             caseStartDate: createdDate1.toISOString(),
                             dateOfLastAction: updatedDate1.toISOString()
@@ -187,7 +187,7 @@ describe('case-list spec', () => {
                         case_id: caseData[2].id,
                         case_reference: caseData[2].case_data.caseReference,
                         case_fields: {
-                            parties: 'Roopa Ramisetty vs DWP',
+                            parties: 'Roopa Ramisetty v DWP',
                             type: 'PIP',
                             caseStartDate: createdDate3.toISOString(),
                             dateOfLastAction: updatedDate3.toISOString()
@@ -197,7 +197,7 @@ describe('case-list spec', () => {
                         case_id: caseData[1].id,
                         case_reference: caseData[1].case_data.caseReference,
                         case_fields: {
-                            parties: 'Padmaja Ramisetti vs DWP',
+                            parties: 'Padmaja Ramisetti v DWP',
                             type: 'PIP',
                             caseStartDate: createdDate2.toISOString(),
                             dateOfLastAction: updatedDate2.toISOString()

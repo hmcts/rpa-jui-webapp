@@ -8,7 +8,7 @@ function getCases(userId, options, caseType = 'Benefit', caseStateId = 'appealCr
 }
 
 function getOnlineHearing(caseIds, options) {
-    return generateRequest(`${config.services.coh_cor_api}/continuous-online-hearings/?${caseIds}`, options);
+    return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/?${caseIds}`, options);
 }
 
 function rawCasesReducer(cases, columns) {

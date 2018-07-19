@@ -41,13 +41,14 @@ function formatQuestions(questions) {
     }, []);
 }
 
-function formatQuestionRes(question) {
+function formatQuestionRes(question, answers) {
     return {
         id: question.question_id,
         header: question.question_header_text,
         body: question.question_body_text,
         owner_reference: question.owner_reference,
-        state_datetime: question.current_question_state.state_datetime
+        state_datetime: question.current_question_state.state_datetime,
+        answer: (answers !== undefined && answers.length > 0 ? answers[0] : null)
     };
 }
 
@@ -63,7 +64,10 @@ function postQuestion(hearingId, options) {
 }
 
 function getQuestion(hearingId, questionId, options) {
-    return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/questions/${questionId}`, options);
+    return Promise.all([
+        generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/questions/${questionId}`, options),
+        generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/questions/${questionId}/answers`, options)
+    ]);
 }
 
 function putQuestion(hearingId, questionId, options) {
@@ -112,7 +116,7 @@ module.exports = (app) => {
         return getHearingByCase(caseId, options)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)
             .then(hearingId => getQuestion(hearingId, questionId, options))
-            .then(question => question && formatQuestionRes(question))
+            .then(([question, answers]) => question && formatQuestionRes(question, answers))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*');
                 res.status(200).send(JSON.stringify(response));

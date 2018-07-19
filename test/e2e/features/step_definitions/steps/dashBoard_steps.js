@@ -4,19 +4,21 @@ var signInPage = require('../../pages/signInPage');
 var dashBoardPage = require('../../pages/dashBoardPage');
 var caseSummaryPage = require('../../pages/caseSummaryPage');
 var {defineSupportCode} = require('cucumber');
+const config = require('../../../config/conf.js');
 
 defineSupportCode(function ({Given, When, Then}) {
 
 
     Given(/^I navigate to JUI$/, async function () {
-        await browser.get(this.config.serverUrls[this.config.targetEnv]);
+       // await browser.get(this.config.serverUrls[this.config.targetEnv]);
+        await browser.get(config.config.baseUrl);
         await browser.driver.manage().deleteAllCookies();
         await browser.refresh();
     });
 
     Then(/^I am logged in as a Judge$/, async function () {
-       await signInPage.emailAddress.sendKeys('XXX.XXX.com'); //replace username and password
-        await signInPage.password.sendKeys('XXXX');
+       await signInPage.emailAddress.sendKeys(this.config.username); //replace username and password
+        await signInPage.password.sendKeys(this.config.password);
         await  signInPage.signinBtn.click();
 
     });
@@ -57,7 +59,6 @@ defineSupportCode(function ({Given, When, Then}) {
 //        var case_num = caseSummaryPage.selected_case;
 //        await expect(case_num.first().isDisplayed()).to.eventually.be.true;
     });
-
 
 
     Then(/^I will see date details for the list of cases displayed$/, async function () {

@@ -6,34 +6,33 @@ const tagProcessor = require('../support/tagProcessor');
 
 chai.use(chaiAsPromised);
 const config = {
+    baseUrl: process.env.TEST_URL,
     params: {
         serverUrls: {
-            local: 'https://jui-webapp-aat.service.core-compute-aat.internal/',
+            local: 'https://localhost:3000',
             // dev: 'https://forecaster-ui.dev.tmt.informa-labs.com',
             // prod: 'https://forecaster.ovum.com'
         },
         targetEnv: argv.env || 'local',
-        username: process.env.BDD_USERNAME,
-        password: process.env.BDD_PASSWORD
+        username: process.env.TEST_EMAIL ,
+        password: process.env.TEST_PASSWORD
+
     },
     directConnect: true,
     seleniumAddress: 'http://localhost:4444/wd/hub',
     getPageTimeout: 60000,
     allScriptsTimeout: 500000,
-    baseUrl: '',
+    // baseUrl: '',
 
     capabilities: {
         browserName: 'chrome',
         'proxy': {
-
             proxyType: 'manual',
             httpProxy: 'proxyout.reform.hmcts.net:8080',
             sslProxy : 'proxyout.reform.hmcts.net:8080',
             noProxy: 'localhost:3000'
         }
     },
-
-
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
     specs: ['../features/**/*.feature'],

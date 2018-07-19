@@ -5,7 +5,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
     templateUrl: './textarea.component.html',
     styleUrls: ['./textarea.component.scss']
 })
-export class TextareaComponent implements OnInit {
+export class TextareaComponent {
 
     @Input() id: string;
     @Input() label: string;
@@ -16,15 +16,10 @@ export class TextareaComponent implements OnInit {
     @Input() text = '';
     @Output() textChange  = new EventEmitter<string>();
 
-
     constructor() { }
 
-    ngOnInit() {
-    }
-
     textChanged() {
-        console.log(this.text);
-        this.textChange.emit(this.text);
+        this.textChange.emit(this.text.trim());
     }
 
 }

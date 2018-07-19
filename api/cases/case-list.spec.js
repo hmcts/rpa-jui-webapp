@@ -103,7 +103,6 @@ describe('case-list spec', () => {
                         case_fields: {
                             parties: 'Louis Houghton v DWP',
                             type: 'PIP',
-                            status: 'Continuous online hearing started',
                             caseStartDate: createdDate.toISOString(),
                             dateOfLastAction: updatedDate.toISOString()
                         }
@@ -193,7 +192,6 @@ describe('case-list spec', () => {
                     case_id: 987654322,
                     start_date: '2018-07-17T12:56:49.145+0000',
                     current_state: {
-                        state_name: 'continuous_online_hearing_started',
                         state_datetime: '2018-06-30T10:10:49Z'
                     }
                 },
@@ -202,7 +200,6 @@ describe('case-list spec', () => {
                     case_id: 987654323,
                     start_date: '2018-07-18T12:56:49.145+0000',
                     current_state: {
-                        state_name: 'continuous_online_hearing_started',
                         state_datetime: '2018-06-29T12:10:49Z'
                     }
                 },
@@ -225,7 +222,6 @@ describe('case-list spec', () => {
                         case_fields: {
                             parties: 'Louis Houghton v DWP',
                             type: 'PIP',
-                            status: 'Continuous online hearing started',
                             caseStartDate: createdDate1.toISOString(),
                             dateOfLastAction: updatedDate1.toISOString()
                         }
@@ -246,7 +242,6 @@ describe('case-list spec', () => {
                         case_fields: {
                             parties: 'Padmaja Ramisetti v DWP',
                             type: 'PIP',
-                            status: 'Continuous online hearing started',
                             caseStartDate: createdDate2.toISOString(),
                             dateOfLastAction: updatedDate2.toISOString()
                         }

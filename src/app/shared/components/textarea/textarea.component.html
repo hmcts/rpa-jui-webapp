@@ -5,8 +5,11 @@
                         'govuk-textarea': true,
                         'govuk-input--width-30x': true,
                         'govuk-textarea--error': error
-                        }" id="{{id}}" name="{{id}}" rows="{{rows}}"
-              (change)="textChanged($event)"
+                        }"
+              id="{{id}}"
+              name="{{id}}"
+              rows="{{rows}}"
+              (change)="textChanged()"
               [attr.disabled]="disable ? '' : null"
               [(ngModel)]="text"></textarea>
 </div>

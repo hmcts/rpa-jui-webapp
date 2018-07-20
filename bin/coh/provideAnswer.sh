@@ -44,7 +44,7 @@ for row in $(echo "${QUESTION_RESPONSES}" | jq -r '.questions[] | @base64'); do
             echo "ROUND $ROUND SENT TO APPELLANT"
             curl -X PUT -s -H 'Content-Type: application/json' -d '{"state_name": "question_issued"}' "$COH_HOST/continuous-online-hearings/$HEARING_ID/questionrounds/$ROUND"
         fi
-        curl -s -H 'Content-Type: application/json' -d '{"answer_text": "The answer provided!", "answer_state": "SUBMITTED"}' "$COH_HOST/continuous-online-hearings/$HEARING_ID/questions/$Q_ID/answers"
+        curl -s -H 'Content-Type: application/json' -d '{"answer_text": "The answer provided!", "answer_state": "answer_submitted"}' "$COH_HOST/continuous-online-hearings/$HEARING_ID/questions/$Q_ID/answers"
 
         echo "ANSWER SUBMITTED"
     fi

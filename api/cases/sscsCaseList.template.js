@@ -19,16 +19,16 @@ module.exports = {
             "value": "$.status"
         },
         {
-            "label": "Case Start Date",
+            "label": "Start Date",
             "case_field_id": "caseStartDate",
             "value": "$.created_date",
-            "date_format": "d MMMM yyyy \'at\' h:mmaaaaa\'m\'"
+            "date_format": "d MMM yyyy"
         },
         {
-            "label": "Date of Last Action",
+            "label": "Date of last event",
             "case_field_id": "dateOfLastAction",
             "value": "$.last_modified",
-            "date_format": "d MMMM yyyy \'at\' h:mmaaaaa\'m\'"
+            "date_format": "d MMM yyyy"
         }
     ]
 };

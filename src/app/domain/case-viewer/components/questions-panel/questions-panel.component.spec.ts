@@ -148,14 +148,14 @@ xdescribe('QuestionsPanelComponent', () => {
 
             it('should display link to add more draft questions', () => {
                 expect(nativeElement.querySelector(Selector.selector('create-draft-questions-link')).textContent)
-                    .toBe('Add Questions');
+                    .toBe('Add questions');
                 expect(nativeElement.querySelector(Selector.selector('create-draft-questions-link')).attributes.href.value)
                     .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
             });
 
             it('should display link to send all draft questions', () => {
                 expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')).textContent)
-                    .toBe('Send Questions');
+                    .toBe('Send questions');
                 expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')).attributes.href.value)
                     .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/check');
             });
@@ -238,7 +238,7 @@ xdescribe('QuestionsPanelComponent', () => {
 
         it('should display link to add draft questions', () => {
             expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).textContent)
-                .toBe('Add Questions');
+                .toBe('Add questions');
             expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).attributes.href.value)
                 .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
         });

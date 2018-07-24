@@ -22,7 +22,6 @@ const config = {
     seleniumAddress: process.env.WEB_DRIVER_HOST || 'http://localhost:4444/wd/hub',
     getPageTimeout: 60000,
     allScriptsTimeout: 500000,
-    // baseUrl: '',
 
     capabilities: {
         browserName: 'chrome'
@@ -58,4 +57,5 @@ const config = {
 };
 
 config.cucumberOpts.tags = tagProcessor(config, argv);
+
 exports.config = config;

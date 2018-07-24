@@ -34,7 +34,10 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withPipeline(type , product, component) {
     after('checkout') {sh 'yarn cache clean'}
-    after('build') {sh 'npm run build'}
+    after('build') {
+        sh 'npm run build'
+        sh 'yarn webdriver-manager update'
+    }
 
     loadVaultSecrets(secrets)
     enableSlackNotifications(channel)

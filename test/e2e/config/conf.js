@@ -14,7 +14,7 @@ const config = {
             // prod: 'https://forecaster.ovum.com'
         },
         targetEnv: argv.env || 'local',
-        username: process.env.TEST_EMAIL ,
+        username: process.env.TEST_EMAIL,
         password: process.env.TEST_PASSWORD
 
     },
@@ -26,10 +26,10 @@ const config = {
 
     capabilities: {
         browserName: 'chrome',
-        'proxy': {
+        proxy: {
             proxyType: 'manual',
             httpProxy: 'proxyout.reform.hmcts.net:8080',
-            sslProxy : 'proxyout.reform.hmcts.net:8080',
+            sslProxy: 'proxyout.reform.hmcts.net:8080',
             noProxy: 'localhost:3000'
         }
     },

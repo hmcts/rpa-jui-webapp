@@ -115,7 +115,7 @@
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.10",
     "postcss-url": "^7.1.2",
-    "protractor": "~5.1.2",
+    "protractor": "^5.4.0",
     "protractor-cucumber-framework": "^5.0.0",
     "proxyquire": "^2.0.1",
     "raw-loader": "^0.5.1",

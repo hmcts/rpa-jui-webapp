@@ -19,19 +19,19 @@ const config = {
 
     },
     directConnect: true,
-    seleniumAddress: 'http://localhost:4444/wd/hub',
+    seleniumAddress: process.env.WEB_DRIVER_HOST || 'http://localhost:4444/wd/hub',
     getPageTimeout: 60000,
     allScriptsTimeout: 500000,
     // baseUrl: '',
 
     capabilities: {
-        browserName: 'chrome',
-        proxy: {
-            proxyType: 'manual',
-            httpProxy: 'proxyout.reform.hmcts.net:8080',
-            sslProxy: 'proxyout.reform.hmcts.net:8080',
-            noProxy: 'localhost:3000'
-        }
+        browserName: 'chrome'
+        // proxy: {
+        //     proxyType: 'manual',
+        //     httpProxy: 'proxyout.reform.hmcts.net:8080',
+        //     sslProxy: 'proxyout.reform.hmcts.net:8080',
+        //     noProxy: 'localhost:3000'
+        // }
     },
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
@@ -40,8 +40,7 @@ const config = {
     // resultJsonOutputFile: "reports/json/protractor_report.json",
 
     onPrepare() {
-        browser.manage().window()
-            .maximize();
+        browser.manage().window().maximize();
         browser.waitForAngularEnabled(false);
         global.expect = chai.expect;
         global.assert = chai.assert;
@@ -53,8 +52,7 @@ const config = {
         format: ['node_modules/cucumber-pretty'],
         require: [
             '../support/world.js',
-            '../features/step_definitions/**/*_steps.js',
-
+            '../features/step_definitions/**/*_steps.js'
         ]
     }
 };

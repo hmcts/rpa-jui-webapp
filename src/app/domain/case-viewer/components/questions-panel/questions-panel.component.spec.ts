@@ -243,6 +243,11 @@ xdescribe('QuestionsPanelComponent', () => {
                 .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
         });
 
+        it('should not display link to send all draft questions', () => {
+            expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')))
+                .toBeFalsy();
+        });
+
         it('should see no draft questions', () => {
             expect(nativeElement.querySelectorAll(Selector.selector('draft-questions-list')).length)
                 .toBe(0);

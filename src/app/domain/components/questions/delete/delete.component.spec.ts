@@ -94,7 +94,7 @@ describe('DeleteQuestionComponent', () => {
 
     xit('should display a heading', () => {
         expect(nativeElement.querySelector(Selector.selector('delete-heading')).textContent)
-            .toBe('Are you sue you want to delete this question?');
+            .toBe('Are you sure you want to delete this question?');
     });
 
     xit('should display a button to save question items', () => {

@@ -6,7 +6,7 @@ const tagProcessor = require('../support/tagProcessor');
 
 chai.use(chaiAsPromised);
 const config = {
-    baseUrl: process.env.TEST_URL,
+    baseUrl: process.env.TEST_URL || 'http://localhost:3000',
     params: {
         serverUrls: {
             local: 'https://localhost:3000',

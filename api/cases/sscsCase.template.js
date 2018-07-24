@@ -5,7 +5,7 @@ module.exports = {
                 value: '$.case_data.caseReference'
             },
             {
-                value: ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "vs DWP"],
+                value: ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "v DWP"],
             }
         ]
     },
@@ -25,7 +25,7 @@ module.exports = {
                             fields: [
                                 {
                                     label: 'Parties',
-                                    value: ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "vs DWP"],
+                                    value: ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "v DWP"],
                                 },
                                 {
                                     label: 'Case number',
@@ -79,7 +79,7 @@ module.exports = {
                     type: 'document-panel',
                     fields: [
                         {
-                            value: '$.case_data.sscsDocument'
+                            value: '$.case_data.sscsDocument|document_processor'
                         }
                     ]
                 }
@@ -101,6 +101,65 @@ module.exports = {
                     ]
                 }
             ]
+        },
+        {
+            id: 'questions',
+            name: 'Questions',
+            type: 'page',
+            sections: [
+                {
+                    name: 'Questions',
+                    type: 'questions-panel',
+                    sections: [
+                        {
+                            id: 'questions-to-appellant',
+                            name: 'Questions to appellant',
+                            type: 'data-list',
+                            sections: [
+                                {
+                                    id: 'draft-questions',
+                                    name: 'Draft Questions',
+                                    type: 'data-list',
+                                    fields: [
+                                        {
+                                            value: '$.draft_questions_to_appellant'
+                                        }
+                                    ]
+                                },
+                                {
+                                    id: 'sent-questions',
+                                    name: 'Sent Questions',
+                                    type: 'data-list',
+                                    fields: [
+                                        {
+                                            value: '$.sent_questions_to_appellant'
+                                        }
+                                    ]
+                                },
+                            ],
+                        },
+                        {
+                            id: 'questions-from-appellant',
+                            name: 'Questions from appellant',
+                            type: 'data-list',
+                            fields: [
+                                {
+                                    value: '$.questions_from_appellant'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
-    ]
-};;
+    ],
+    decision: {
+        id: 'decision',
+        name: 'Make a decision',
+        type: 'decision-page',
+        options: [
+            { id: 'appeal-upheld', name: 'Appeal upheld' },
+            { id: 'appeal-denied', name: 'Appeal denied' }
+        ]
+    }
+};

@@ -9,6 +9,9 @@ import { FormsModule } from '@angular/forms';
 import {CdkTableModule} from '@angular/cdk/table';
 import {DocumentViewerModule} from './components/document-viewer/document-viewer.module';
 import { RouterModule} from '@angular/router';
+import { TextareaComponent } from './components/textarea/textarea.component';
+import { RadioButtonsComponent } from './components/radio-buttons/radio-buttons.component';
+import { BacklinkComponent } from './components/backlink/backlink.component';
 
 @NgModule({
     imports: [
@@ -23,14 +26,20 @@ import { RouterModule} from '@angular/router';
         TabsComponent,
         TableComponent,
         DataListComponent,
-        FooterComponent
+        FooterComponent,
+        TextareaComponent,
+        RadioButtonsComponent,
+        BacklinkComponent
     ],
     exports: [
         TabComponent,
         TabsComponent,
         TableComponent,
         DataListComponent,
-        FooterComponent
+        FooterComponent,
+        TextareaComponent,
+        RadioButtonsComponent,
+        BacklinkComponent
     ]
 })
 

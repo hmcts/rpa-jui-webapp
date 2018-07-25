@@ -152,7 +152,7 @@ describe('CreateQuestionsComponent', () => {
 
     it('should display a heading', () => {
         expect(nativeElement.querySelector(Selector.selector('create-questions-heading')).textContent)
-            .toBe('Create questions');
+            .toBe('Create question');
     });
 
     it('should display a heading for new question item', () => {

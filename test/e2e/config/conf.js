@@ -25,12 +25,12 @@ const config = {
 
     capabilities: {
         browserName: 'chrome'
-        // proxy: {
-        //     proxyType: 'manual',
-        //     httpProxy: 'proxyout.reform.hmcts.net:8080',
-        //     sslProxy: 'proxyout.reform.hmcts.net:8080',
-        //     noProxy: 'localhost:3000'
-        // }
+//         proxy: {
+//             proxyType: 'manual',
+//             httpProxy: 'proxyout.reform.hmcts.net:8080',
+//             sslProxy: 'proxyout.reform.hmcts.net:8080',
+//             noProxy: 'localhost:3000'
+//         }
     },
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
@@ -51,7 +51,7 @@ const config = {
         format: ['node_modules/cucumber-pretty'],
         require: [
             '../support/world.js',
-            '../features/step_definitions/**/*_steps.js'
+            '../features/step_definitions/**/*steps.js'
         ]
     }
 };

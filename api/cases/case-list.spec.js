@@ -5,7 +5,7 @@ const router = express.Router();
 const sscsCaseListTemplate = require('./sscsCaseList.template');
 
 describe('case-list spec', () => {
-    const caseData = [];
+    let caseData = [];
     let onlineHearingData = {};
     let multipleOnlineHearingData = {};
     let httpRequest;
@@ -214,6 +214,9 @@ describe('case-list spec', () => {
         const createdDate3 = new Date(2018,6,25);
         const updatedDate3 = new Date(2018,6,30, 9, 10);
 
+        const lastModifiedDate1 = new Date(2018, 7, 24, 10, 30, 1);
+        const lastModifiedDate2 = new Date(2018, 7, 25, 10, 30, 1);
+
         beforeEach(() => {
             caseData.length = 0;
             caseData.push({
@@ -283,25 +286,25 @@ describe('case-list spec', () => {
                 {
                     online_hearing_id: '2',
                     case_id: 987654322,
-                    start_date: '2018-07-17T12:56:49.145+0000',
+                    start_date: '2018-06-30T12:56:49.145+0000',
                     current_state: {
                         state_name: 'continuous_online_hearing_started',
-                        state_datetime: '2018-06-30T10:10:49Z'
+                        state_datetime: lastModifiedDate1
                     }
                 },
                 {
                     online_hearing_id: '3',
                     case_id: 987654323,
-                    start_date: '2018-07-18T12:56:49.145+0000',
+                    start_date: '2018-06-29T12:56:49Z',
                     current_state: {
-                        state_name: 'continuous_online_hearing_started',
-                        state_datetime: '2018-06-29T12:10:49Z'
+                        state_name: 'question_drafted',
+                        state_datetime: lastModifiedDate2
                     }
                 },
                 {
                     online_hearing_id: '4',
                     case_id: 987654324,
-                    start_date: '2018-07-189T12:56:49.145+0000',
+                    start_date: '2018-07-189T12:56:49.145+0000'
                 }]
         };
 
@@ -311,18 +314,7 @@ describe('case-list spec', () => {
                 .then(response => {
                     expect(response.body.results.length).toBe(3);
                     expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
-                    expect(response.body.results[2]).toEqual({
-                        case_id: caseData[0].id,
-                        case_reference: caseData[0].case_data.caseReference,
-                        case_fields: {
-                            parties: 'Louis Houghton v DWP',
-                            type: 'PIP',
-                            status: 'Continuous online hearing started',
-                            caseStartDate: createdDate1.toISOString(),
-                            dateOfLastAction: updatedDate1.toISOString()
-                        }
-                    });
-                    expect(response.body.results[1]).toEqual({
+                    expect(response.body.results[0]).toEqual({
                         case_id: caseData[2].id,
                         case_reference: caseData[2].case_data.caseReference,
                         case_fields: {
@@ -332,15 +324,26 @@ describe('case-list spec', () => {
                             dateOfLastAction: updatedDate3.toISOString()
                         }
                     });
-                    expect(response.body.results[0]).toEqual({
+                    expect(response.body.results[1]).toEqual({
+                        case_id: caseData[0].id,
+                        case_reference: caseData[0].case_data.caseReference,
+                        case_fields: {
+                            parties: 'Louis Houghton v DWP',
+                            type: 'PIP',
+                            status: 'Continuous online hearing started',
+                            caseStartDate: createdDate1.toISOString(),
+                            dateOfLastAction: lastModifiedDate1.toISOString()
+                        }
+                    });
+                    expect(response.body.results[2]).toEqual({
                         case_id: caseData[1].id,
                         case_reference: caseData[1].case_data.caseReference,
                         case_fields: {
                             parties: 'Padmaja Ramisetti v DWP',
                             type: 'PIP',
-                            status: 'Continuous online hearing started',
+                            status: 'Question drafted',
                             caseStartDate: createdDate2.toISOString(),
-                            dateOfLastAction: updatedDate2.toISOString()
+                            dateOfLastAction: lastModifiedDate2.toISOString()
                         }
                     });
                 });

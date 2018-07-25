@@ -53,6 +53,9 @@ module.exports = (req, res, next) => {
                             let state = caseStateMap.get(Number(caseRow.id));
                             if(state!= undefined && state!= null && state.state_name!= undefined && state.state_name != null) {
                                 caseRow.status = format(state.state_name);
+                                if(new Date(caseRow.last_modified) < new Date(state.state_datetime)) {
+                                    caseRow.last_modified = state.state_datetime;
+                                }
                             }
                         });
                     }

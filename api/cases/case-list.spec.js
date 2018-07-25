@@ -240,7 +240,7 @@ describe('case-list spec', () => {
                             type: 'PIP',
                             status: 'Continuous online hearing started',
                             caseStartDate: createdDate1.toISOString(),
-                            dateOfLastAction: '2018-08-24T09:30:01.000Z'
+                            dateOfLastAction: lastModifiedDate1.toISOString()
                         }
                     });
                     expect(response.body.results[2]).toEqual({
@@ -251,7 +251,7 @@ describe('case-list spec', () => {
                             type: 'PIP',
                             status: 'Question drafted',
                             caseStartDate: createdDate2.toISOString(),
-                            dateOfLastAction: '2018-08-25T09:30:01.000Z'
+                            dateOfLastAction: lastModifiedDate2.toISOString()
                         }
                     });
                 });

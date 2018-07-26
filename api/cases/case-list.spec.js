@@ -262,34 +262,35 @@ describe('case-list spec', () => {
                 last_modified: updatedDate3
 
             });
+            multipleOnlineHearingData = {
+                online_hearings: [
+                    {
+                        online_hearing_id: '2',
+                        case_id: 987654322,
+                        start_date: '2018-06-30T12:56:49.145+0000',
+                        current_state: {
+                            state_name: 'continuous_online_hearing_started',
+                            state_datetime: lastModifiedDate1
+                        }
+                    },
+                    {
+                        online_hearing_id: '3',
+                        case_id: 987654323,
+                        start_date: '2018-06-29T12:56:49Z',
+                        current_state: {
+                            state_name: 'question_drafted',
+                            state_datetime: lastModifiedDate2
+                        }
+                    },
+                    {
+                        online_hearing_id: '4',
+                        case_id: 987654324,
+                        start_date: '2018-07-189T12:56:49.145+0000'
+                    }
+                ]
+            };
         });
-        multipleOnlineHearingData = {
-            online_hearings: [
-                {
-                    online_hearing_id: '2',
-                    case_id: 987654322,
-                    start_date: '2018-06-30T12:56:49.145+0000',
-                    current_state: {
-                        state_name: 'continuous_online_hearing_started',
-                        state_datetime: lastModifiedDate1
-                    }
-                },
-                {
-                    online_hearing_id: '3',
-                    case_id: 987654323,
-                    start_date: '2018-06-29T12:56:49Z',
-                    current_state: {
-                        state_name: 'question_drafted',
-                        state_datetime: lastModifiedDate2
-                    }
-                },
-                {
-                    online_hearing_id: '4',
-                    case_id: 987654324,
-                    start_date: '2018-07-189T12:56:49.145+0000'
-                }
-            ]
-        };
+
 
         it('should return the columns with multiple rows order by ascending order of last updated date', () => request.get('/api/cases')
             .expect(200)
@@ -306,7 +307,7 @@ describe('case-list spec', () => {
                         dateOfLastAction: updatedDate3.toISOString()
                     }
                 });
-        });
+            }));
 
         it('should return only cases having case number and order by ascending order of last updated date', () => {
             caseData.push({

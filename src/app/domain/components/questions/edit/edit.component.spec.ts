@@ -63,6 +63,7 @@ describe('EditQuestionComponent', () => {
                         params: of({
                             'question_id': '43eb9981-9360-4d4b-b9fd-506b5818e7ff'
                         }),
+                        fragment: of(['question-fragment', 'subject-fragment'])
                     }
                 },
                 {

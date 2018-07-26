@@ -69,7 +69,8 @@ const config = {
     // resultJsonOutputFile: "reports/json/protractor_report.json",
 
     onPrepare() {
-        browser.manage().window().maximize();
+        browser.manage().window()
+            .maximize();
         browser.waitForAngularEnabled(false);
         global.expect = chai.expect;
         global.assert = chai.assert;

@@ -5,7 +5,7 @@ Feature: Do stuff
         Given I navigate to JUI
         And I login
         Then I should expect "jui-header" to be visible
-        And I click "jui-header|Signout-link"
+        And I click "jui-header|signout-link"
 
 #    @all
 #    Scenario: User is currently logged in

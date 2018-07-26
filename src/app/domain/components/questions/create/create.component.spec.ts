@@ -100,7 +100,7 @@ describe('CreateQuestionsComponent', () => {
 
     it('subject field validity', () => {
         let errors = {};
-        let subject = component.form.controls['subject'];
+        const subject = component.form.controls['subject'];
         expect(subject.valid).toBeFalsy();
 
         // Subject field is required
@@ -115,7 +115,7 @@ describe('CreateQuestionsComponent', () => {
 
     it('question field validity', () => {
         let errors = {};
-        let question = component.form.controls['question'];
+        const question = component.form.controls['question'];
         expect(question.valid).toBeFalsy();
 
         // Question field is required
@@ -152,12 +152,7 @@ describe('CreateQuestionsComponent', () => {
 
     it('should display a heading', () => {
         expect(nativeElement.querySelector(Selector.selector('create-questions-heading')).textContent)
-            .toBe('Create questions');
-    });
-
-    it('should display a heading for new question item', () => {
-        expect(nativeElement.querySelectorAll(Selector.selector('item-heading')).length).toBe(1);
-        expect(nativeElement.querySelector(Selector.selector('item-heading')).textContent).toBe('Question');
+            .toBe('Create question');
     });
 
     it('should display a subject text input for new question item', () => {

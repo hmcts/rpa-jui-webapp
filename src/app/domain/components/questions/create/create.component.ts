@@ -32,6 +32,13 @@ export class CreateQuestionsComponent implements OnInit {
             this.caseId = params['case_id'];
         });
 
+        this.route.fragment.subscribe(fragment => {
+            const element = document.querySelector('#' + fragment);
+            if (element) {
+                element.scrollIntoView();
+            }
+        });
+
         this.createForm();
     }
 

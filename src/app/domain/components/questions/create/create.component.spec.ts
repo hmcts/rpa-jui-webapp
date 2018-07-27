@@ -61,6 +61,7 @@ describe('CreateQuestionsComponent', () => {
                             }
                         },
                         queryParams: of({}),
+                        fragment: of(['question-fragment', 'subject-fragment'])
                     }
                 },
                 {

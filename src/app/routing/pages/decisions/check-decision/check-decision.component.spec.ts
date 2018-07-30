@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DecisionCheckComponent } from './decision-check.component';
+import { CheckDecisionComponent } from './check-decision.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {DomainModule} from '../../../../domain/domain.module';
 import {SharedModule} from '../../../../shared/shared.module';
@@ -11,18 +11,18 @@ import {ConfigService} from '../../../../config.service';
 import {DecisionService} from '../../../../domain/services/decision.service';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import {JUIFormsModule} from "../../../../forms/forms.module";
 
-describe('DecisionCheckComponent', () => {
-    let component: DecisionCheckComponent;
-    let fixture: ComponentFixture<DecisionCheckComponent>;
+describe('CheckDecisionComponent', () => {
+    let component: CheckDecisionComponent;
+    let fixture: ComponentFixture<CheckDecisionComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [
-                DecisionCheckComponent
+                CheckDecisionComponent
             ],
-            imports: [DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
+            imports: [JUIFormsModule, DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
             providers: [
                 DecisionService,
                 {
@@ -60,7 +60,7 @@ describe('DecisionCheckComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(DecisionCheckComponent);
+        fixture = TestBed.createComponent(CheckDecisionComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

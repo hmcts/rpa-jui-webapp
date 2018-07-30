@@ -3,6 +3,7 @@
             <ul class="jui-casefile-list">
                 <li class="jui-casefile-list__item" attr.data-selector="document-list-item-{{i}}" *ngFor="let document of documents; let i = index;">
                     <a class="jui-casefile-list__link"
+                       [attr.aria-current]="(selectedDocument && document.id === selectedDocument.id) || null"
                        routerLink="../{{document.id}}"
                        data-selector="document">{{document.name}}</a>
                 </li>

@@ -12,6 +12,7 @@ export class QuestionsPanelComponent implements OnInit {
     createdQuestion: string;
     updatedQuestion: string;
     deletedQuestion: string;
+    sentQuestions: string;
 
     rounds = [];
 
@@ -25,6 +26,7 @@ export class QuestionsPanelComponent implements OnInit {
             this.createdQuestion = queryParams['created'];
             this.deletedQuestion = queryParams['deleted'];
             this.updatedQuestion = queryParams['updated'];
+            this.sentQuestions = queryParams['sent'];
         });
         this.route.parent.params.subscribe(params => {
             this.caseId = params['case_id'];

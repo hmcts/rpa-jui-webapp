@@ -4,16 +4,17 @@
         <div *ngIf="question" class="govuk-grid-column-two-thirds">
             <h1 data-selector="question-header" class="govuk-heading-xl">{{question.header}}</h1>
             <div class="jui-question">
-                <p class="jui-question__meta">From <span class="jui-question__author">{{question.owner_reference}}</span>, added on {{question.state_datetime | date}}</p>
+                <p data-selector="question-date" class="jui-question__meta">From <span class="jui-question__author">{{question.owner_reference}}</span>, added on {{question.state_datetime | date: "d MMMM yyyy"}}</p>
                 <div class="govuk-prose-scope">
-                    <p>{{question.body}}</p>
+                    <p data-selector="question-body">{{question.body}}</p>
                 </div>
             </div>
             <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" *ngIf="question.answer" >
-            <div class="jui-response" *ngIf="question.answer">
-                <p class="jui-question__meta">From <span class="jui-question__author">Appellant</span>
+            <div data-selector="answer-item" class="jui-response" *ngIf="question.answer">
+                <h2 data-selector="answer-header" class="govuk-heading-m">Response</h2>
+                <p data-selector="answer-date" class="jui-question__meta">From <span class="jui-question__author">Appellant</span>, received on {{question.answer.current_answer_state.state_datetime | date: "d MMMM yyyy"}}</p>
                 <div class="govuk-prose-scope">
-                    <p>{{question.answer.answer_text}}</p>
+                    <p data-selector="answer-body">{{question.answer.answer_text}}</p>
                 </div>
             </div>
             <div class="jui-button-actions  govuk-!-margin-top-7" *ngIf="!question.answer">
@@ -27,4 +28,3 @@
         </div>
     </div>
 </div>
-

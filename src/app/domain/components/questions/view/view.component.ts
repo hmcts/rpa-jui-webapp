@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { QuestionService } from '../../../services/question.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -13,7 +12,7 @@ export class ViewQuestionComponent implements OnInit {
     caseId: string;
     questionId: string;
 
-    constructor(public router: Router, private questionService: QuestionService, private route: ActivatedRoute) {
+    constructor(private questionService: QuestionService, private route: ActivatedRoute) {
         this.route.parent.params.subscribe(params => {
             this.caseId = params['case_id'];
         });

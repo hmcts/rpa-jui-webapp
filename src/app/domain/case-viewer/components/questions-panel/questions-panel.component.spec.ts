@@ -258,7 +258,7 @@ describe('QuestionsPanelComponent', () => {
                 {
                     'value': [{
                         'question_round_number': '1',
-                        'state': 'question_issued',
+                        'state': 'question_issue_pending',
                         'questions': [
                             {
                                 'id': 'be8ac935-ed7a-47b5-84ce-b5aa25e64512',
@@ -266,7 +266,7 @@ describe('QuestionsPanelComponent', () => {
                                 'body': 'Test body 1',
                                 'owner_reference': '5899',
                                 'state_datetime': new Date(Date.UTC(2018, 6, 13, 8, 52, 38)),
-                                'state': 'question_issued'
+                                'state': 'question_issue_pending'
                             },
                             {
                                 'id': 'c7935438-b54c-4dad-bbe8-34fff72caf81',
@@ -274,7 +274,7 @@ describe('QuestionsPanelComponent', () => {
                                 'body': 'Test Header 2',
                                 'owner_reference': '5899',
                                 'state_datetime': new Date(Date.UTC(2018, 6, 14, 8, 52, 38)),
-                                'state': 'question_issued'
+                                'state': 'question_issue_pending'
                             }
                         ]
                     }]

@@ -1,4 +1,3 @@
-@wip
 Feature: Dashboard
 
    Background:
@@ -8,14 +7,14 @@ Feature: Dashboard
         When one or more cases are displayed
 
 
-    @RIUI_370 @RIUI_418
+    @RIUI_370 @RIUI_418 @all
     Scenario: Verify available SSCS cases
         When all case numbers are hyperlinked
         When I select a case reference
         Then I will be redirected to the Case Summary page for that case
 
 
-    @RIUI_417
+    @RIUI_417 @all
     Scenario: Verify date details for SSCS cases
         Then I will see date details for the list of cases displayed
         When I see Date of latest action by date ascending order

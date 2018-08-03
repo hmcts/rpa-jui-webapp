@@ -1,10 +1,11 @@
-
+@wip
 Feature: Dashboard
 
-#   Background:
-#        Given I navigate to JUI
-#        When I am on the dashboard page
-#        When one or more cases are displayed
+   Background:
+        Given I navigate to JUI
+        Then I am logged in as a Judge
+        When I am on the dashboard page
+        When one or more cases are displayed
 
 
     @RIUI_370 @RIUI_418
@@ -16,8 +17,6 @@ Feature: Dashboard
 
     @RIUI_417
     Scenario: Verify date details for SSCS cases
-        Given I navigate to JUI
-        Then I am logged in as a Judge
         Then I will see date details for the list of cases displayed
         When I see Date of latest action by date ascending order
 

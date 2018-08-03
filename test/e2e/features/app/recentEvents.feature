@@ -1,5 +1,5 @@
 
-Feature: Dashboard
+Feature: RecentEvents
 
    Background:
         Given I navigate to JUI

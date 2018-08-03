@@ -41,14 +41,7 @@ defineSupportCode(function ({Given, When, Then}) {
 
     When(/^all case numbers are hyperlinked$/, async function () {
         await expect(dashBoardPage.case_number_links.first().getAttribute('href').isDisplayed()).to.eventually.be.true;
-
-
-        // dashBoardPage.case_number_links.first().getText().then(async function (text) {
-        //     console.log(text);
-        //     var referenceNum = config.config.baseUrl + '/viewcase/' + text + '/summary';
-        //     await expect(dashBoardPage.case_number_links.first().getAttribute('href')).equal(referenceNum);
-        // });
-    });
+        });
 
 
     When(/^I select a case reference$/, async function () {
@@ -63,9 +56,8 @@ defineSupportCode(function ({Given, When, Then}) {
 
 
     Then(/^I will see date details for the list of cases displayed$/, async function () {
-        // await expect(dashBoardPage.case_reference_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.parties_header.isDisplayed()).to.eventually.be.true;
-        await expect(dashBoardPage.type_header.isDisplayed()).to.eventually.be.true.and;
+        await expect(dashBoardPage.type_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.case_start_date.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.date_of_last_action.isDisplayed()).to.eventually.be.true;
     });

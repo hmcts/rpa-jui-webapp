@@ -97,7 +97,7 @@ function deleteQuestion(hearingId, questionId, options) {
 
 function updateRoundToIssued(hearingId, roundId, options) {
     options.body = {
-        state_name: 'question_issued'
+        state_name: 'question_issue_pending'
     };
     return generateRequest('PUT', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/questionrounds/${roundId}`, options);
 }

@@ -86,7 +86,7 @@ describe('CheckQuestionsComponent', () => {
                     'body': 'test issued',
                     'owner_reference': '5899',
                     'state_datetime': '2018-07-24 13:28:47.45',
-                    'state': 'question_issued'
+                    'state': 'question_issue_pending'
                 }
             ]);
 

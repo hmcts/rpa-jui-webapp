@@ -18,21 +18,25 @@ defineSupportCode(function ({Given, When, Then}) {
     });
 
     Then(/^I am logged in as a Judge$/, async function () {
-        await  signInPage.emailAddress.sendKeys(this.config.username); //replace username and password
+        await signInPage.emailAddress.sendKeys(this.config.username); //replace username and password
         await signInPage.password.sendKeys(this.config.password);
         browser.sleep(10000);
         await signInPage.signinBtn.click();
     });
 
     When(/^I am on the dashboard page$/, async function () {
+        browser.sleep(3000);
+        await expect(dashBoardPage.sign_out_link.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
+
     });
 
 
     When(/^one or more cases are displayed$/, async function () {
-        await dashBoardPage.number_of_rows.count().then(function (count) {
+       var no_of_cases = dashBoardPage.number_of_rows.count().then(function (count) {
+           console.log(no_of_cases);
             if (count > 0)
-                dashBoardPage.case_number_links.isDisplayed();
+                expect(dashBoardPage.case_number_links.first().isDisplayed());
             else
                 console.log('no case reference links present', +count);
         });
@@ -40,8 +44,13 @@ defineSupportCode(function ({Given, When, Then}) {
     });
 
     When(/^all case numbers are hyperlinked$/, async function () {
-        await expect(dashBoardPage.case_number_links.first().getAttribute('href').isDisplayed()).to.eventually.be.true;
+        await dashBoardPage.case_number_links.getAttribute('href').isDisplayed();
+        var link_text = dashBoardPage.case_number_links.first().getText().then(async function (text) {
+            console.log(link_text);
+            var referenceNum = config.config.baseUrl + '/viewcase/' + text + '/summary';
+            expect(dashBoardPage.case_number_links.first().getAttribute('href').isDisplayed()).equal(referenceNum);
         });
+    });
 
 
     When(/^I select a case reference$/, async function () {
@@ -51,7 +60,8 @@ defineSupportCode(function ({Given, When, Then}) {
 
     Then(/^I will be redirected to the Case Summary page for that case$/, async function () {
         browser.sleep(3000);
-        await caseSummaryPage.caseDetails_header_text.isDisplayed();
+        await expect(caseSummaryPage.caseSummary_header_text.isDisplayed()).to.eventually.be.true;
+        await expect(caseSummaryPage.caseSummary_header_text.getText()).to.eventually.equal('Summary');
     });
 
 

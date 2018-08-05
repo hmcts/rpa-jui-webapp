@@ -44,11 +44,11 @@ defineSupportCode(function ({Given, When, Then}) {
     });
 
     When(/^all case numbers are hyperlinked$/, async function () {
-        await dashBoardPage.case_number_links.getAttribute('href').isDisplayed();
+        await expect(dashBoardPage.case_number_links.first().getAttribute('href').isDisplayed()).to.eventually.be.true;
         var link_text = dashBoardPage.case_number_links.first().getText().then(async function (text) {
             console.log(link_text);
             var referenceNum = config.config.baseUrl + '/viewcase/' + text + '/summary';
-            expect(dashBoardPage.case_number_links.first().getAttribute('href').isDisplayed()).equal(referenceNum);
+            expect(dashBoardPage.case_number_links.first().getAttribute('href')).equal(referenceNum);
         });
     });
 

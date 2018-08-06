@@ -12,9 +12,10 @@ import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RedirectionService } from '../../../../routing/redirection.service';
 import { CaseService } from '../../../services/case.service';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
-xdescribe('DeleteQuestionComponent', () => {
+
+describe('DeleteQuestionComponent', () => {
     let component: DeleteQuestionComponent;
     let fixture: ComponentFixture<DeleteQuestionComponent>;
     let httpMock: HttpTestingController;
@@ -75,8 +76,16 @@ xdescribe('DeleteQuestionComponent', () => {
         fixture.detectChanges();
     });
 
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+
     describe('When request is a success', () => {
+        let redirectionServiceMock;
+
         beforeEach(async(() => {
+            const redirectionService = TestBed.get(RedirectionService);
+            redirectionServiceMock = spyOn(redirectionService, 'redirect');
             fixture.whenStable()
                    .then(() => {
                        fixture.detectChanges();
@@ -89,15 +98,17 @@ xdescribe('DeleteQuestionComponent', () => {
             httpMock
                 .expectOne('/api/cases/99eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/13eb9981-9360-4d4b-b9fd-506b5818e7ff')
                 .flush(null);
+
+            expect(redirectionServiceMock).toHaveBeenCalled();
         });
     });
 
-    xit('should display a heading', () => {
+    it('should display a heading', () => {
         expect(nativeElement.querySelector(Selector.selector('delete-heading')).textContent)
             .toBe('Are you sure you want to delete this question?');
     });
 
-    xit('should display a button to save question items', () => {
+    it('should display a button to save question items', () => {
         expect(nativeElement.querySelector(Selector.selector('delete-link')).textContent)
             .toBe('Delete question');
     });

@@ -79,6 +79,10 @@ describe('CheckDecisionComponent', () => {
         fixture.detectChanges();
     });
 
+    afterEach(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should create', () => {
         expect(component).toBeTruthy();
     });
@@ -90,10 +94,6 @@ describe('CheckDecisionComponent', () => {
 
             beforeEach(() => {
                 redirectionServiceSpy = spyOn(TestBed.get(RedirectionService), 'redirect');
-            });
-
-            afterEach(() => {
-                TestBed.resetTestingModule();
             });
 
             it('should issue the decision', () => {

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PartiesPanelComponent } from './parties-panel.component';
 
-xdescribe('PartiesPanelComponent', () => {
+describe('PartiesPanelComponent', () => {
   let component: PartiesPanelComponent;
   let fixture: ComponentFixture<PartiesPanelComponent>;
 

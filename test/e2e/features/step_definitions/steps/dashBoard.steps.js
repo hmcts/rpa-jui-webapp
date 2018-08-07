@@ -17,6 +17,7 @@ defineSupportCode(function ({Given, When, Then}) {
         await browser.refresh();
     });
 
+
     Then(/^I am logged in as a Judge$/, async function () {
         await signInPage.emailAddress.sendKeys(this.config.username); //replace username and password
         await signInPage.password.sendKeys(this.config.password);
@@ -33,24 +34,18 @@ defineSupportCode(function ({Given, When, Then}) {
 
 
     When(/^one or more cases are displayed$/, async function () {
-       var no_of_cases = dashBoardPage.number_of_rows.count().then(function (count) {
-           console.log(no_of_cases);
-            if (count > 0)
-                expect(dashBoardPage.case_number_links.first().isDisplayed());
-            else
+        var no_of_cases = dashBoardPage.number_of_rows.count().then(function (count) {
+            if (count > 0) {
+                dashBoardPage.case_number_links.first().getAttribute('href').then(function (attr) {
+                    expect(attr).to.match(/^https:\/\/jui-webapp-aat.service.core-compute-aat.internal\/viewcase\/(.+)\/summary$/);
+                });
+
+            } else
                 console.log('no case reference links present', +count);
         });
 
     });
 
-    When(/^all case numbers are hyperlinked$/, async function () {
-        await expect(dashBoardPage.case_number_links.first().getAttribute('href').isDisplayed()).to.eventually.be.true;
-        var link_text = dashBoardPage.case_number_links.first().getText().then(async function (text) {
-            console.log(link_text);
-            var referenceNum = config.config.baseUrl + '/viewcase/' + text + '/summary';
-            expect(dashBoardPage.case_number_links.first().getAttribute('href')).equal(referenceNum);
-        });
-    });
 
 
     When(/^I select a case reference$/, async function () {

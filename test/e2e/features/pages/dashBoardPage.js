@@ -30,4 +30,4 @@ function dashBoardPage() {
     };
 }
 
-module.exports = new dashBoardPage();
+module.exports = new dashBoardPage;

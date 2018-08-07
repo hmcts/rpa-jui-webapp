@@ -1,5 +1,5 @@
 module.exports = function(config, argv) {
-    let tags = '@wip';
+    let tags = '';
     if (config.defaultTags) {
         tags = config.defaultTags.join(' and ');
     }

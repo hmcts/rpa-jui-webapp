@@ -36,8 +36,10 @@ defineSupportCode(function ({Given, When, Then}) {
     When(/^one or more cases are displayed$/, async function () {
         var no_of_cases = dashBoardPage.number_of_rows.count().then(function (count) {
             if (count > 0) {
+
                 dashBoardPage.case_number_links.first().getAttribute('href').then(function (attr) {
-                    expect(attr).to.match(/^https:\/\/jui-webapp-aat.service.core-compute-aat.internal\/viewcase\/(.+)\/summary$/);
+                    var re = new RegExp(config.config.baseUrl+'/viewcase/(.+)/summary').compile();
+                    expect(attr).to.match(re);
                 });
 
             } else

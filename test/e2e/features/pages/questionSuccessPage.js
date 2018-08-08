@@ -1,4 +1,4 @@
-'user strict';
+'use strict';
 
 function questionSuccessPage() {
     this.question_added_succes_alert = element(by.css('.jui-alert.jui-alert--success'));

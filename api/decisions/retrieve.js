@@ -20,7 +20,7 @@ function getHearingId(caseId, userId, headers) {
 }
 
 function getDecision(hearingId, headers) {
-    return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/decisions`, headers);
+    return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/decisions`, { headers });
 }
 
 module.exports = (req, res, next) => {
@@ -39,7 +39,6 @@ module.exports = (req, res, next) => {
             res.status(201).send(JSON.stringify(response));
         })
         .catch(response => {
-            // console.log(response.error || response);
             res.status(response.statusCode).send(response.error.message);
         });
 };

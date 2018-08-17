@@ -81,40 +81,27 @@
                             "fields": [
                                 {
                                     "label": "Full name",
-                                    "value": ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName"]
+                                    "value": ["$.case_data.applicantFMName", "$.case_data.applicantLName"]
                                 },
-                                {
-                                    "label": "Date of birth",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Address",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Phone",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Email",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Representative",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Parties",
-                                    "value": "$.id"
-                                },
-                                {
-                                    "label": "Case number",
-                                    "value": "$.id"
-                                },
-                                {
-                                    "label": "Case type",
-                                    "value": "$.case_type_id"
-                                }
+                                { "label": "Date of birth", "value": ""},
+                                { "label": "Address", "value": ""},
+                                { "label": "Phone", "value": "" },
+                                { "label": "Email", "value": "" },
+                                { "label": "Representative", "value": "" }
+                            ]
+                        },
+                        {
+                            "id": "petitioner-sol",
+                            "name": "Petitioner Solicitor",
+                            "type": "tab",
+                            "fields": [
+                                { "label": "Reference no.", "value": "$.case_data.solicitorReference"},
+                                { "label": "Full name", "value": "$.case_data.solicitorName"},
+                                { "label": "Solicitor firm", "value": "$.case_data.solicitorFirm"},
+                                { "label": "Address", "value": "$.case_data.solicitorAddress1"},
+                                { "label": "Phone", "value": "$.case_data.solicitorPhone"},
+                                { "label": "Email", "value": "$.case_data.solicitorEmail"},
+                                { "label": "DX number", "value": "$.case_data.solicitorDXnumber"}
                             ]
                         },
                         {
@@ -124,40 +111,27 @@
                             "fields": [
                                 {
                                     "label": "Full name",
-                                    "value": ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName"]
+                                    "value": ["$.case_data.appRespondentFMName", "$.case_data.appRespondentLName"]
                                 },
-                                {
-                                    "label": "Date of birth",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Address",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Phone",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Email",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Representative",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Parties",
-                                    "value": "$.id"
-                                },
-                                {
-                                    "label": "Case number",
-                                    "value": "$.id"
-                                },
-                                {
-                                    "label": "Case type",
-                                    "value": "$.case_type_id"
-                                }
+                                { "label": "Date of birth", "value": ""},
+                                { "label": "Address", "value": ""},
+                                { "label": "Phone", "value": "" },
+                                { "label": "Email", "value": "" },
+                                { "label": "Representative", "value": "$.case_data.appRespondentRep" }
+                            ]
+                        },
+                        {
+                            "id": "respondent-sol",
+                            "name": "Respondent Solicitor",
+                            "type": "tab",
+                            "fields": [
+                                { "label": "Reference no.", "value": "$.case_data.rSolicitorReference"},
+                                { "label": "Name", "value": "$.case_data.rSolicitorName"},
+                                { "label": "Solicitor firm", "value": "$.case_data.rSolicitorFirm"},
+                                { "label": "Address", "value": "$.case_data.rSolicitorAddress1"},
+                                { "label": "Phone", "value": "$.case_data.rSolicitorPhone"},
+                                { "label": "Email", "value": "$.case_data.rSolicitorEmail"},
+                                { "label": "DX number", "value": "$.case_data.rSolicitorDXnumber"}
                             ]
                         }
                     ]

@@ -2,7 +2,13 @@
     "details": {
         "fields": [
             { "value": "$.id" },
-            { "value": [] }
+            { "value": [
+                "$.case_data.D8PetitionerFirstName",
+                "$.case_data.D8PetitionerLastName",
+                "v",
+                "$.case_data.D8RespondentFirstName",
+                "$.case_data.D8RespondentLastName"
+            ]}
         ]
     },
     "sections": [
@@ -69,28 +75,22 @@
                             "fields": [
                                 {
                                     "label": "Full name",
-                                    "value": ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName"]
+                                    "value": [
+                                        "$.case_data.D8PetitionerFirstName",
+                                        "$.case_data.D8PetitionerLastName"
+                                    ]
                                 },
-                                {
-                                    "label": "Date of birth",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Address",
-                                    "value": "$.case_type_id"
-                                },
+                                { "label": "Date of birth", "value": ""},
+                                { "label": "Address", "value": ""},
                                 {
                                     "label": "Phone",
-                                    "value": "$.case_type_id"
+                                    "value": "$.case_data.D8PetitionerPhoneNumber"
                                 },
                                 {
                                     "label": "Email",
-                                    "value": "$.case_type_id"
+                                    "value": "$.case_data.D8PetitionerEmail"
                                 },
-                                {
-                                    "label": "Representative",
-                                    "value": "$.case_type_id"
-                                }
+                                { "label": "Representative", "value": "" }
                             ]
                         },
                         {
@@ -100,28 +100,16 @@
                             "fields": [
                                 {
                                     "label": "Full name",
-                                    "value": ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName"]
+                                    "value": [
+                                        "$.case_data.D8RespondentFirstName",
+                                        "$.case_data.D8RespondentLastName"
+                                    ]
                                 },
-                                {
-                                    "label": "Date of birth",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Address",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Phone",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Email",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Representative",
-                                    "value": "$.case_type_id"
-                                }
+                                { "label": "Date of birth", "value": ""},
+                                { "label": "Address", "value": ""},
+                                { "label": "Phone", "value": "" },
+                                { "label": "Email", "value": "" },
+                                { "label": "Representative", "value": "" }
                             ]
                         }
                     ]
@@ -159,6 +147,15 @@
         "id": "decision",
         "name": "Make a decision",
         "type": "decision-page",
-        "options": [ ]
+        "options": [
+            {
+                "id": "true",
+                "name": "True"
+            },
+            {
+                "id": "false",
+                "name": "False"
+            }
+        ]
     }
 }

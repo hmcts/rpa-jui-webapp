@@ -2,7 +2,7 @@
     "details": {
         "fields": [
             { "value": "$.id" },
-            { "value": [] }
+            { "value": ["-"] }
         ]
     },
     "sections": [
@@ -83,6 +83,15 @@
         "id": "decision",
         "name": "Make a decision",
         "type": "decision-page",
-        "options": [ ]
+        "options": [
+            {
+                "id": "true",
+                "name": "True"
+            },
+            {
+                "id": "false",
+                "name": "False"
+            }
+        ]
     }
 }

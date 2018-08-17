@@ -89,89 +89,23 @@
                     "type": "parties-panel",
                     "sections": [
                         {
-                            "id": "petitioner",
-                            "name": "Petitioner",
+                            "id": "appellant",
+                            "name": "Appellant",
                             "type": "tab",
                             "fields": [
                                 {
                                     "label": "Full name",
-                                    "value": ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName"]
+                                    "value": [
+                                        "$.case_data.appeal.appellant.name.firstName",
+                                        "$.case_data.appeal.appellant.name.lastName"
+                                    ]
                                 },
-                                {
-                                    "label": "Date of birth",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Address",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Phone",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Email",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Representative",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Parties",
-                                    "value": "$.id"
-                                },
-                                {
-                                    "label": "Case number",
-                                    "value": "$.id"
-                                },
-                                {
-                                    "label": "Case type",
-                                    "value": "$.case_type_id"
-                                }
-                            ]
-                        },
-                        {
-                            "id": "respondent",
-                            "name": "Respondent",
-                            "type": "tab",
-                            "fields": [
-                                {
-                                    "label": "Full name",
-                                    "value": ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName"]
-                                },
-                                {
-                                    "label": "Date of birth",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Address",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Phone",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Email",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Representative",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Parties",
-                                    "value": "$.id"
-                                },
-                                {
-                                    "label": "Case number",
-                                    "value": "$.id"
-                                },
-                                {
-                                    "label": "Case type",
-                                    "value": "$.case_type_id"
-                                }
+                                { "label": "Date of birth", "value": "$.case_data.appeal.appellant.identity.dob" },
+                                { "label": "Address", "value": "" },
+                                { "label": "Phone", "value": "$.case_data.appeal.appellant.contact.phone" },
+                                { "label": "Email", "value": "$.case_data.appeal.appellant.contact.email" },
+                                { "label": "Representative", "value": "" },
+                                { "label": "National Insurances No.", "value": "$.case_data.appeal.appellant.identity.nino" }
                             ]
                         }
                     ]

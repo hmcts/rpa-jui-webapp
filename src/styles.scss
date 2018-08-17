@@ -6,20 +6,13 @@ $jui-assets-path : "/assets/images/";
 $govuk-global-styles: true;
 @import "~govuk-frontend/all";
 @import "~@hmcts/frontend/all";
-@import "./assets/jui/all";
+@import "./assets/sass/application";
 
-body {
-    @include govuk-font($size: 16);
-}
+//a:hover {
+//    cursor: pointer;
+//}
 
-.jui-casefile-list__link {
-    //background-image: url(/assets/images/icon-document.svg);
-}
-
-a:hover {
-    cursor: pointer;
-}
-
+// current bug in @hmcts/frontend will be fixed soon
 .hmcts-primary-navigation {
     margin-bottom: 0;
 }

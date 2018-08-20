@@ -52,7 +52,9 @@
                         {
                             "name": "Recent events",
                             "type": "timeline",
-                            "fields": [{ "value": "$.events" }]
+                            "fields": [
+                                { "value": "$.events" }
+                            ]
                         }
                     ]
                 }
@@ -67,7 +69,7 @@
                     "id": "documents",
                     "name": "Case file",
                     "type": "document-panel",
-                    "fields": [{ "value": "$.case_data.sscsDocument|document_processor" }]
+                    "fields": []
                 }
             ]
         },

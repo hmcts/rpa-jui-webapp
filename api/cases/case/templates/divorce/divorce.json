@@ -48,16 +48,14 @@
                         {
                             "name": "",
                             "type": "data-list",
-                            "fields": [
-                                {
-                                    "label": "Case number",
-                                    "value": "$.id"
-                                }]
+                            "fields": []
                         },
                         {
                             "name": "Recent events",
                             "type": "timeline",
-                            "fields": [{ "value": "$.events" }]
+                            "fields": [
+                                { "value": "$.events" }
+                            ]
                         }
                     ]
                 }
@@ -131,7 +129,7 @@
                     "name": "Case file",
                     "type": "document-panel",
                     "fields": [
-                        { "xvalue": "$.case_data.D8DocumentsGenerated.value.DocumentLink.document_url" }
+                        { "value": "$.case_data.D8DocumentsGenerated.value.DocumentLink.document_url" }
                     ]
                 }
             ]
@@ -145,7 +143,9 @@
                     "id": "events",
                     "name": "Timeline",
                     "type": "timeline-panel",
-                    "fields": [{ "value": "$.events" }]
+                    "fields": [
+                        { "value": "$.events" }
+                    ]
                 }
             ]
         }

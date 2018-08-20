@@ -16,19 +16,21 @@
                     "type": "summary-panel",
                     "sections": [
                         {
-                            "name": "Case details",
+                            "name": "",
                             "type": "data-list",
                             "fields": []
                         },
                         {
-                            "name": "Case details",
+                            "name": "",
                             "type": "data-list",
                             "fields": []
                         },
                         {
                             "name": "Recent events",
                             "type": "timeline",
-                            "fields": [{ "value": "$.events" }]
+                            "fields": [
+                                { "value": "$.events" }
+                            ]
                         }
                     ]
                 }

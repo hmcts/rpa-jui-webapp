@@ -22,7 +22,7 @@ export class HearingService {
 
         this.state.set(key, { relist_reason: text });
 
-        return EMPTY;
+        return of([]);
     }
 
     fetchDraftHearing(caseId: string): Observable<any> {

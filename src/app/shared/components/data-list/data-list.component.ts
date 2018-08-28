@@ -6,6 +6,8 @@ import {Component, Input, OnInit} from '@angular/core';
     styleUrls: ['./data-list.component.scss']
 })
 export class DataListComponent implements OnInit {
+
+    @Input() classes = null;
     @Input() title;
     @Input() dataList = [];
     newDataList = [];

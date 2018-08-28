@@ -20,3 +20,7 @@ $govuk-global-styles: true;
 div.govuk-prose-scope, p {
     white-space: pre-wrap;
 }
+
+td.govuk-table__cell {
+    white-space: pre-wrap;
+}

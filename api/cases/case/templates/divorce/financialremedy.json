@@ -3,10 +3,10 @@
         "fields": [
             { "value": "$.case_data.D8caseReference" },
             { "value": [
-                "$.case_data.applicantFMName",
-                "$.case_data.applicantLName",
-                "v",
-                "$.case_data.appRespondentFMName",
+                "$.case_data.applicantFMName"," ",
+                "$.case_data.applicantLName"," ",
+                "v"," ",
+                "$.case_data.appRespondentFMName"," ",
                 "$.case_data.appRespondentLName"
             ] }
         ]
@@ -28,10 +28,10 @@
                                 {
                                     "label": "Parties",
                                     "value": [
-                                        "$.case_data.applicantFMName",
-                                        "$.case_data.applicantLName",
-                                        "v",
-                                        "$.case_data.appRespondentFMName",
+                                        "$.case_data.applicantFMName"," ",
+                                        "$.case_data.applicantLName"," ",
+                                        "v"," ",
+                                        "$.case_data.appRespondentFMName"," ",
                                         "$.case_data.appRespondentLName"
                                     ]
                                 },
@@ -85,7 +85,7 @@
                             "fields": [
                                 {
                                     "label": "Full name",
-                                    "value": ["$.case_data.applicantFMName", "$.case_data.applicantLName"]
+                                    "value": ["$.case_data.applicantFMName", " ", "$.case_data.applicantLName"]
                                 },
                                 { "label": "Date of birth", "value": ""},
                                 { "label": "Address", "value": ""},
@@ -103,10 +103,10 @@
                                 { "label": "Full name", "value": "$.case_data.solicitorName"},
                                 { "label": "Solicitor firm", "value": "$.case_data.solicitorFirm"},
                                 { "label": "Address", "value": [
-                                    "$.case_data.solicitorAddress1",",",
-                                    "$.case_data.solicitorAddress2",",",
-                                    "$.case_data.solicitorAddress3",",",
-                                    "$.case_data.solicitorAddress4",",",
+                                    "$.case_data.solicitorAddress1|newline_processor",
+                                    "$.case_data.solicitorAddress2|newline_processor",
+                                    "$.case_data.solicitorAddress3|newline_processor",
+                                    "$.case_data.solicitorAddress4|newline_processor",
                                     "$.case_data.solicitorAddress5"
                                 ]},
                                 { "label": "Phone", "value": "$.case_data.solicitorPhone"},
@@ -121,7 +121,7 @@
                             "fields": [
                                 {
                                     "label": "Full name",
-                                    "value": ["$.case_data.appRespondentFMName", "$.case_data.appRespondentLName"]
+                                    "value": ["$.case_data.appRespondentFMName", " ", "$.case_data.appRespondentLName"]
                                 },
                                 { "label": "Date of birth", "value": ""},
                                 { "label": "Address", "value": ""},
@@ -139,10 +139,10 @@
                                 { "label": "Name", "value": "$.case_data.rSolicitorName"},
                                 { "label": "Solicitor firm", "value": "$.case_data.rSolicitorFirm"},
                                 { "label": "Address", "value": [
-                                    "$.case_data.rSolicitorAddress1",",",
-                                    "$.case_data.rSolicitorAddress2",",",
-                                    "$.case_data.rSolicitorAddress3",",",
-                                    "$.case_data.rSolicitorAddress4",",",
+                                    "$.case_data.rSolicitorAddress1|newline_processor",
+                                    "$.case_data.rSolicitorAddress2|newline_processor",
+                                    "$.case_data.rSolicitorAddress3|newline_processor",
+                                    "$.case_data.rSolicitorAddress4|newline_processor",
                                     "$.case_data.rSolicitorAddress5"
                                 ]},
                                 { "label": "Phone", "value": "$.case_data.rSolicitorPhone"},

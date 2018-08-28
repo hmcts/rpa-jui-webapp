@@ -2,7 +2,7 @@
     "details": {
         "fields": [
             { "value": "$.id" },
-            { "value": ["-"] }
+            { "value": "-" }
         ]
     },
     "sections": [

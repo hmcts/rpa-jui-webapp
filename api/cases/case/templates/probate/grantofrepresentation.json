@@ -3,7 +3,7 @@
         "fields": [
             { "value": "$.case_data.ihtReferenceNumber" },
             { "value": [
-                "$.case_data.deceasedForenames",
+                "$.case_data.deceasedForenames", " ",
                 "$.case_data.deceasedSurname"
             ]}
         ]
@@ -25,7 +25,7 @@
                                 {
                                     "label": "Parties",
                                     "value": [
-                                        "$.case_data.deceasedForenames",
+                                        "$.case_data.deceasedForenames", " ",
                                         "$.case_data.deceasedSurname"
                                     ]
                                 },

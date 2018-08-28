@@ -6,9 +6,9 @@
             },
             {
                 "value": [
-                    "$.case_data.appeal.appellant.name.firstName",
-                    "$.case_data.appeal.appellant.name.lastName",
-                    "v",
+                    "$.case_data.appeal.appellant.name.firstName", " ",
+                    "$.case_data.appeal.appellant.name.lastName", " ",
+                    "v", " ",
                     "DWP"
                 ]
             }
@@ -31,9 +31,9 @@
                                 {
                                     "label": "Parties",
                                     "value": [
-                                        "$.case_data.appeal.appellant.name.firstName",
-                                        "$.case_data.appeal.appellant.name.lastName",
-                                        "v",
+                                        "$.case_data.appeal.appellant.name.firstName", " ",
+                                        "$.case_data.appeal.appellant.name.lastName", " ",
+                                        "v", " ",
                                         "DWP"
                                     ]
                                 },
@@ -104,7 +104,7 @@
                                 {
                                     "label": "Full name",
                                     "value": [
-                                        "$.case_data.appeal.appellant.name.firstName",
+                                        "$.case_data.appeal.appellant.name.firstName", " ",
                                         "$.case_data.appeal.appellant.name.lastName"
                                     ]
                                 },
@@ -113,7 +113,20 @@
                                 { "label": "Phone", "value": "$.case_data.appeal.appellant.contact.phone" },
                                 { "label": "Email", "value": "$.case_data.appeal.appellant.contact.email" },
                                 { "label": "Representative", "value": "" },
-                                { "label": "National Insurances No.", "value": "$.case_data.appeal.appellant.identity.nino" }
+                                { "label": "National insurances no.", "value": "$.case_data.appeal.appellant.identity.nino" }
+                            ]
+                        },
+                        {
+                            "id": "respondent",
+                            "name": "Respondent",
+                            "type": "tab",
+                            "fields": [
+                                { "label": "Name", "value": "Department of work and pensions" },
+                                { "label": "Decision maker", "value": "" },
+                                { "label": "Presenting officer", "value": "" },
+                                { "label": "DWP office", "value": "" },
+                                { "label": "Email", "value": "" },
+                                { "label": "Phone", "value": "" }
                             ]
                         }
                     ]

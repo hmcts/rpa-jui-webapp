@@ -3,10 +3,10 @@
         "fields": [
             { "value": "$.case_data.D8caseReference" },
             { "value": [
-                "$.case_data.D8PetitionerFirstName",
-                "$.case_data.D8PetitionerLastName",
-                "v",
-                "$.case_data.D8RespondentFirstName",
+                "$.case_data.D8PetitionerFirstName", " ",
+                "$.case_data.D8PetitionerLastName", " ",
+                "v", " ",
+                "$.case_data.D8RespondentFirstName", " ",
                 "$.case_data.D8RespondentLastName"
             ]}
         ]
@@ -28,10 +28,10 @@
                                 {
                                     "label": "Parties",
                                     "value": [
-                                        "$.case_data.D8PetitionerFirstName",
-                                        "$.case_data.D8PetitionerLastName",
-                                        "v",
-                                        "$.case_data.D8RespondentFirstName",
+                                        "$.case_data.D8PetitionerFirstName", " ",
+                                        "$.case_data.D8PetitionerLastName", " ",
+                                        "v", " ",
+                                        "$.case_data.D8RespondentFirstName", " ",
                                         "$.case_data.D8RespondentLastName"
                                     ]
                                 },
@@ -79,7 +79,7 @@
                                 {
                                     "label": "Full name",
                                     "value": [
-                                        "$.case_data.D8PetitionerFirstName",
+                                        "$.case_data.D8PetitionerFirstName", " ",
                                         "$.case_data.D8PetitionerLastName"
                                     ]
                                 },
@@ -104,7 +104,7 @@
                                 {
                                     "label": "Full name",
                                     "value": [
-                                        "$.case_data.D8RespondentFirstName",
+                                        "$.case_data.D8RespondentFirstName", " ",
                                         "$.case_data.D8RespondentLastName"
                                     ]
                                 },

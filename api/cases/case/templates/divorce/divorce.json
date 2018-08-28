@@ -84,7 +84,7 @@
                                     ]
                                 },
                                 { "label": "Date of birth", "value": ""},
-                                { "label": "Address", "value": ""},
+                                { "label": "Address","value": "$.case_data.D8DerivedPetitionerHomeAddress"},
                                 {
                                     "label": "Phone",
                                     "value": "$.case_data.D8PetitionerPhoneNumber"
@@ -109,7 +109,7 @@
                                     ]
                                 },
                                 { "label": "Date of birth", "value": ""},
-                                { "label": "Address", "value": ""},
+                                { "label": "Address", "value": "$.case_data.D8DerivedRespondentHomeAddress"},
                                 { "label": "Phone", "value": "" },
                                 { "label": "Email", "value": "" },
                                 { "label": "Representative", "value": "" }

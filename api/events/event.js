@@ -3,6 +3,10 @@ const moment = require('moment');
 const config = require('../../config');
 const generateRequest = require('../lib/request');
 
+function hasCOR(jurisdiction, caseType) {
+    return jurisdiction === 'SSCS';
+}
+
 function reduceEvents(events) {
     events = events || [];
     return events.map(event => {
@@ -23,10 +27,8 @@ function reduceEvents(events) {
 }
 
 function getHistory(arrObject) {
-   return arrObject.map(arr => arr.history)
-       .reduce((history, item) => {
-            return history.concat(item);
-        }, []);
+    return arrObject.map(arr => arr.history)
+        .reduce((history, item) => history.concat(item), []);
 }
 function reduceCohEvents(events) {
     return events.map(event => {
@@ -46,17 +48,15 @@ function reduceCohEvents(events) {
 }
 
 function mergeCohEvents(eventsJson) {
-        let history = eventsJson.online_hearing.history;
-        let questionHistory = eventsJson.online_hearing.questions ? getHistory(eventsJson.online_hearing.questions) : [];
-        let answersHistory = eventsJson.online_hearing.answers ? getHistory(eventsJson.online_hearing.answers): [];
-        let decisionHistory = eventsJson.online_hearing.decision ? eventsJson.online_hearing.decision.history: [];
-        return [...history, ...questionHistory, ...answersHistory, ...decisionHistory];
+    const history = eventsJson.online_hearing.history;
+    const questionHistory = eventsJson.online_hearing.questions ? getHistory(eventsJson.online_hearing.questions) : [];
+    const answersHistory = eventsJson.online_hearing.answers ? getHistory(eventsJson.online_hearing.answers) : [];
+    const decisionHistory = eventsJson.online_hearing.decision ? eventsJson.online_hearing.decision.history : [];
+    return [...history, ...questionHistory, ...answersHistory, ...decisionHistory];
 }
 
 function sortEvents(events) {
-    return events.sort((result1, result2) => {
-        return moment.duration(moment(result2.dateUtc).diff(moment(result1.dateUtc))).asMilliseconds();
-    })
+    return events.sort((result1, result2) => moment.duration(moment(result2.dateUtc).diff(moment(result1.dateUtc))).asMilliseconds());
 }
 
 function getCcdEvents(caseId, userId, jurisdiction, caseType, options) {
@@ -66,11 +66,10 @@ function getCcdEvents(caseId, userId, jurisdiction, caseType, options) {
 
 function getCohEvents(caseId, userId, options) {
     return getHearingId(caseId, userId, options)
-        .then(hearingId => {
-            return getOnlineHearingConversation(hearingId, options)
-                .then(mergeCohEvents)
-                .then(reduceCohEvents);
-        })
+        .then(hearingId => getOnlineHearingConversation(hearingId, options)
+            .then(mergeCohEvents)
+            .then(reduceCohEvents)
+        );
 }
 function combineLists(lists) {
     return [].concat(...lists);
@@ -78,11 +77,13 @@ function combineLists(lists) {
 
 function getEvents(caseId, userId, jurisdiction, caseType, options) {
     const promiseArray = [];
-     promiseArray.push(getCcdEvents(caseId, userId, jurisdiction, caseType, options));
-     promiseArray.push(getCohEvents(caseId, userId, options));
-      return Promise.all(promiseArray)
-          .then(combineLists)
-          .then(sortEvents);
+    promiseArray.push(getCcdEvents(caseId, userId, jurisdiction, caseType, options));
+    if (hasCOR(jurisdiction, caseType)) {
+        promiseArray.push(getCohEvents(caseId, userId, options));
+    }
+    return Promise.all(promiseArray)
+        .then(combineLists)
+        .then(sortEvents);
 }
 
 function postHearing(caseId, userId, options, jurisdictionId = 'SSCS') {
@@ -103,14 +104,14 @@ function getHearingId(caseId, userId, options) {
 }
 
 function getOnlineHearingConversation(onlineHearingId, options) {
-    return generateRequest('GET',`${config.services.coh_cor_api}/continuous-online-hearings/${onlineHearingId}/conversations`, options);
+    return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/${onlineHearingId}/conversations`, options);
 }
 
 function getOptions(req) {
     return {
         headers: {
-            'Authorization': `Bearer ${req.auth.token}`,
-            'ServiceAuthorization': req.headers.ServiceAuthorization
+            Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization
         }
     };
 }
@@ -135,4 +136,5 @@ module.exports = app => {
 };
 
 module.exports.getEvents = getEvents;
+
 module.exports.reduceEvents = reduceEvents;

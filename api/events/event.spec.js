@@ -121,7 +121,7 @@ describe('Events route', () => {
                 }
             ];
 
-            getEvents().then(events => {
+            getEvents('x', '1534513630400666', 'SSCS', 'Benefits').then(events => {
                 expect(events).toEqual([
                     {
                         title: 'event_name',
@@ -160,5 +160,45 @@ describe('Events route', () => {
                 done();
             });
         });
+
+        it('should return all documents requested for coh and ccd events', done => {
+            httpResponse = [
+                {
+                    event_name: 'event_name',
+                    user_first_name: 'user_first_name',
+                    user_last_name: 'user_last_name',
+                    created_date: utcDate1
+                },
+                {
+                    event_name: 'event_name2',
+                    user_first_name: 'user_first_name2',
+                    user_last_name: 'user_last_name2',
+                    created_date: utcDate2
+                }
+            ];
+
+            getEvents('x', '1534513630400666', 'DIVORCE', 'DIVORCE').then(events => {
+                expect(events).toEqual([
+                    {
+                        title: 'event_name',
+                        by: 'user_first_name user_last_name',
+                        dateUtc: utcDate1.utc().format(),
+                        date: utcDate1.format('D MMM YYYY'),
+                        time: utcDate1.format('HH:mma'),
+                        documents: []
+                    },
+                    {
+                        title: 'event_name2',
+                        by: 'user_first_name2 user_last_name2',
+                        dateUtc: utcDate2.utc().format(),
+                        date: utcDate2.format('D MMM YYYY'),
+                        time: utcDate2.format('HH:mma'),
+                        documents: []
+                    }
+                ]);
+                done();
+            });
+        });
+
     });
 });

@@ -102,7 +102,13 @@
                                 { "label": "Reference no.", "value": "$.case_data.solicitorReference"},
                                 { "label": "Full name", "value": "$.case_data.solicitorName"},
                                 { "label": "Solicitor firm", "value": "$.case_data.solicitorFirm"},
-                                { "label": "Address", "value": "$.case_data.solicitorAddress1"},
+                                { "label": "Address", "value": [
+                                    "$.case_data.solicitorAddress1",",",
+                                    "$.case_data.solicitorAddress2",",",
+                                    "$.case_data.solicitorAddress3",",",
+                                    "$.case_data.solicitorAddress4",",",
+                                    "$.case_data.solicitorAddress5"
+                                ]},
                                 { "label": "Phone", "value": "$.case_data.solicitorPhone"},
                                 { "label": "Email", "value": "$.case_data.solicitorEmail"},
                                 { "label": "DX number", "value": "$.case_data.solicitorDXnumber"}
@@ -132,7 +138,13 @@
                                 { "label": "Reference no.", "value": "$.case_data.rSolicitorReference"},
                                 { "label": "Name", "value": "$.case_data.rSolicitorName"},
                                 { "label": "Solicitor firm", "value": "$.case_data.rSolicitorFirm"},
-                                { "label": "Address", "value": "$.case_data.rSolicitorAddress1"},
+                                { "label": "Address", "value": [
+                                    "$.case_data.rSolicitorAddress1",",",
+                                    "$.case_data.rSolicitorAddress2",",",
+                                    "$.case_data.rSolicitorAddress3",",",
+                                    "$.case_data.rSolicitorAddress4",",",
+                                    "$.case_data.rSolicitorAddress5"
+                                ]},
                                 { "label": "Phone", "value": "$.case_data.rSolicitorPhone"},
                                 { "label": "Email", "value": "$.case_data.rSolicitorEmail"},
                                 { "label": "DX number", "value": "$.case_data.rSolicitorDXnumber"}

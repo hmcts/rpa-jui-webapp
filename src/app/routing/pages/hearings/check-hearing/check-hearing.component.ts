@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, EventEmitter, OnInit} from '@angular/core'
 import {ActivatedRoute} from '@angular/router';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {RedirectionService} from '../../../redirection.service';
-import {HearingService} from '../../../../domain/services/hearing.data.service';
+import {HearingService} from '../../../../domain/services/hearing.service';
 
 @Component({
     selector: 'app-check-list-for-hearing',
@@ -12,7 +12,6 @@ import {HearingService} from '../../../../domain/services/hearing.data.service';
 export class CheckHearingComponent implements OnInit {
     form: FormGroup;
     case: any;
-    hearing: any;
 
     relistReasonText: string;
 
@@ -37,7 +36,6 @@ export class CheckHearingComponent implements OnInit {
     ngOnInit() {
         this.eventEmitter.subscribe(this.submitCallback.bind(this));
         this.hearingService.currentMessage.subscribe(message => this.relistReasonText = message);
-
         this.case = this.route.parent.snapshot.data['caseData'];
 
         this.createForm();
@@ -48,7 +46,6 @@ export class CheckHearingComponent implements OnInit {
     }
 
     submitCallback(values) {
-        console.log('is form valid inside check?', values);
         if (this.form.valid) {
             this.hearingService.listForHearing(this.case.id, this.relistReasonText)
                 .subscribe(() => {

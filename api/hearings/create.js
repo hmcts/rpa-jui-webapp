@@ -45,7 +45,7 @@ module.exports = app => {
                     .send(JSON.stringify(response));
             })
             .catch(response => {
-                console.log('Request for a hearing to be listed ERROR', response.error || response);
+                console.log('Request for a hearing to be listed ERROR---->', response.error || response);
                 res.status(response.error.status)
                     .send(response.error.message);
             });

@@ -1,9 +1,8 @@
 import {ChangeDetectorRef, Component, EventEmitter, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {HearingService} from '../../../../domain/services/hearing.service';
 import {RedirectionService} from '../../../redirection.service';
-import {HearingDataService} from '../../../../domain/services/hearing.data.service';
+import {HearingService} from '../../../../domain/services/hearing.data.service';
 
 @Component({
     selector: 'app-check-list-for-hearing',
@@ -27,7 +26,7 @@ export class CheckHearingComponent implements OnInit {
 
     constructor(private fb: FormBuilder,
                 private route: ActivatedRoute,
-                private hearingService: HearingDataService,
+                private hearingService: HearingService,
                 private redirectionService: RedirectionService,
                 private cdRef: ChangeDetectorRef) {}
 

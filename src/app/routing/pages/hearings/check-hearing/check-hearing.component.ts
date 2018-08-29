@@ -1,24 +1,65 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ChangeDetectorRef, Component, EventEmitter, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {HearingService} from '../../../../domain/services/hearing.service';
+import {RedirectionService} from '../../../redirection.service';
+import {HearingDataService} from '../../../../domain/services/hearing.data.service';
 
 @Component({
-    selector: 'app-hearing-check',
+    selector: 'app-check-list-for-hearing',
     templateUrl: './check-hearing.component.html',
     styleUrls: ['./check-hearing.component.scss']
 })
 export class CheckHearingComponent implements OnInit {
+    form: FormGroup;
+    case: any;
+    hearing: any;
 
-    answer: string;
+    relistReasonText: string;
+
+    error: boolean;
+
+    eventEmitter: EventEmitter<any> = new EventEmitter();
+    callback_options = {
+        eventEmitter: this.eventEmitter
+    };
 
 
-    constructor(private route: ActivatedRoute,
-                private router: Router) { }
+    constructor(private fb: FormBuilder,
+                private route: ActivatedRoute,
+                private hearingService: HearingDataService,
+                private redirectionService: RedirectionService,
+                private cdRef: ChangeDetectorRef) {}
 
-    ngOnInit() {
+    createForm() {
+        this.form = this.fb.group({});
     }
 
-    submitHearing() {
-        this.router.navigate(['../hearings-confirmation'], {relativeTo: this.route});
+    ngOnInit() {
+        this.eventEmitter.subscribe(this.submitCallback.bind(this));
+        this.hearingService.currentMessage.subscribe(message => this.relistReasonText = message);
+
+        this.case = this.route.parent.snapshot.data['caseData'];
+
+        this.createForm();
+    }
+
+    ngAfterViewChecked() {
+        this.cdRef.detectChanges();
+    }
+
+    submitCallback(values) {
+        console.log('is form valid inside check?', values);
+        if (this.form.valid) {
+            this.hearingService.listForHearing(this.case.id, this.relistReasonText)
+                .subscribe(() => {
+                        this.redirectionService.redirect(`/jurisdiction/${this.case.case_jurisdiction}/casetype/${this.case.case_type_id}/viewcase/${this.case.id}/hearing/confirm`);
+                    }, error => {
+                        this.error = true;
+                        console.error('Something went wrong', error);
+                    }
+                );
+        }
     }
 
 }

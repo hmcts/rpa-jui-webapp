@@ -1,8 +1,9 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HearingService} from '../../../../domain/services/hearing.service';
 import {RedirectionService} from '../../../redirection.service';
+import {HearingDataService} from '../../../../domain/services/hearing.data.service';
 
 @Component({
     selector: 'app-list-for-hearing',
@@ -14,7 +15,7 @@ export class CreateHearingComponent implements OnInit {
     case: any;
     hearing: any;
 
-    relistReasonText: string = '';
+    relistReasonText = '';
 
     eventEmitter: EventEmitter<any> = new EventEmitter();
     callback_options = {
@@ -28,9 +29,9 @@ export class CreateHearingComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private route: ActivatedRoute,
         private router: Router,
-        public hearingService: HearingService,
+        private route: ActivatedRoute,
+        private hearingService: HearingDataService,
         public redirectionService: RedirectionService,
         private cdRef: ChangeDetectorRef
     ) { }
@@ -42,14 +43,15 @@ export class CreateHearingComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.hearingService.currentMessage.subscribe(message => this.relistReasonText = message);
         this.eventEmitter.subscribe(this.submitCallback.bind(this));
 
         this.case = this.route.parent.snapshot.data['caseData'];
-        this.hearing = this.route.parent.snapshot.data['hearing'];
-
-        if (this.hearing) {
-            this.relistReasonText = this.hearing.relist_reason;
-        }
+        // this.hearing = this.route.parent.snapshot.data['hearing'];
+        //
+        // if (this.hearing) {
+        //     this.relistReasonText = this.hearing.relist_reason;
+        // }
         this.createForm();
     }
 
@@ -58,12 +60,17 @@ export class CreateHearingComponent implements OnInit {
     }
 
     submitCallback(values) {
+        console.log('is form valid?', (this.form.valid));
         if (this.form.valid) {
-            this.hearingService.storeDraftHearing(this.case.id, values.notes)
-                .subscribe(
-                    () => this.redirectionService.redirect(`/jurisdiction/${this.case.case_jurisdiction}/casetype/${this.case.case_type_id}/viewcase/${this.case.id}/hearing/check`),
-                    error => this.error.server = true
-                );
+            this.hearingService.changeMessage(values.notes);
+            this.router.navigate(['../check'], {relativeTo: this.route});
+            // this.router.navigate(['/jurisdiction/${this.case.case_jurisdiction}/casetype/${this.case.case_type_id}/viewcase/${this.case.id}/hearing/check']);
+            // this.redirectionService.redirect(`/jurisdiction/${this.case.case_jurisdiction}/casetype/${this.case.case_type_id}/viewcase/${this.case.id}/hearing/check`);
+            // this.hearingService.storeDraftHearing(this.case.id, values.notes)
+            //     .subscribe(
+            //         () => this.redirectionService.redirect(`/jurisdiction/${this.case.case_jurisdiction}/casetype/${this.case.case_type_id}/viewcase/${this.case.id}/hearing/check`),
+            //         error => this.error.server = true
+            //     );
         } else {
             this.error.notes = !this.form.controls.notes.valid;
         }

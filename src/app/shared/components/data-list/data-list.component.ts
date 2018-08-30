@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges} from '@angular/core';
 
 @Component({
     selector: 'app-data-list',
@@ -12,8 +12,7 @@ export class DataListComponent implements OnInit {
     @Input() dataList = [];
     newDataList = [];
 
-    ngOnInit(): void {
-        // TODO: need to refactor this at the api level
+    ngOnChanges(changes): void {
         this.newDataList = this.dataList.map(o => [{text: o.label}, {text: o.value}]);
     }
 }

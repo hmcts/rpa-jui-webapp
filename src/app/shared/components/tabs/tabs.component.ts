@@ -28,7 +28,7 @@ export class TabsComponent implements OnInit {
     ngOnInit() {
         this.switchTabs(this.data);
         if (this.fragment === undefined) {
-            this.router.navigate([`/jurisdiction/${this.params.jur}/casetype/${this.params.casetype}/viewcase/${this.params.case_id}/${this.params.section}`], { fragment : this.data.sections[0].id });
+            this.router.navigate([`/jurisdiction/${this.params.jur}/casetype/${this.params.casetype}/viewcase/${this.params.case_id}/${this.params.section}`], { fragment : this.fragment });
         }
     }
 

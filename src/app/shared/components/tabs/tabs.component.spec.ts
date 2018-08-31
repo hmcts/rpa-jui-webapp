@@ -1,41 +1,15 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-//
-// import { TabsComponent } from './tabs.component';
-//
-// describe('TabsComponent', () => {
-//   let component: TabsComponent;
-//   let fixture: ComponentFixture<TabsComponent>;
-//
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ TabsComponent ]
-//     })
-//     .compileComponents();
-//   }));
-//
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(TabsComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
-//
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Selector } from '../../../../../test/selector-helper';
+import { DomainModule } from '../../../domain/domain.module';
+import { CaseViewerModule } from '../../../domain/case-viewer/case-viewer.module';
+import { TabsComponent } from './tabs.component';
 
-import { DomainModule } from '../../../domain.module';
-import { CaseViewerModule } from '../../case-viewer.module';
-import { PartiesPanelComponent } from './parties-panel.component';
-import { Observable } from 'rxjs';
-import {Selector} from '../../../../../../test/selector-helper';
-
-describe('Component: PartiesPanelComponent', () => {
-    let component: PartiesPanelComponent;
-    let fixture: ComponentFixture<PartiesPanelComponent>;
+describe('Component: TabsComponent', () => {
+    let component: TabsComponent;
+    let fixture: ComponentFixture<TabsComponent>;
     let activeRouteMock;
     let routerNavigateSpy;
     let router;
@@ -140,13 +114,14 @@ describe('Component: PartiesPanelComponent', () => {
     }
 
     function createComponent() {
-        fixture = TestBed.createComponent(PartiesPanelComponent);
+        fixture = TestBed.createComponent(TabsComponent);
         component = fixture.componentInstance;
         activeRouteMock.params.subscribe(params => {
             component.params = params;
         });
-        component.panelData = activeRouteMock.snapshot.data;
-        component.tabContent = component.panelData.sections[0];
+        component.data = activeRouteMock.snapshot.data;
+        console.log(component.data);
+        component.tabContent = component.data.sections[0];
         fixture.detectChanges();
     }
 
@@ -160,7 +135,7 @@ describe('Component: PartiesPanelComponent', () => {
 
     describe('when parties page loaded', () => {
         it('should create links for each tab', () => {
-            expect(component.panelData.sections.length).toEqual(2);
+            expect(component.data.sections.length).toEqual(2);
         });
         it('should redirect to the first tab\'s url', () => {
             activeRouteMock.params = Observable.of({

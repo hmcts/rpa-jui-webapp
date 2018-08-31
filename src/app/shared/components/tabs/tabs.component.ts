@@ -8,13 +8,13 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class TabsComponent implements OnInit {
 
-    @Input() data: Object;
+    @Input() data;
 
     params: any;
+    prop: any;
     tabContent: any;
     fragment: string;
-
-    constructor(public router: Router, private route: ActivatedRoute) {
+    constructor( public router: Router, private route: ActivatedRoute) {
         this.route.params.subscribe(params => {
             this.params = params;
             this.switchTabs(this.data);
@@ -28,13 +28,13 @@ export class TabsComponent implements OnInit {
     ngOnInit() {
         this.switchTabs(this.data);
         if (this.fragment === undefined) {
-            this.router.navigate([`/jurisdiction/${this.params.jur}/casetype/${this.params.casetype}/viewcase/${this.params.case_id}/${this.params.section}`], { fragment : this.fragment });
+            window.location.hash = this.data.sections[0].id;
         }
     }
 
     switchTabs(data) {
         if (data) {
-            for (let dataTab of data.sections) {
+            for (const dataTab of data.sections) {
                 if (dataTab.id === this.fragment) {
                     this.tabContent = dataTab;
                 }

@@ -5,7 +5,7 @@ const caseRoutes = require('./cases');
 const decisionRoutes = require('./decisions');
 const questions = require('./questions');
 const events = require('./events');
-const hearings = require('./hearings');
+const hearingRoutes = require('./hearings');
 const documents = require('./documents');
 const authInterceptor = require('./middleware/auth');
 
@@ -16,7 +16,7 @@ router.use(authInterceptor);
 questions(router);
 events(router);
 documents(router);
-hearings(router);
+hearingRoutes(router);
 caseRoutes(router);
 decisionRoutes(router);
 

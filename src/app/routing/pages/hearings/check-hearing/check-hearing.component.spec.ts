@@ -10,13 +10,18 @@ import {HmctsModule} from '../../../../hmcts/hmcts.module';
 import {HearingService} from '../../../../domain/services/hearing.service';
 import {JUIFormsModule} from '../../../../forms/forms.module';
 import {ActivatedRoute} from '@angular/router';
-import {Observable, of} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {DomainModule} from '../../../../domain/domain.module';
+import {RedirectionService} from '../../../redirection.service';
 
 class MockHearingService {
+    isError = false;
     currentMessage = of({});
 
     listForHearing(caseId: string, relist_reason: string): Observable<any> {
+        if (this.isError) {
+            return throwError({});
+        }
         return of({});
     }
 }
@@ -90,5 +95,26 @@ describe('CheckHearingComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    describe('on form submission', () => {
+        let redirectionServiceSpy;
+
+        beforeEach(() => {
+            redirectionServiceSpy = spyOn(TestBed.get(RedirectionService), 'redirect');
+        });
+
+        it('should re-list for hearing', () => {
+            component.submitCallback({});
+            expect(redirectionServiceSpy).toHaveBeenCalled();
+        });
+
+        it('should not redirect in the event of error', () => {
+            mockHearingService.isError = true;
+
+            component.submitCallback({});
+            expect(redirectionServiceSpy).toHaveBeenCalledTimes(0);
+            expect(component.error).toBe(true);
+        });
     });
 });

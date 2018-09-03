@@ -35,6 +35,7 @@ export class TabsComponent implements OnInit {
     switchTabs(data) {
         if (data) {
             for (const dataTab of data.sections) {
+                console.log('Called',dataTab.id, dataTab);
                 if (dataTab.id === this.fragment) {
                     this.tabContent = dataTab;
                 }

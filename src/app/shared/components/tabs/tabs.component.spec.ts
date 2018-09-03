@@ -23,9 +23,7 @@ describe('Component: TabsComponent', () => {
                 case_id: '1234',
                 section_item_id: 'petitioner'
             }),
-            fragment: Observable.of({
-                value: 'petitioner'
-            }),
+            fragment: Observable.of('petitioner'),
             snapshot: {
                 data: {
                     'id': 'parties-tabs',
@@ -143,9 +141,7 @@ describe('Component: TabsComponent', () => {
             expect(component.data.sections.length).toEqual(2);
         });
         it('should open the first tab', () => {
-            activeRouteMock.fragment = Observable.of({
-                value: 'petitioner'
-            });
+            activeRouteMock.fragment = Observable.of('petitioner');
             TestBed.resetTestingModule();
             setupModule([
                 {
@@ -155,7 +151,7 @@ describe('Component: TabsComponent', () => {
             ]);
             createComponent();
             activeRouteMock.fragment.subscribe(fragment => {
-                expect( fragment.value ).toEqual( component.data.sections[0].id );
+                expect( fragment ).toEqual( component.data.sections[0].id );
             });
         });
 
@@ -176,9 +172,7 @@ describe('Component: TabsComponent', () => {
                 casetype: 'Benefit',
                 case_id: '1234'
             });
-            activeRouteMock.fragment = Observable.of({
-                value: 'respondent'
-            });
+            activeRouteMock.fragment = Observable.of('respondent');
             TestBed.resetTestingModule();
             setupModule([
                 {
@@ -189,14 +183,8 @@ describe('Component: TabsComponent', () => {
             createComponent();
             routerNavigateSpy();
 
-            console.log(routerNavigateSpy());
-
             const titleElementAfterSwitch = document.querySelector(Selector.selector('tabs-component|title')).innerHTML;
-
-            console.log('Before=>', titleElementBeforeSwitch);
-            console.log('After=>', titleElementAfterSwitch);
-
-           // expect(titleElementBeforeSwitch).not.toEqual(titleElementAfterSwitch);
+            expect(titleElementBeforeSwitch).not.toEqual(titleElementAfterSwitch);
         });
     });
 

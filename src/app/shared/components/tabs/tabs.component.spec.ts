@@ -132,7 +132,7 @@ describe('Component: TabsComponent', () => {
         createComponent();
     });
 
-    it('should create PartiesComponent', () => {
+    it('should create TabsComponent', () => {
         expect(component).toBeTruthy();
     });
 

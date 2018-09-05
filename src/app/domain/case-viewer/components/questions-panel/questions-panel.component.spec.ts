@@ -12,28 +12,48 @@ describe('QuestionsPanelComponent', () => {
     let component: QuestionsPanelComponent;
     let fixture: ComponentFixture<QuestionsPanelComponent>;
     let nativeElement;
-    const mockRoute = {
-        snapshot: {
-            _lastPathIndex: 0
-        },
-        parent: {
-            params: of({
-                'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
-            }),
-            snapshot: {
-                params: {
-                    'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
-                },
-                queryParams: {}
+    let mockRoute;
+    let mockConfigService;
+    let caseData;
+
+    beforeEach(() => {
+        mockConfigService = {
+            config: {
+                api_base_url: 'http://localhost:3000'
             }
-        },
-        queryParams: of({}),
-    };
-    const mockConfigService = {
-        config: {
-            api_base_url: 'http://localhost:3000'
-        }
-    };
+        };
+        mockRoute = {
+            snapshot: {
+                _lastPathIndex: 0
+            },
+            parent: {
+                snapshot: {
+                    params: {
+                        'case_id': 'case_id'
+                    },
+                    queryParams: {}
+                }
+            },
+            queryParams: of({}),
+        };
+        caseData = {
+            id: 'case_id',
+            case_jurisdiction: 'SSCS',
+            case_type_id: 'Benefit',
+            sections: [{
+                id: 'section_id1',
+                name: 'section_name1'
+            },
+                {
+                    id: 'section_id2',
+                    name: 'section_name2'
+                },
+                {
+                    id: 'section_id3',
+                    name: 'section_name3'
+                }]
+        };
+    });
 
     describe('when no create param is in the url', () => {
         describe('When there is one round of draft questions to appellant', () => {
@@ -44,17 +64,7 @@ describe('QuestionsPanelComponent', () => {
                             CaseViewerModule,
                             RouterTestingModule
                         ],
-                        declarations: [],
-                        providers: [
-                            {
-                                provide: ActivatedRoute,
-                                useValue: mockRoute
-                            },
-                            {
-                                provide: ConfigService,
-                                useValue: mockConfigService
-                            }
-                        ]
+                        declarations: []
                     })
                     .compileComponents();
             }));
@@ -96,7 +106,7 @@ describe('QuestionsPanelComponent', () => {
                 fixture = TestBed.createComponent(QuestionsPanelComponent);
                 component = fixture.componentInstance;
                 component.panelData = data;
-                component.caseId = '13eb9981-9360-4d4b-b9fd-506b5818e7ff';
+                component.case = caseData;
                 nativeElement = fixture.nativeElement;
                 fixture.detectChanges();
             }));
@@ -124,31 +134,31 @@ describe('QuestionsPanelComponent', () => {
             it('should display two draft questions headings with a link to the associated question', () => {
                 const links = nativeElement.querySelectorAll(Selector.selector('questions-subject-link'));
                 expect(links[0].attributes.href.value)
-                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/be8ac935-ed7a-47b5-84ce-b5aa25e64512');
+                    .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/be8ac935-ed7a-47b5-84ce-b5aa25e64512');
                 expect(links[1].attributes.href.value)
-                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/c7935438-b54c-4dad-bbe8-34fff72caf81');
+                    .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/c7935438-b54c-4dad-bbe8-34fff72caf81');
             });
 
             it('should display two draft questions meta data', () => {
                 const metadata = nativeElement.querySelectorAll(Selector.selector('questions-meta-data'));
                 expect(metadata[0].textContent)
-                    .toBe('Last updated by 5899 at 8:52am on 13 July 2018');
+                    .toBe('Last updated by 5899 on 13 July 2018 at 8:52am');
                 expect(metadata[1].textContent)
-                    .toBe('Last updated by 5899 at 8:52am on 14 July 2018');
+                    .toBe('Last updated by 5899 on 14 July 2018 at 8:52am');
             });
 
             it('should display link to add more draft questions', () => {
                 expect(nativeElement.querySelector(Selector.selector('create-draft-questions-link')).textContent)
                     .toBe('Add questions');
                 expect(nativeElement.querySelector(Selector.selector('create-draft-questions-link')).attributes.href.value)
-                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
+                    .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/new');
             });
 
             it('should display link to send all draft questions', () => {
                 expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')).textContent)
                     .toBe('Send questions');
                 expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')).attributes.href.value)
-                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/check');
+                    .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/check');
             });
         });
     });
@@ -190,7 +200,7 @@ describe('QuestionsPanelComponent', () => {
             fixture = TestBed.createComponent(QuestionsPanelComponent);
             component = fixture.componentInstance;
             component.panelData = data;
-            component.caseId = '13eb9981-9360-4d4b-b9fd-506b5818e7ff';
+            component.case = caseData;
             nativeElement = fixture.nativeElement;
             fixture.detectChanges();
         }));
@@ -214,7 +224,7 @@ describe('QuestionsPanelComponent', () => {
             expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).textContent)
                 .toBe('Add questions');
             expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).attributes.href.value)
-                .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
+                .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/new');
         });
 
         it('should not display link to send all draft questions', () => {
@@ -286,7 +296,7 @@ describe('QuestionsPanelComponent', () => {
             fixture = TestBed.createComponent(QuestionsPanelComponent);
             component = fixture.componentInstance;
             component.panelData = data;
-            component.caseId = '13eb9981-9360-4d4b-b9fd-506b5818e7ff';
+            component.case = caseData;
             nativeElement = fixture.nativeElement;
             fixture.detectChanges();
         }));
@@ -315,7 +325,7 @@ describe('QuestionsPanelComponent', () => {
             expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).textContent)
                 .toBe('Add questions');
             expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).attributes.href.value)
-                .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
+                .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/new');
         });
 
         it('should display sent questions', () => {
@@ -326,6 +336,90 @@ describe('QuestionsPanelComponent', () => {
         it('should display a message to say when the questions were sent', () => {
             expect(nativeElement.querySelector(Selector.selector('sent-questions-details')).textContent)
                 .toEqual('You sent 2 questions to the appellant at 8:52am on 13 July 2018');
+        });
+    });
+
+    describe('When there are answers from appellant', () => {
+        beforeEach(async(() => {
+            TestBed
+                .configureTestingModule({
+                    imports: [
+                        CaseViewerModule,
+                        RouterTestingModule
+                    ],
+                    declarations: [],
+                    providers: [
+                        {
+                            provide: ActivatedRoute,
+                            useValue: mockRoute
+                        },
+                        {
+                            provide: ConfigService,
+                            useValue: mockConfigService
+                        }
+                    ]
+                })
+                .compileComponents();
+        }));
+
+        const data = {
+            'name': 'Questions',
+            'type': 'questions-panel',
+            'fields': [
+                {
+                    'value': [{
+                        'question_round_number': '1',
+                        'state': 'question_issue_pending',
+                        'questions': [
+                            {
+                                'id': 'be8ac935-ed7a-47b5-84ce-b5aa25e64512',
+                                'header': 'Test header 1',
+                                'body': 'Test body 1',
+                                'owner_reference': '5899',
+                                'state_datetime': new Date(Date.UTC(2018, 6, 13, 8, 52, 38)),
+                                'state': 'question_answered'
+                            },
+                            {
+                                'id': 'c7935438-b54c-4dad-bbe8-34fff72caf81',
+                                'header': 'Test header 2',
+                                'body': 'Test Header 2',
+                                'owner_reference': '5899',
+                                'state_datetime': new Date(Date.UTC(2018, 6, 14, 8, 52, 38)),
+                                'state': 'question_issued'
+                            }
+                        ]
+                    }]
+                }
+            ]
+        };
+
+        beforeEach(async(() => {
+            fixture = TestBed.createComponent(QuestionsPanelComponent);
+            component = fixture.componentInstance;
+            component.panelData = data;
+            component.case = caseData;
+            nativeElement = fixture.nativeElement;
+            fixture.detectChanges();
+        }));
+
+        it('should create', () => {
+            expect(component)
+                .toBeTruthy();
+        });
+
+        it('should display sent questions', () => {
+            expect(nativeElement.querySelectorAll(Selector.selector('sent-questions-item')).length)
+                .toBe(2);
+        });
+
+        it('should display a message to say when the questions were sent', () => {
+            expect(nativeElement.querySelector(Selector.selector('questions-issued-meta-data')).textContent)
+                .toEqual('Sent by 5899 on 14 July 2018 at 8:52am');
+        });
+
+        it('should display a message to say when the answer was sent', () => {
+            expect(nativeElement.querySelector(Selector.selector('questions-answered-meta-data')).textContent)
+                .toEqual('Responded by Appellant on 13 July 2018 at 8:52am');
         });
     });
 });

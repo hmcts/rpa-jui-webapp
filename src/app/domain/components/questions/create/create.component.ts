@@ -12,6 +12,9 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 export class CreateQuestionsComponent implements OnInit {
     form: FormGroup;
     caseId: string;
+    jurisdiction: string;
+    caseType: string;
+
     eventEmitter: EventEmitter<any> = new EventEmitter();
     callback_options = {
         eventEmitter: this.eventEmitter
@@ -47,17 +50,20 @@ export class CreateQuestionsComponent implements OnInit {
         this.eventEmitter.subscribe(this.submitCallback.bind(this));
         this.route.parent.params.subscribe(params => {
             this.caseId = params['case_id'];
+            this.jurisdiction = params['jur'];
+            this.caseType = params['casetype'];
         });
         this.createForm();
     }
 
     submitCallback(values) {
-        console.log('woop!!!!', values);
-        console.log('is it valid? - ', this.form.valid);
+        values.subject && this.form.controls.subject.setValue(values.subject.trim());
+        values.question && this.form.controls.question.setValue(values.question.trim());
+
         if (this.form.valid) {
             this.questionService.create(this.caseId, values)
                 .subscribe(res => {
-                    this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?created=success`);
+                    this.redirectionService.redirect(`/jurisdiction/${this.jurisdiction}/casetype/${this.caseType}/viewcase/${this.caseId}/questions?created=success`);
                 }, err => console.log);
         }
         else {

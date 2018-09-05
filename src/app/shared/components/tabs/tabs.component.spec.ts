@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DomainModule } from '../../../domain.module';
-import { CaseViewerModule } from '../../case-viewer.module';
-import { PartiesPanelComponent } from './parties-panel.component';
-import { Observable } from 'rxjs';
-import { SharedModule } from '../../../../shared/shared.module';
+import { Selector } from '../../../../../test/selector-helper';
+import { DomainModule } from '../../../domain/domain.module';
+import { CaseViewerModule } from '../../../domain/case-viewer/case-viewer.module';
+import { TabsComponent } from './tabs.component';
 
-describe('Component: PartiesPanelComponent', () => {
-    let component: PartiesPanelComponent;
-    let fixture: ComponentFixture<PartiesPanelComponent>;
+describe('Component: TabsComponent', () => {
+    let component: TabsComponent;
+    let fixture: ComponentFixture<TabsComponent>;
     let activeRouteMock;
     let routerNavigateSpy;
     let router;
@@ -37,7 +37,7 @@ describe('Component: PartiesPanelComponent', () => {
                             'fields': [
                                 {
                                     'label': 'Full name',
-                                    'value': ['David ', 'Francis']
+                                    'value': ['David','Francis']
                                 },
                                 {
                                     'label': 'Date of birth',
@@ -45,7 +45,7 @@ describe('Component: PartiesPanelComponent', () => {
                                 },
                                 {
                                     'label': 'Address',
-                                    'value': '24 Park Road<br>Lewisham<br>London<br>E11 4PR'
+                                    'value': '24 Park Road Lewisham London E11 4PR'
                                 },
                                 {
                                     'label': 'Phone',
@@ -68,7 +68,7 @@ describe('Component: PartiesPanelComponent', () => {
                             'fields': [
                                 {
                                     'label': 'Full name',
-                                    'value': ['Susan ', 'Francis']
+                                    'value': ['Susan','Francis']
                                 },
                                 {
                                     'label': 'Date of birth',
@@ -103,7 +103,7 @@ describe('Component: PartiesPanelComponent', () => {
 
         TestBed.configureTestingModule({
             declarations: [],
-            imports: [ SharedModule, DomainModule, CaseViewerModule, RouterTestingModule],
+            imports: [DomainModule, CaseViewerModule, RouterTestingModule],
             providers: [
                 { provide: ActivatedRoute, useFactory: () => activeRouteMock },
                 ...providers
@@ -115,9 +115,16 @@ describe('Component: PartiesPanelComponent', () => {
     }
 
     function createComponent() {
-        fixture = TestBed.createComponent(PartiesPanelComponent);
+        fixture = TestBed.createComponent(TabsComponent);
         component = fixture.componentInstance;
-        component.panelData = activeRouteMock.snapshot.data;
+        activeRouteMock.params.subscribe(params => {
+            component.params = params;
+        });
+        activeRouteMock.fragment.subscribe(fragment => {
+            component.fragment = fragment;
+        });
+        component.data = activeRouteMock.snapshot.data;
+        component.tabContent = component.data.sections[0];
         fixture.detectChanges();
     }
 
@@ -125,7 +132,60 @@ describe('Component: PartiesPanelComponent', () => {
         createComponent();
     });
 
-    it('should create PartiesComponent', () => {
+    it('should create TabsComponent', () => {
         expect(component).toBeTruthy();
     });
+
+    describe('when parties page loaded', () => {
+        it('should create links for each tab', () => {
+            expect(component.data.sections.length).toEqual(2);
+        });
+        it('should open the first tab', () => {
+            activeRouteMock.fragment = Observable.of('petitioner');
+            TestBed.resetTestingModule();
+            setupModule([
+                {
+                    provide: ActivatedRoute,
+                    useValue: activeRouteMock
+                }
+            ]);
+            createComponent();
+            activeRouteMock.fragment.subscribe(fragment => {
+                expect( fragment ).toEqual( component.data.sections[0].id );
+            });
+        });
+
+        it('should render tab\'s data', () => {
+            const labelElements = document.querySelectorAll(Selector.selector('tabs-component|table-header'));
+            const valueElements = document.querySelectorAll(Selector.selector('tabs-component|table-cell'));
+            for (let i=0; i < component.tabContent.fields.length; i++) {
+                 expect(component.tabContent.fields[i].label.toString()).toContain(labelElements[i].innerHTML);
+                 expect(component.tabContent.fields[i].value.toString()).toContain(valueElements[i].innerHTML);
+            }
+        });
+
+        it('should switch tabs', () => {
+            const titleElementBeforeSwitch = document.querySelector(Selector.selector('tabs-component|title')).innerHTML;
+            activeRouteMock.params = Observable.of({
+                section: 'parties',
+                jur: 'SSCS',
+                casetype: 'Benefit',
+                case_id: '1234'
+            });
+            activeRouteMock.fragment = Observable.of('respondent');
+            TestBed.resetTestingModule();
+            setupModule([
+                {
+                    provide: ActivatedRoute,
+                    useValue: activeRouteMock
+                }
+            ]);
+            createComponent();
+            routerNavigateSpy();
+
+            const titleElementAfterSwitch = document.querySelector(Selector.selector('tabs-component|title')).innerHTML;
+            expect(titleElementBeforeSwitch).not.toEqual(titleElementAfterSwitch);
+        });
+    });
+
 });

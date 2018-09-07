@@ -16,7 +16,7 @@ const configMock = {
 let caseService: CaseService;
 let httpMock: HttpTestingController;
 
-fdescribe('CaseService', () => {
+describe('CaseService', () => {
     beforeEach(() => {
     TestBed.configureTestingModule({
         imports: [
@@ -51,7 +51,6 @@ fdescribe('CaseService', () => {
         const url = `/api/cases/jurisdiction/${mockJudistdiction}/casetype/${mockCaseType}/${mockCaseId}`;
         caseService.fetch(mockCaseId, mockJudistdiction, mockCaseType).subscribe(data => {
              expect(data).toEqual(mockCaseData);
-             console.log('data', data);
         });
         const mockReq = httpMock.expectOne(url);
         expect(mockReq.request.method).toBe('GET');
@@ -65,7 +64,6 @@ fdescribe('CaseService', () => {
         const url = `/api/cases`;
         caseService.search().subscribe(data => {
             expect(data).toEqual(mockCaseData);
-            console.log('data', data);
         });
         const mockReq = httpMock.expectOne(url);
         expect(mockReq.request.method).toBe('GET');

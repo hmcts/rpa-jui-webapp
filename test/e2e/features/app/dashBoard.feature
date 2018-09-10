@@ -8,10 +8,15 @@ Feature: Dashboard
 
 
     @RIUI_370 @RIUI_418
-    Scenario: Verify available SSCS cases
+    Scenario Outline: Verify available SSCS cases
         When one or more cases are displayed
-        When I select a case reference
+        When I select a case type as "<type>"
         Then I will be redirected to the Case Summary page for that case
+        Examples:
+        |type|
+        |PIP |
+        |FR  |
+        |Divorce|
 
 
     @RIUI_417, @all

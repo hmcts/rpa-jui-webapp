@@ -1,6 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ConfigService} from '../../../../config.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConfigService } from '../../../../config.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-document-panel',
@@ -14,6 +15,8 @@ export class DocumentPanelComponent implements OnInit {
     documents: any[] = [];
     selectedDocument: any;
     documentUrl: string;
+    caseform: any;
+    caseGroup: any;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -58,6 +61,13 @@ export class DocumentPanelComponent implements OnInit {
 
 
     ngOnInit(): void {
+
+        this.caseform.text = "Put your description here";
+        this.caseform.label = "Description";
+        this.caseGroup = new FormGroup({
+            description: new FormControl()
+        });
+
         this.getDocuments();
 
         if (this.documents.length) {

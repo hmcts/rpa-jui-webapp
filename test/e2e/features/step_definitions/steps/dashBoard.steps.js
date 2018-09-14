@@ -20,8 +20,8 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Then(/^I am logged in as a Judge$/, async function() {
-        await signInPage.emailAddress.sendKeys('juitestuser2@gmail.com'); //replace username and password
-        await signInPage.password.sendKeys('Monday01');
+        await signInPage.emailAddress.sendKeys(this.config.username); //replace username and password
+        await signInPage.password.sendKeys(this.config.password);
         browser.sleep(10000);
         await signInPage.signinBtn.click();
     });

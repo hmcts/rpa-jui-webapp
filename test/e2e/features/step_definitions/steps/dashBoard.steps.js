@@ -41,6 +41,7 @@ defineSupportCode(function({ Given, When, Then }) {
         browser.sleep(3000);
         await dashBoardPage.case_number_links.first()
             .click();
+        browser.sleep(3000);
 
     });
 

@@ -4,7 +4,7 @@ Feature: View Case Summary Page
     Background:
         Given I navigate to JUI
         When I am logged in as a Judge
-        Then I select a case reference
+        Then I select a case type
         Then I will be redirected to the Case Summary page for that case
 
     @RIUI_299 @all

@@ -4,6 +4,7 @@ const getListTemplate = require('./templates');
 const generateRequest = require('../../lib/request');
 const valueProcessor = require('../../lib/processors/value-processor');
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
+const mockRequest = require('../../lib/mockRequest');
 
 const jurisdictions = [
     {
@@ -42,16 +43,34 @@ function getOptions(req) {
     };
 }
 
+function getParams(req) {
+    return {
+        headers: {
+            'Authorization': `Bearer ${req.auth.token}`
+        }
+    };
+}
+
 function getCases(userId, jurisdictions, options) {
     const promiseArray = [];
-    jurisdictions.forEach(jurisdiction => {
-        promiseArray.push(generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
-    });
+    if (process.env.JUI_ENV === 'mock') {
+        jurisdictions.forEach(jurisdiction => {
+            promiseArray.push(mockRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
+        });
+    } else {
+        jurisdictions.forEach(jurisdiction => {
+            promiseArray.push(generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
+        });
+    }
     return Promise.all(promiseArray);
 }
 
 function getOnlineHearing(caseIds, options) {
     return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/?${caseIds}`, options);
+}
+
+function getUserDetails(options) {
+    return Promise.resolve(generateRequest('GET', `${config.services.idam_api}/details`, options));
 }
 
 function rawCasesReducer(cases, columns) {
@@ -63,7 +82,8 @@ function rawCasesReducer(cases, columns) {
             case_fields: columns.reduce((row, column) => {
                 row[column.case_field_id] = valueProcessor(column.value, caseRow);
                 return row;
-            }, {})
+            }, {}),
+            assignedToJudge : caseRow.case_data.assignedToJudge
         };
     });
 }
@@ -130,16 +150,23 @@ function combineLists(lists) {
     return [].concat(...lists);
 }
 
+function filterCases(caseList, options) {
+    return getUserDetails(options)
+        .then(details => caseList.filter(case1 => case1.assignedToJudge === details.email));
+}
+
 module.exports = app => {
-    const router = express.Router({ mergeParams: true });
+    const router = express.Router({mergeParams: true});
 
     router.get('/', (req, res, next) => {
         const userId = req.auth.userId;
         const options = getOptions(req);
+        const params = getParams(req);
 
         getCases(userId, jurisdictions, options)
             .then(caseLists => Promise.all(caseLists.map(caseList => processCaseList(caseList, options))))
             .then(combineLists)
+            .then(caseList => filterCases(caseList, params))
             .then(results => {
                 return results.sort((result1, result2) => new Date(result1.case_fields.dateOfLastAction) - new Date(result2.case_fields.dateOfLastAction));
             })

@@ -12,11 +12,11 @@ const jenkinsConfig = [
     //     acceptInsecureCerts: true,
     //     'moz:firefoxOptions': { args: [ '--headless' ] }
     // },
-    {
-        browserName: 'chrome',
-        acceptInsecureCerts: true,
-        chromeOptions: { args: ['--headless'] }
-    }
+    // {
+    //     browserName: 'chrome',
+    //     acceptInsecureCerts: true,
+    //     chromeOptions: { args: ['--headless'] }
+    // }
 ];
 
 const localConfig = [
@@ -29,7 +29,7 @@ const localConfig = [
     //         sslProxy: 'proxyout.reform.hmcts.net:8080',
     //         noProxy: 'localhost:3000'
     //     }
-    // },
+    //  },
     {
         browserName: 'chrome',
         acceptInsecureCerts: true,
@@ -50,9 +50,9 @@ const config = {
     frameworkPath: require.resolve('protractor-cucumber-framework'),
     specs: ['../features/**/*.feature'],
 
-    baseUrl: process.env.TEST_URL || 'http://localhost:3000',
+    baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
     params: {
-        serverUrls: process.env.TEST_URL || 'http://localhost:3000',
+        serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
         targetEnv: argv.env || 'local',
         username: process.env.TEST_EMAIL,
         password: process.env.TEST_PASSWORD

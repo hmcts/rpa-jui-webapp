@@ -136,7 +136,7 @@ module.exports = {
                     id: 'documents',
                     name: 'Case file',
                     type: 'document-panel',
-                    fields: [{ value: '$.case_data.sscsDocument[:1].value.documentLink|document_processor' }]
+                    fields: [{ value: 'A$.case_data.sscsDocument[*].value.documentLink|document_processor' }]
                 }
             ]
         },

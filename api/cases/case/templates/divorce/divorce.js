@@ -85,14 +85,8 @@ module.exports = {
                                 },
                                 { label: 'Date of birth', value: '' },
                                 { label: 'Address', value: '$.case_data.D8DerivedPetitionerHomeAddress' },
-                                {
-                                    label: 'Phone',
-                                    value: '$.case_data.D8PetitionerPhoneNumber'
-                                },
-                                {
-                                    label: 'Email',
-                                    value: '$.case_data.D8PetitionerEmail'
-                                },
+                                { label: 'Phone', value: '$.case_data.D8PetitionerPhoneNumber' },
+                                { label: 'Email', value: '$.case_data.D8PetitionerEmail' },
                                 { label: 'Representative', value: '$.case_data.PetitionerSolicitorName' }
                             ]
                         },
@@ -109,7 +103,7 @@ module.exports = {
                                     ]
                                 },
                                 { label: 'Date of birth', value: '' },
-                                { label: 'Address', value: '$.case_data.D8RespondentHomeAddress' },
+                                { label: 'Address', value: '$.case_data.D8DerivedRespondentHomeAddress' },
                                 { label: 'Phone', value: '$.case_data.RespPhoneNumber' },
                                 { label: 'Email', value: '$.case_data.RespEmailAddress' },
                                 { label: 'Representative', value: '$.case_data.D8RespondentSolicitorName' }

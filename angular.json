@@ -31,7 +31,16 @@
                             {
                                 "glob": "**/*",
                                 "input": "node_modules/@hmcts/frontend/assets",
+                                "output": "/public"
+                            },                            {
+                                "glob": "**/*",
+                                "input": "node_modules/@hmcts/frontend/assets",
                                 "output": "/assets"
+                            },
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/govuk-frontend/assets",
+                                "output": "/public"
                             },
                             {
                                 "glob": "**/*",
@@ -133,7 +142,16 @@
                             {
                                 "glob": "**/*",
                                 "input": "node_modules/@hmcts/frontend/assets",
+                                "output": "/public"
+                            },                            {
+                                "glob": "**/*",
+                                "input": "node_modules/@hmcts/frontend/assets",
                                 "output": "/assets"
+                            },
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/govuk-frontend/assets",
+                                "output": "/public"
                             },
                             {
                                 "glob": "**/*",

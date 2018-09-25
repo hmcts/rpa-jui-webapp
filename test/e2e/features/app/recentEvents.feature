@@ -1,8 +1,8 @@
 Feature: RecentEvents
 
    Background:
-        Given I navigate to JUI
-        Then I am logged in as a Judge
+        Given I navigate to JUI Url
+        Then I am logged into JUI web app
         When I select a case reference
 
     @RIUI_647, @all
@@ -11,7 +11,7 @@ Feature: RecentEvents
         When I click on timeline should see the recent events
 
 
-    @RIUI_648
+    @RIUI_648, @all
     Scenario: Verify recent events on summary page
         Then I see the recent events with all details displayed
         Then I see the latest three events showing

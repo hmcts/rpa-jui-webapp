@@ -89,31 +89,31 @@ module.exports = {
                                 { label: 'Address', value: '' },
                                 { label: 'Phone', value: '' },
                                 { label: 'Email', value: '' },
-                                { label: 'Representative', value: '$.case_data.solicitorName' }
+                                { label: 'Representative', value: '$.case_data.solicitorName|if_empty_processor|Unrepresented' }
                             ]
                         },
-                        // {
-                        //     id: 'petitioner-sol',
-                        //     name: 'Petitioner Solicitor',
-                        //     type: 'tab',
-                        //     fields: [
-                        //         { label: 'Reference no.', value: '$.case_data.solicitorReference' },
-                        //         { label: 'Full name', value: '$.case_data.solicitorName' },
-                        //         { label: 'Solicitor firm', value: '$.case_data.solicitorFirm' },
-                        //         {
-                        //             label: 'Address', value: [
-                        //                 '$.case_data.solicitorAddress1|newline_processor',
-                        //                 '$.case_data.solicitorAddress2|newline_processor',
-                        //                 '$.case_data.solicitorAddress3|newline_processor',
-                        //                 '$.case_data.solicitorAddress4|newline_processor',
-                        //                 '$.case_data.solicitorAddress5'
-                        //             ]
-                        //         },
-                        //         { label: 'Phone', value: '$.case_data.solicitorPhone' },
-                        //         { label: 'Email', value: '$.case_data.solicitorEmail' },
-                        //         { label: 'DX number', value: '$.case_data.solicitorDXnumber' }
-                        //     ]
-                        // },
+                        {
+                            id: 'applicant-sol',
+                            name: 'Applicant solicitor',
+                            type: 'tab',
+                            fields: [
+                                { label: 'Reference no.', value: '$.case_data.solicitorReference' },
+                                { label: 'Full name', value: '$.case_data.solicitorName' },
+                                { label: 'Solicitor firm', value: '$.case_data.solicitorFirm' },
+                                {
+                                    label: 'Address', value: [
+                                        '$.case_data.solicitorAddress1|newline_processor',
+                                        '$.case_data.solicitorAddress2|newline_processor',
+                                        '$.case_data.solicitorAddress3|newline_processor',
+                                        '$.case_data.solicitorAddress4|newline_processor',
+                                        '$.case_data.solicitorAddress5'
+                                    ]
+                                },
+                                { label: 'Phone', value: '$.case_data.solicitorPhone' },
+                                { label: 'Email', value: '$.case_data.solicitorEmail' },
+                                { label: 'DX number', value: '$.case_data.solicitorDXnumber' }
+                            ]
+                        },
                         {
                             id: 'respondent',
                             name: 'Respondent',
@@ -136,31 +136,31 @@ module.exports = {
                                 },
                                 { label: 'Phone', value: '$.case_data.respondentPhone' },
                                 { label: 'Email', value: '$.case_data.respondentEmail' },
-                                { label: 'Representative', value: '$.case_data.rSolicitorName' }
+                                { label: 'Representative', value: '$.case_data.rSolicitorName|if_empty_processor|Unrepresented' }
+                            ]
+                        },
+                        {
+                            id: 'respondent-sol',
+                            name: 'Respondent solicitor',
+                            type: 'tab',
+                            fields: [
+                                { label: 'Reference no.', value: '$.case_data.rSolicitorReference' },
+                                { label: 'Name', value: '$.case_data.rSolicitorName' },
+                                { label: 'Solicitor firm', value: '$.case_data.rSolicitorFirm' },
+                                {
+                                    label: 'Address', value: [
+                                        '$.case_data.rSolicitorAddress1|newline_processor',
+                                        '$.case_data.rSolicitorAddress2|newline_processor',
+                                        '$.case_data.rSolicitorAddress3|newline_processor',
+                                        '$.case_data.rSolicitorAddress4|newline_processor',
+                                        '$.case_data.rSolicitorAddress5'
+                                    ]
+                                },
+                                { label: 'Phone', value: '$.case_data.rSolicitorPhone' },
+                                { label: 'Email', value: '$.case_data.rSolicitorEmail' },
+                                { label: 'DX number', value: '$.case_data.rSolicitorDXnumber' }
                             ]
                         }
-                        // {
-                        //     id: 'respondent-sol',
-                        //     name: 'Respondent Solicitor',
-                        //     type: 'tab',
-                        //     fields: [
-                        //         { label: 'Reference no.', value: '$.case_data.rSolicitorReference' },
-                        //         { label: 'Name', value: '$.case_data.rSolicitorName' },
-                        //         { label: 'Solicitor firm', value: '$.case_data.rSolicitorFirm' },
-                        //         {
-                        //             label: 'Address', value: [
-                        //                 '$.case_data.rSolicitorAddress1|newline_processor',
-                        //                 '$.case_data.rSolicitorAddress2|newline_processor',
-                        //                 '$.case_data.rSolicitorAddress3|newline_processor',
-                        //                 '$.case_data.rSolicitorAddress4|newline_processor',
-                        //                 '$.case_data.rSolicitorAddress5'
-                        //             ]
-                        //         },
-                        //         { label: 'Phone', value: '$.case_data.rSolicitorPhone' },
-                        //         { label: 'Email', value: '$.case_data.rSolicitorEmail' },
-                        //         { label: 'DX number', value: '$.case_data.rSolicitorDXnumber' }
-                        //     ]
-                        // }
                     ]
                 }
             ]

@@ -56,16 +56,6 @@ module.exports = {
                             ]
                         },
                         {
-                            name: 'Linked cases',
-                            type: 'data-list',
-                            fields: []
-                        },
-                        {
-                            name: 'Recent events',
-                            type: 'timeline',
-                            fields: [{ value: '$.events' }]
-                        },
-                        {
                             name: 'Representatives',
                             type: 'data-list',
                             fields: [
@@ -78,6 +68,16 @@ module.exports = {
                                     value: '$.case_data.D8RespondentSolicitorName|if_empty_processor|Unrepresented'
                                 }
                             ]
+                        },
+                        {
+                            name: 'Recent events',
+                            type: 'timeline',
+                            fields: [{ value: '$.events' }]
+                        },
+                        {
+                            name: 'Linked cases',
+                            type: 'data-list',
+                            fields: []
                         }
                     ]
                 }

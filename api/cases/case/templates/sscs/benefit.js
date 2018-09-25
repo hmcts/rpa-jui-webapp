@@ -120,7 +120,7 @@ module.exports = {
                                 { label: 'Phone', value: '$.case_data.appeal.appellant.contact.phone' },
                                 { label: 'Mobile', value: '$.case_data.appeal.appellant.contact.mobile' },
                                 { label: 'Email', value: '$.case_data.appeal.appellant.contact.email' },
-                                { label: 'Appointee', value: '$.case_data.appeal.appellant.isAppointee' },
+                                { label: 'Appointee', value: '$.case_data.appeal.appellant.isAppointee' }
                             ]
                         },
                         {
@@ -134,9 +134,9 @@ module.exports = {
                                         '$.case_data.appeal.representative.organisation|newline_processor',
                                         '$.case_data.appeal.representative.name.firstName|newline_processor',
                                         '$.case_data.appeal.representative.name.middleName|newline_processor',
-                                        '$.case_data.appeal.representative.name.lastName|newline_processor',
+                                        '$.case_data.appeal.representative.name.lastName|newline_processor'
                                     ]
-                                },
+                                }
                             ]
                         }
                     ]

@@ -94,7 +94,7 @@ module.exports = {
                         },
                         {
                             id: 'applicant-sol',
-                            name: 'Applicant solicitor',
+                            name: 'Applicant\'s solicitor',
                             type: 'tab',
                             fields: [
                                 { label: 'Reference no.', value: '$.case_data.solicitorReference' },
@@ -141,11 +141,11 @@ module.exports = {
                         },
                         {
                             id: 'respondent-sol',
-                            name: 'Respondent solicitor',
+                            name: 'Respondent\'s solicitor',
                             type: 'tab',
                             fields: [
                                 { label: 'Reference no.', value: '$.case_data.rSolicitorReference' },
-                                { label: 'Name', value: '$.case_data.rSolicitorName' },
+                                { label: 'Full name', value: '$.case_data.rSolicitorName' },
                                 { label: 'Solicitor firm', value: '$.case_data.rSolicitorFirm' },
                                 {
                                     label: 'Address', value: [

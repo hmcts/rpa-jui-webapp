@@ -105,7 +105,6 @@ module.exports = {
                                         '$.case_data.D8PetitionerLastName'
                                     ]
                                 },
-                                { label: 'Date of birth', value: '' },
                                 { label: 'Address', value: '$.case_data.D8DerivedPetitionerHomeAddress' },
                                 { label: 'Phone', value: '$.case_data.D8PetitionerPhoneNumber' },
                                 { label: 'Email', value: '$.case_data.D8PetitionerEmail' },
@@ -124,7 +123,6 @@ module.exports = {
                                         '$.case_data.D8RespondentLastName'
                                     ]
                                 },
-                                { label: 'Date of birth', value: '' },
                                 { label: 'Address', value: '$.case_data.D8DerivedRespondentHomeAddress' },
                                 { label: 'Phone', value: '$.case_data.RespPhoneNumber' },
                                 { label: 'Email', value: '$.case_data.RespEmailAddress' },

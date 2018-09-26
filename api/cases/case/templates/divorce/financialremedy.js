@@ -85,7 +85,6 @@ module.exports = {
                                     label: 'Full name',
                                     value: ['$.case_data.applicantFMName', ' ', '$.case_data.applicantLName']
                                 },
-                                { label: 'Date of birth', value: '' },
                                 { label: 'Address', value: '' },
                                 { label: 'Phone', value: '' },
                                 { label: 'Email', value: '' },
@@ -123,7 +122,6 @@ module.exports = {
                                     label: 'Full name',
                                     value: ['$.case_data.appRespondentFMName', ' ', '$.case_data.appRespondentLName']
                                 },
-                                { label: 'Date of birth', value: '' },
                                 {
                                     label: 'Address', value: [
                                         '$.case_data.respondentAddress1|newline_processor',

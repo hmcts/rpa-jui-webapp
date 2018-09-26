@@ -63,7 +63,7 @@ module.exports = app => {
 
         getCaseWithEventsAndQuestions(caseId, userId, jurisdiction, caseType, options)
             .then(([caseData, events, questions]) => {
-                caseData.questions = questions.sort((a, b) => (a.question_round_number < b.question_round_number));
+                caseData.questions = (questions) ? questions.sort((a, b) => (a.question_round_number < b.question_round_number)) : [];
                 caseData.events = events;
 
                 const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)));

@@ -23,7 +23,6 @@ function getOptions(req) {
 }
 
 function getCCDCases(userId, jurisdictions, options) {
-    console.log(" inside getCCDCases");
     const promiseArray = [];
     if (process.env.JUI_ENV === 'mock') {
         jurisdictions.forEach(jurisdiction => {

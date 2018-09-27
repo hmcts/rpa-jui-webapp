@@ -11,7 +11,10 @@ defineSupportCode(function({ Given, When, Then }) {
 
     Then(/^I should see case summary details of that case (.*)$/, async function(type) {
 
+        browser.sleep(3000);
+
         if (type === 'Financial remedy') {
+            browser.sleep(3000);
             await expect(caseSummaryPage.caseDetails_header_text.get(0)
                 .isDisplayed()).to.eventually.be.true;
             await expect(caseSummaryPage.caseDetails_header_text.get(0)
@@ -51,7 +54,6 @@ defineSupportCode(function({ Given, When, Then }) {
             await expect(caseSummaryPage.casefields.get(1).isDisplayed()).to.eventually.equal('Case type');
             await expect(caseSummaryPage.casefields.get(2).isDisplayed()).to.eventually.equal('Benefit type');
             await expect(caseSummaryPage.casefields.get(3).getText()).to.eventually.equal('Case number');
-            // await expect(caseSummaryPage.casefields.get(4).getText()).to.eventually.equal('GAPS2 Case number');
 
         }
 
@@ -60,7 +62,20 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Then(/^I should see related cases or panel members details for that case (.*)$/, async function(type) {
-        if (type === 'PIP')
+
+        browser.sleep(3000);
+        if (type === 'Financial remedy'){
+            browser.sleep(3000);
+            await expect(caseSummaryPage.caseDetails_header_text.get(1)
+                .isDisplayed()).to.eventually.be.true;
+            await expect(caseSummaryPage.caseDetails_header_text.get(1)
+                .getText())
+                .to
+                .eventually
+                .equal('Related cases');
+
+        }
+        else
 
         {
             await expect(caseSummaryPage.caseDetails_header_text.get(1)
@@ -97,19 +112,6 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
 
-        else
-
-
-        {
-            await expect(caseSummaryPage.caseDetails_header_text.get(1)
-                .isDisplayed()).to.eventually.be.true;
-            await expect(caseSummaryPage.caseDetails_header_text.get(1)
-                .getText())
-                .to
-                .eventually
-                .equal('Related cases');
-
-        }
 
 
             });

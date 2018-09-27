@@ -24,6 +24,7 @@ defineSupportCode(function({ Given, When, Then }) {
     When(/^I select a case(.*)$/, async function(type) {
         browser.sleep(3000);
         await dashBoardPage.case_number_links.first().click();
+        browser.sleep(5000);
 
     });
 

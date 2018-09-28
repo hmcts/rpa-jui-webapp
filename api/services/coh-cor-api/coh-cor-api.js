@@ -5,6 +5,10 @@ const generateRequest = require('../../lib/request');
 const url = config.services.coh_cor_api;
 
 // Hearings
+function getHearing(hearingId, options) {
+    return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}`, options);
+}
+
 function getHearingByCase(caseId, options) {
     return generateRequest('GET', `${url}/continuous-online-hearings?case_id=${caseId}`, options);
 }
@@ -121,6 +125,7 @@ module.exports = app => {
 };
 
 // Hearings
+module.exports.getHearing = getHearing;
 module.exports.getHearingByCase = getHearingByCase;
 module.exports.postHearing = postHearing;
 

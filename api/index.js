@@ -6,8 +6,8 @@ const auth = require('./auth');
 const caseRoutes = require('./cases');
 const decisionRoutes = require('./decisions');
 const questions = require('./questions/question');
-const events = require('./events');
-const hearingRoutes = require('./hearings');
+const events = require('./events/event');
+const hearingRoutes = require('./hearings/hearing');
 const documents = require('./documents/document');
 const authInterceptor = require('./middleware/auth');
 

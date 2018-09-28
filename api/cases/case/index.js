@@ -1,7 +1,7 @@
 const express = require('express');
 const getCaseTemplate = require('./templates');
 const valueProcessor = require('../../lib/processors/value-processor');
-const { getEvents } = require('../../events');
+const { getEvents } = require('../../events/event');
 const { getDocuments } = require('../../documents/document');
 const { getAllQuestionsByCase } = require('../../questions/question');
 const { getCCDCase } = require('../../services/ccd-store-api/ccd-store');

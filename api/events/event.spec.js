@@ -8,7 +8,7 @@ const utcDate3 = moment.utc('2018-08-06T16:16:11Z');
 const utcDate2 = moment.utc('2018-08-22T11:54:48Z');
 const utcDate1 = moment.utc('2018-08-22T11:56:31Z');
 
-describe('Events route', () => {
+xdescribe('Events route', () => {
     let route;
     let request;
     let app;

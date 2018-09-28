@@ -66,6 +66,30 @@ function putRound(hearingId, roundId, options) {
     return generateRequest('PUT', `${url}/continuous-online-hearings/${hearingId}/questionrounds/${roundId}`, options);
 }
 
+// Converation (COH Events)
+function getOnlineHearingConversation(onlineHearingId, options) {
+    return generateRequest('GET', `${url}/continuous-online-hearings/${onlineHearingId}/conversations`, options);
+}
+
+
+// Special ones (may not need to be here could be high up business logic)
+function createHearing(caseId, userId, options, jurisdictionId = 'SSCS') {
+    options.body = {
+        case_id: caseId,
+        jurisdiction: jurisdictionId,
+        panel: [{ identity_token: 'string', name: userId }],
+        start_date: (new Date()).toISOString()
+    };
+
+    return postHearing(options).then(hearing => hearing.online_hearing_id);
+}
+
+function getHearingIdOrCreateHearing(caseId, userId, options) {
+    return getHearingByCase(caseId, options)
+        .then(h => h.online_hearings[0] ? h.online_hearings[0].online_hearing_id : createHearing(caseId, userId, options));
+}
+
+
 function getHealth(options) {
     return generateRequest('GET', `${url}/health`, options);
 }
@@ -117,3 +141,10 @@ module.exports.putAnswer = putAnswer;
 module.exports.getAllRounds = getAllRounds;
 module.exports.getRound = getRound;
 module.exports.putRound = putRound;
+
+// Converation (COH Events)
+module.exports.getOnlineHearingConversation = getOnlineHearingConversation;
+
+// Special ones
+module.exports.createHearing = createHearing;
+module.exports.getHearingIdOrCreateHearing = getHearingIdOrCreateHearing;

@@ -5,9 +5,15 @@ const mockRequest = require('../../lib/mockRequest');
 
 const url = config.services.ccd_data_api;
 
+//TODO remove the CCD part
 function getCCDCase(userId, jurisdiction, caseType, caseId, options) {
     const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`;
     return process.env.JUI_ENV === 'mock' ? mockRequest('GET', urlX, options) : generateRequest('GET', urlX, options);
+}
+
+function getCCDEvents(caseId, userId, jurisdiction, caseType, options) {
+    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`;
+    return (process.env.JUI_ENV === 'mock' ? mockRequest('GET', urlX, options) : generateRequest('GET', urlX, options));
 }
 
 function getCCDCases(userId, jurisdiction, caseType, filter, options) {
@@ -55,6 +61,7 @@ module.exports = app => {
 };
 
 module.exports.getCCDCase = getCCDCase;
+module.exports.getCCDEvents = getCCDEvents;
 
 module.exports.getCCDCases = getCCDCases;
 

@@ -35,7 +35,7 @@ function getOptions(req) {
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true });
-    app.use('/drafts', router);
+    app.use('/draft-store', router);
 
     router.get('/', (req, res, next) => {
         getAllDrafts(getOptions(req)).pipe(res);

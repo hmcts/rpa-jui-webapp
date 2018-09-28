@@ -10,10 +10,10 @@ function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS';
 }
 
-function getCaseWithEventsAndQuestions(caseId, userId, jurisdiction, caseType, options) {
+function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, options) {
     const promiseArray = [
-        getCCDCase(caseId, userId, jurisdiction, caseType, options),
-        getEvents(caseId, userId, jurisdiction, caseType, options)
+        getCCDCase(userId, jurisdiction, caseType, caseId, options),
+        getEvents(userId, jurisdiction, caseType, caseId, options)
     ];
 
     if (hasCOR(jurisdiction, caseType)) {
@@ -35,6 +35,15 @@ function replaceSectionValues(section, caseData) {
     }
 }
 
+function getOptions(req) {
+    return {
+        headers: {
+            Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization
+        }
+    };
+}
+
 // GET case callback
 module.exports = app => {
     const router = express.Router({ mergeParams: true });
@@ -43,18 +52,11 @@ module.exports = app => {
     router.get('/jurisdiction/:jur/casetype/:casetype/:case_id', (req, res, next) => {
         const token = req.auth.token;
         const userId = req.auth.userId;
-        const caseId = req.params.case_id;
         const jurisdiction = req.params.jur;
         const caseType = req.params.casetype;
+        const caseId = req.params.case_id;
 
-        const options = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                ServiceAuthorization: req.headers.ServiceAuthorization
-            }
-        };
-
-        getCaseWithEventsAndQuestions(caseId, userId, jurisdiction, caseType, options)
+        getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
             .then(([caseData, events, questions]) => {
                 caseData.questions = (questions) ? questions.sort((a, b) => (a.question_round_number < b.question_round_number)) : [];
                 caseData.events = events;
@@ -105,18 +107,11 @@ module.exports = app => {
     router.get('/jurisdiction/:jur/casetype/:casetype/:case_id/raw', (req, res, next) => {
         const token = req.auth.token;
         const userId = req.auth.userId;
-        const caseId = req.params.case_id;
         const jurisdiction = req.params.jur;
         const caseType = req.params.casetype;
+        const caseId = req.params.case_id;
 
-        const options = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                ServiceAuthorization: req.headers.ServiceAuthorization
-            }
-        };
-
-        getCaseWithEventsAndQuestions(caseId, userId, jurisdiction, caseType, options)
+        getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
             .then(([caseData, events, questions]) => {
                 caseData.questions = questions;
                 caseData.events = events;

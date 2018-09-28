@@ -133,7 +133,7 @@ function sortEvents(events) {
     return events.sort((result1, result2) => moment.duration(moment(result2.dateUtc).diff(moment(result1.dateUtc))).asMilliseconds());
 }
 
-function getEvents(caseId, userId, jurisdiction, caseType, options) {
+function getEvents(userId, jurisdiction, caseType, caseId, options) {
     const promiseArray = [];
     promiseArray.push(getCcdEvents(caseId, userId, jurisdiction, caseType, options));
     if (hasCOR(jurisdiction, caseType)) {

@@ -6,7 +6,7 @@ const mockRequest = require('../../lib/mockRequest');
 const url = config.services.ccd_data_api;
 
 function getCCDCase(userId, jurisdiction, caseType, caseId, options) {
-    const urlX = `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`;
+    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`;
     return process.env.JUI_ENV === 'mock' ? mockRequest('GET', urlX, options) : generateRequest('GET', urlX, options);
 }
 
@@ -15,6 +15,7 @@ function getCCDCases(userId, jurisdiction, caseType, filter, options) {
     return process.env.JUI_ENV === 'mock' ? mockRequest('GET', urlX, options) : generateRequest('GET', urlX, options);
 }
 
+// TODO: This should eventually replace ccd better mutijud search
 function getMutiJudCCDCases(userId, jurisdictions, options) {
     const promiseArray = [];
     jurisdictions.forEach(jurisdiction => {
@@ -54,5 +55,7 @@ module.exports = app => {
 };
 
 module.exports.getCCDCase = getCCDCase;
+
 module.exports.getCCDCases = getCCDCases;
+
 module.exports.getMutiJudCCDCases = getMutiJudCCDCases;

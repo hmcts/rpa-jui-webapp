@@ -1,17 +1,10 @@
 const express = require('express');
-const config = require('../../../config/index');
 const getCaseTemplate = require('./templates');
-const generateRequest = require('../../lib/request');
 const valueProcessor = require('../../lib/processors/value-processor');
 const { getEvents } = require('../../events');
 const { getDocuments } = require('../../documents');
 const { getAllQuestionsByCase } = require('../../questions/question');
-const mockRequest = require('../../lib/mockRequest');
-
-function getCase(caseId, userId, jurisdiction, caseType, options) {
-    const url = `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`;
-    return process.env.JUI_ENV === 'mock' ? mockRequest('GET', url, options) : generateRequest('GET', url, options);
-}
+const { getCCDCase } = require('../../services/ccd-store-api/ccd-store');
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS';
@@ -19,7 +12,7 @@ function hasCOR(jurisdiction, caseType) {
 
 function getCaseWithEventsAndQuestions(caseId, userId, jurisdiction, caseType, options) {
     const promiseArray = [
-        getCase(caseId, userId, jurisdiction, caseType, options),
+        getCCDCase(caseId, userId, jurisdiction, caseType, options),
         getEvents(caseId, userId, jurisdiction, caseType, options)
     ];
 

@@ -35,11 +35,38 @@ function replaceSectionValues(section, caseData) {
     }
 }
 
+function getDocIdList(documents) {
+    return (documents || [])
+        .map(document => {
+            const splitDocLink = document.document_url.split('/');
+            return splitDocLink[splitDocLink.length - 1];
+        });
+}
+
+function appendDocIdToDocument(documents) {
+    return documents.map(doc => {
+        const splitURL = doc._links.self.href.split('/');
+        doc.id = splitURL[splitURL.length - 1];
+        return doc;
+    });
+}
+
+
 function getOptions(req) {
     return {
         headers: {
             Authorization: `Bearer ${req.auth.token}`,
             ServiceAuthorization: req.headers.ServiceAuthorization
+        }
+    };
+}
+
+function getOptionsDoc(req) {
+    return {
+        headers: {
+            Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization,
+            'user-roles': req.auth.data
         }
     };
 }
@@ -50,7 +77,6 @@ module.exports = app => {
     app.use('/cases', router);
 
     router.get('/jurisdiction/:jur/casetype/:casetype/:case_id', (req, res, next) => {
-        const token = req.auth.token;
         const userId = req.auth.userId;
         const jurisdiction = req.params.jur;
         const caseType = req.params.casetype;
@@ -70,27 +96,9 @@ module.exports = app => {
                 schema.case_jurisdiction = caseData.jurisdiction;
                 schema.case_type_id = caseData.case_type_id;
 
-
-                const docIds = (caseData.documents || [])
-                    .map(document => {
-                        const splitDocLink = document.document_url.split('/');
-                        return splitDocLink[splitDocLink.length - 1];
-                    });
-
-                getDocuments(docIds, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        ServiceAuthorization: req.headers.ServiceAuthorization,
-                        'user-roles': req.auth.data
-                    }
-                })
+                getDocuments(getDocIdList(caseData.documents), getOptionsDoc(req))
+                    .then(appendDocIdToDocument)
                     .then(documents => {
-                        documents = documents.map(doc => {
-                            const splitURL = doc._links.self.href.split('/');
-                            doc.id = splitURL[splitURL.length - 1];
-                            return doc;
-                        });
-
                         schema.documents = documents;
                         res.setHeader('Access-Control-Allow-Origin', '*');
                         res.setHeader('content-type', 'application/json');
@@ -105,7 +113,6 @@ module.exports = app => {
     });
 
     router.get('/jurisdiction/:jur/casetype/:casetype/:case_id/raw', (req, res, next) => {
-        const token = req.auth.token;
         const userId = req.auth.userId;
         const jurisdiction = req.params.jur;
         const caseType = req.params.casetype;
@@ -125,27 +132,9 @@ module.exports = app => {
                 schema.case_jurisdiction = caseData.jurisdiction;
                 schema.case_type_id = caseData.case_type_id;
 
-
-                const docIds = (caseData.documents || [])
-                    .map(document => {
-                        const splitDocLink = document.document_url.split('/');
-                        return splitDocLink[splitDocLink.length - 1];
-                    });
-
-                getDocuments(docIds, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        ServiceAuthorization: req.headers.ServiceAuthorization,
-                        'user-roles': req.auth.data
-                    }
-                })
+                getDocuments(getDocIdList(caseData.documents), getOptionsDoc(req))
+                    .then(appendDocIdToDocument)
                     .then(documents => {
-                        documents = documents.map(doc => {
-                            const splitURL = doc._links.self.href.split('/');
-                            doc.id = splitURL[splitURL.length - 1];
-                            return doc;
-                        });
-
                         schema.documents = documents;
                         res.setHeader('Access-Control-Allow-Origin', '*');
                         res.setHeader('content-type', 'application/json');

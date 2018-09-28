@@ -4,6 +4,68 @@ const generateRequest = require('../../lib/request');
 
 const url = config.services.coh_cor_api;
 
+// Hearings
+function getHearingByCase(caseId, options) {
+    return generateRequest('GET', `${url}/continuous-online-hearings?case_id=${caseId}`, options);
+}
+
+function postHearing(options) {
+    return generateRequest('POST', `${url}/continuous-online-hearings`, options);
+}
+
+
+// Questions
+function getQuestions(hearingId, options) {
+    return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}/questions`, options);
+}
+
+function postQuestion(hearingId, options) {
+    return generateRequest('POST', `${url}/continuous-online-hearings/${hearingId}/questions`, options);
+}
+
+function getQuestion(hearingId, questionId, options) {
+    return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}`, options);
+}
+
+function putQuestion(hearingId, questionId, options) {
+    return generateRequest('PUT', `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}`, options);
+}
+
+function deleteQuestion(hearingId, questionId, options) {
+    return generateRequest('DELETE', `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}`, options);
+}
+
+// Answer
+function getAnswers(hearingId, questionId, options) {
+    return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}/answers`, options);
+}
+
+function postAnswer(hearingId, questionId, options) {
+    return generateRequest('POST', `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}/answers`, options);
+}
+
+function getAnswer(hearingId, questionId, answerId, options) {
+    return generateRequest('POST', `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}/answers${answerId}`, options);
+}
+
+function putAnswer(hearingId, questionId, answerId, options) {
+    return generateRequest('PUT', `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}/answers${answerId}`, options);
+}
+
+
+// ROUNDS
+function getAllRounds(hearingId, options) {
+    return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}/questionrounds/`, options);
+}
+
+function getRound(hearingId, roundId, options) {
+    return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}/questionrounds/${roundId}`, options);
+}
+
+function putRound(hearingId, roundId, options) {
+    return generateRequest('PUT', `${url}/continuous-online-hearings/${hearingId}/questionrounds/${roundId}`, options);
+}
+
 function getHealth(options) {
     return generateRequest('GET', `${url}/health`, options);
 }
@@ -33,3 +95,25 @@ module.exports = app => {
         getInfo(getOptions(req)).pipe(res);
     });
 };
+
+// Hearings
+module.exports.getHearingByCase = getHearingByCase;
+module.exports.postHearing = postHearing;
+
+// Questions
+module.exports.getQuestions = getQuestions;
+module.exports.getQuestion = getQuestion;
+module.exports.postQuestion = postQuestion;
+module.exports.putQuestion = putQuestion;
+module.exports.deleteQuestion = deleteQuestion;
+
+// Answer
+module.exports.getAnswers = getAnswers;
+module.exports.postAnswer = postAnswer;
+module.exports.getAnswer = getAnswer;
+module.exports.putAnswer = putAnswer;
+
+// ROUNDS
+module.exports.getAllRounds = getAllRounds;
+module.exports.getRound = getRound;
+module.exports.putRound = putRound;

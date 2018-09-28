@@ -6,7 +6,7 @@ const processCaseStateEngine = require('../../lib/processors/case-state-model');
 const { caseStateFilter } = require('../../lib/processors/case-state-util');
 const valueProcessor = require('../../lib/processors/value-processor');
 const generateRequest = require('../../lib/request');
-const { getAllQuestionsByCase } = require('../../questions');
+const { getAllQuestionsByCase } = require('../../questions/question');
 const { getCCDCases } = require('../../services/ccd-store-api/ccd-store');
 const config = require('../../../config');
 

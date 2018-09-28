@@ -5,7 +5,7 @@ const generateRequest = require('../../lib/request');
 const valueProcessor = require('../../lib/processors/value-processor');
 const { getEvents } = require('../../events');
 const { getDocuments } = require('../../documents');
-const { getAllQuestionsByCase } = require('../../questions');
+const { getAllQuestionsByCase } = require('../../questions/question');
 const mockRequest = require('../../lib/mockRequest');
 
 function getCase(caseId, userId, jurisdiction, caseType, options) {

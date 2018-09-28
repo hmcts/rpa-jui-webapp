@@ -8,7 +8,7 @@ const decisionRoutes = require('./decisions');
 const questions = require('./questions/question');
 const events = require('./events');
 const hearingRoutes = require('./hearings');
-const documents = require('./documents');
+const documents = require('./documents/document');
 const authInterceptor = require('./middleware/auth');
 
 const barApiRoutes = require('./services/bar-api/bar-api');

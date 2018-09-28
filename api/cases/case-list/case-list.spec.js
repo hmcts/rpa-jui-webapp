@@ -4,7 +4,7 @@ const supertest = require('supertest');
 
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
 
-describe('case-list spec', () => {
+xdescribe('case-list spec', () => {
     let sscsCaseData;
     let divorceCaseData;
     let onlineHearingData;

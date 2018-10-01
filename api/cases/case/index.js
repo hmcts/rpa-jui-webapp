@@ -1,26 +1,19 @@
 const express = require('express');
-const config = require('../../../config/index');
 const getCaseTemplate = require('./templates');
-const generateRequest = require('../../lib/request');
 const valueProcessor = require('../../lib/processors/value-processor');
-const { getEvents } = require('../../events');
-const { getDocuments } = require('../../documents');
-const { getAllQuestionsByCase } = require('../../questions');
-const mockRequest = require('../../lib/mockRequest');
-
-function getCase(caseId, userId, jurisdiction, caseType, options) {
-    const url = `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`;
-    return process.env.JUI_ENV === 'mock' ? mockRequest('GET', url, options) : generateRequest('GET', url, options);
-}
+const { getEvents } = require('../../events/event');
+const { getDocuments } = require('../../documents/document');
+const { getAllQuestionsByCase } = require('../../questions/question');
+const { getCCDCase } = require('../../services/ccd-store-api/ccd-store');
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS';
 }
 
-function getCaseWithEventsAndQuestions(caseId, userId, jurisdiction, caseType, options) {
+function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, options) {
     const promiseArray = [
-        getCase(caseId, userId, jurisdiction, caseType, options),
-        getEvents(caseId, userId, jurisdiction, caseType, options)
+        getCCDCase(userId, jurisdiction, caseType, caseId, options),
+        getEvents(userId, jurisdiction, caseType, caseId, options)
     ];
 
     if (hasCOR(jurisdiction, caseType)) {
@@ -42,26 +35,54 @@ function replaceSectionValues(section, caseData) {
     }
 }
 
+function getDocIdList(documents) {
+    return (documents || [])
+        .map(document => {
+            const splitDocLink = document.document_url.split('/');
+            return splitDocLink[splitDocLink.length - 1];
+        });
+}
+
+function appendDocIdToDocument(documents) {
+    return documents.map(doc => {
+        const splitURL = doc._links.self.href.split('/');
+        doc.id = splitURL[splitURL.length - 1];
+        return doc;
+    });
+}
+
+
+function getOptions(req) {
+    return {
+        headers: {
+            Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization
+        }
+    };
+}
+
+function getOptionsDoc(req) {
+    return {
+        headers: {
+            Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization,
+            'user-roles': req.auth.data
+        }
+    };
+}
+
 // GET case callback
 module.exports = app => {
     const router = express.Router({ mergeParams: true });
     app.use('/cases', router);
 
     router.get('/jurisdiction/:jur/casetype/:casetype/:case_id', (req, res, next) => {
-        const token = req.auth.token;
         const userId = req.auth.userId;
-        const caseId = req.params.case_id;
         const jurisdiction = req.params.jur;
         const caseType = req.params.casetype;
+        const caseId = req.params.case_id;
 
-        const options = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                ServiceAuthorization: req.headers.ServiceAuthorization
-            }
-        };
-
-        getCaseWithEventsAndQuestions(caseId, userId, jurisdiction, caseType, options)
+        getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
             .then(([caseData, events, questions]) => {
                 caseData.questions = (questions) ? questions.sort((a, b) => (a.question_round_number < b.question_round_number)) : [];
                 caseData.events = events;
@@ -75,27 +96,9 @@ module.exports = app => {
                 schema.case_jurisdiction = caseData.jurisdiction;
                 schema.case_type_id = caseData.case_type_id;
 
-
-                const docIds = (caseData.documents || [])
-                    .map(document => {
-                        const splitDocLink = document.document_url.split('/');
-                        return splitDocLink[splitDocLink.length - 1];
-                    });
-
-                getDocuments(docIds, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        ServiceAuthorization: req.headers.ServiceAuthorization,
-                        'user-roles': req.auth.data
-                    }
-                })
+                getDocuments(getDocIdList(caseData.documents), getOptionsDoc(req))
+                    .then(appendDocIdToDocument)
                     .then(documents => {
-                        documents = documents.map(doc => {
-                            const splitURL = doc._links.self.href.split('/');
-                            doc.id = splitURL[splitURL.length - 1];
-                            return doc;
-                        });
-
                         schema.documents = documents;
                         res.setHeader('Access-Control-Allow-Origin', '*');
                         res.setHeader('content-type', 'application/json');
@@ -110,20 +113,12 @@ module.exports = app => {
     });
 
     router.get('/jurisdiction/:jur/casetype/:casetype/:case_id/raw', (req, res, next) => {
-        const token = req.auth.token;
         const userId = req.auth.userId;
-        const caseId = req.params.case_id;
         const jurisdiction = req.params.jur;
         const caseType = req.params.casetype;
+        const caseId = req.params.case_id;
 
-        const options = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                ServiceAuthorization: req.headers.ServiceAuthorization
-            }
-        };
-
-        getCaseWithEventsAndQuestions(caseId, userId, jurisdiction, caseType, options)
+        getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
             .then(([caseData, events, questions]) => {
                 caseData.questions = questions;
                 caseData.events = events;
@@ -137,27 +132,9 @@ module.exports = app => {
                 schema.case_jurisdiction = caseData.jurisdiction;
                 schema.case_type_id = caseData.case_type_id;
 
-
-                const docIds = (caseData.documents || [])
-                    .map(document => {
-                        const splitDocLink = document.document_url.split('/');
-                        return splitDocLink[splitDocLink.length - 1];
-                    });
-
-                getDocuments(docIds, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        ServiceAuthorization: req.headers.ServiceAuthorization,
-                        'user-roles': req.auth.data
-                    }
-                })
+                getDocuments(getDocIdList(caseData.documents), getOptionsDoc(req))
+                    .then(appendDocIdToDocument)
                     .then(documents => {
-                        documents = documents.map(doc => {
-                            const splitURL = doc._links.self.href.split('/');
-                            doc.id = splitURL[splitURL.length - 1];
-                            return doc;
-                        });
-
                         schema.documents = documents;
                         res.setHeader('Access-Control-Allow-Origin', '*');
                         res.setHeader('content-type', 'application/json');

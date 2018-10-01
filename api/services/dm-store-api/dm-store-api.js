@@ -2,14 +2,18 @@ const express = require('express');
 const config = require('../../../config');
 const generateRequest = require('../../lib/request');
 
-const url = config.services.ccd_def_api;
+const url = config.services.dm_store_api;
 
-function getJurisdictions(options) {
-    return generateRequest('GET', `${url}/api/data/jurisdictions`, options);
+function getDocument(docId, options) {
+    return generateRequest('GET', `${url}/documents/${docId}`, options);
 }
 
-function getCaseTypes(jurisdictions, options) {
-    return generateRequest('GET', `${url}/api/data/jurisdictions/${jurisdictions}/case-type`, options);
+function getDocumentBinary(docId, options) {
+    return generateRequest('GET', `${url}/documents/${docId}/binary`, options);
+}
+
+function getDocumentThumbnail(docId, options) {
+    return generateRequest('GET', `${url}/documents/${docId}/thumbnail`, options);
 }
 
 function getHealth(options) {
@@ -31,16 +35,7 @@ function getOptions(req) {
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true });
-    app.use('/ccd-def', router);
-
-    router.get('/jurisdictions', (req, res, next) => {
-        getJurisdictions(getOptions(req)).pipe(res);
-    });
-
-    router.get('/jurisdictions/:jurisdictions', (req, res, next) => {
-        const jurisdictions = req.params.jurisdictions;
-        getCaseTypes(jurisdictions, getOptions(req)).pipe(res);
-    });
+    app.use('/dm-store', router);
 
     router.get('/health', (req, res, next) => {
         getHealth(getOptions(req)).pipe(res);
@@ -51,6 +46,6 @@ module.exports = app => {
     });
 };
 
-module.exports.getJurisdictions = getJurisdictions;
-
-module.exports.getCaseTypes = getCaseTypes;
+module.exports.getDocument = getDocument;
+module.exports.getDocumentBinary = getDocumentBinary;
+module.exports.getDocumentThumbnail = getDocumentThumbnail;

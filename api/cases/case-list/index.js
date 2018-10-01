@@ -6,8 +6,8 @@ const processCaseStateEngine = require('../../lib/processors/case-state-model');
 const { caseStateFilter } = require('../../lib/processors/case-state-util');
 const valueProcessor = require('../../lib/processors/value-processor');
 const generateRequest = require('../../lib/request');
-const { getAllQuestionsByCase } = require('../../questions');
-const { getCCDCases } = require('../../services/ccd-store-api/ccd-store');
+const { getAllQuestionsByCase } = require('../../questions/question');
+const { getMutiJudCCDCases } = require('../../services/ccd-store-api/ccd-store');
 const config = require('../../../config');
 
 const jurisdictions = [
@@ -221,7 +221,7 @@ module.exports = app => {
         const userId = req.auth.userId;
         const options = getOptions(req);
 
-        getCCDCases(userId, jurisdictions, options)
+        getMutiJudCCDCases(userId, jurisdictions, options)
             .then(caseLists => appendCOR(caseLists, options))
             .then(caseLists => appendQuestionsRound(caseLists, userId, options))
             .then(processState)
@@ -246,7 +246,7 @@ module.exports = app => {
         const userId = req.auth.userId;
         const options = getOptions(req);
 
-        getCCDCases(userId, jurisdictions, options)
+        getMutiJudCCDCases(userId, jurisdictions, options)
             .then(combineLists)
             .then(results => {
                 res.setHeader('Access-Control-Allow-Origin', '*');
@@ -265,7 +265,7 @@ module.exports = app => {
         const userId = req.auth.userId;
         const options = getOptions(req);
 
-        getCCDCases(userId, jurisdictions, options)
+        getMutiJudCCDCases(userId, jurisdictions, options)
             .then(caseLists => appendCOR(caseLists, userId, options, jurisdictions))
             .then(combineLists)
             .then(results => {

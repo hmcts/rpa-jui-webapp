@@ -5,6 +5,31 @@ const mockRequest = require('../../lib/mockRequest');
 
 const url = config.services.ccd_data_api;
 
+//TODO remove the CCD part
+function getCCDCase(userId, jurisdiction, caseType, caseId, options) {
+    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`;
+    return process.env.JUI_ENV === 'mock' ? mockRequest('GET', urlX, options) : generateRequest('GET', urlX, options);
+}
+
+function getCCDEvents(caseId, userId, jurisdiction, caseType, options) {
+    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`;
+    return (process.env.JUI_ENV === 'mock' ? mockRequest('GET', urlX, options) : generateRequest('GET', urlX, options));
+}
+
+function getCCDCases(userId, jurisdiction, caseType, filter, options) {
+    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`;
+    return process.env.JUI_ENV === 'mock' ? mockRequest('GET', urlX, options) : generateRequest('GET', urlX, options);
+}
+
+// TODO: This should eventually replace ccd better mutijud search
+function getMutiJudCCDCases(userId, jurisdictions, options) {
+    const promiseArray = [];
+    jurisdictions.forEach(jurisdiction => {
+        promiseArray.push(getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter, options));
+    });
+    return Promise.all(promiseArray);
+}
+
 function getHealth(options) {
     return generateRequest('GET', `${url}/health`, options);
 }
@@ -22,19 +47,6 @@ function getOptions(req) {
     };
 }
 
-function getCCDCases(userId, jurisdictions, options) {
-    const promiseArray = [];
-    jurisdictions.forEach(jurisdiction => {
-        if (process.env.JUI_ENV === 'mock') {
-            promiseArray.push(mockRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
-        } else {
-            promiseArray.push(generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
-        }
-    });
-    return Promise.all(promiseArray);
-}
-
-
 module.exports = app => {
     const router = express.Router({ mergeParams: true });
     app.use('/ccd-store', router);
@@ -48,4 +60,9 @@ module.exports = app => {
     });
 };
 
+module.exports.getCCDCase = getCCDCase;
+module.exports.getCCDEvents = getCCDEvents;
+
 module.exports.getCCDCases = getCCDCases;
+
+module.exports.getMutiJudCCDCases = getMutiJudCCDCases;

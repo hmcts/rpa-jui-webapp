@@ -1,32 +1,8 @@
 const express = require('express');
 const moment = require('moment');
-const config = require('../../config');
-const generateRequest = require('../lib/request');
-const mockRequest = require('../lib/mockRequest');
 
-// TODO move [postHearing, getHearingId, getOnlineHearingConversation] to COH microserivce Module
-function postHearing(caseId, userId, options, jurisdictionId = 'SSCS') {
-    const body = {
-        case_id: caseId,
-        jurisdiction: jurisdictionId,
-        panel: [{ identity_token: 'string', name: userId }],
-        start_date: (new Date()).toISOString()
-    };
-
-    return generateRequest('POST', `${config.services.coh_cor_api}/continuous-online-hearings`, options, body)
-        .then(hearing => hearing.online_hearing_id);
-}
-
-function getHearingId(caseId, userId, options) {
-    return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings?case_id=${caseId}`, options)
-        .then(h => h.online_hearings[0] ? h.online_hearings[0].online_hearing_id : postHearing(caseId, userId, options));
-}
-
-function getOnlineHearingConversation(onlineHearingId, options) {
-    return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/${onlineHearingId}/conversations`, options);
-}
-
-////////////////////////////////////////////////////////////////////////////////
+const { getCCDEvents } = require('../services/ccd-store-api/ccd-store');
+const { getHearingIdOrCreateHearing, getOnlineHearingConversation } = require('../services/coh-cor-api/coh-cor-api');
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS';
@@ -69,13 +45,8 @@ function reduceCcdEvents(events) {
     });
 }
 
-function getCcdEventsRaw(caseId, userId, jurisdiction, caseType, options) {
-    const url = `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`;
-    return (process.env.JUI_ENV === 'mock' ? mockRequest('GET', url, options) : generateRequest('GET', url, options));
-}
-
 function getCcdEvents(caseId, userId, jurisdiction, caseType, options) {
-    return getCcdEventsRaw(caseId, userId, jurisdiction, caseType, options).then(reduceCcdEvents);
+    return getCCDEvents(caseId, userId, jurisdiction, caseType, options).then(reduceCcdEvents);
 }
 
 //////////////////////////
@@ -114,7 +85,7 @@ function reduceCohEvents(events) {
 }
 
 function getCohEvents(caseId, userId, options) {
-    return getHearingId(caseId, userId, options)
+    return getHearingIdOrCreateHearing(caseId, userId, options)
         .then(hearingId => getOnlineHearingConversation(hearingId, options)
             .then(mergeCohEvents)
             .then(reduceCohEvents)
@@ -133,7 +104,7 @@ function sortEvents(events) {
     return events.sort((result1, result2) => moment.duration(moment(result2.dateUtc).diff(moment(result1.dateUtc))).asMilliseconds());
 }
 
-function getEvents(caseId, userId, jurisdiction, caseType, options) {
+function getEvents(userId, jurisdiction, caseType, caseId, options) {
     const promiseArray = [];
     promiseArray.push(getCcdEvents(caseId, userId, jurisdiction, caseType, options));
     if (hasCOR(jurisdiction, caseType)) {
@@ -177,7 +148,7 @@ module.exports = app => {
         const jurisdiction = req.params.jur;
         const caseType = req.params.casetype;
 
-        getCcdEventsRaw(caseId, userId, jurisdiction, caseType, getOptions(req))
+        getCCDEvents(caseId, userId, jurisdiction, caseType, getOptions(req))
             .then(events => {
                 res.setHeader('Access-Control-Allow-Origin', '*');
                 res.setHeader('content-type', 'application/json');

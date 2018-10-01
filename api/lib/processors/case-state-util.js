@@ -1,5 +1,6 @@
 function caseStateFilter(caseData) {
     return caseData.state !== 'continuous_online_hearing_decision_issued'
+        && caseData.state !== 'questions_issue_pending'
         && caseData.state !== 'question_issued';
 }
 

@@ -148,7 +148,7 @@ function processState(caseLists) {
                     questionRoundData
                 });
 
-                caseRow.state = caseState.stateName;
+                caseRow.state = caseState;
                 if (caseState.stateDateTime) {
                     if (new Date(caseRow.last_modified) < new Date(caseState.stateDateTime)) {
                         caseRow.last_modified = caseState.stateDateTime;

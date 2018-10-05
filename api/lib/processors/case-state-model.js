@@ -1,4 +1,4 @@
-const { CONSTANTS, createCaseState } = require('./case-state-util');
+const { CONSTANTS, createCaseState, getDocId } = require('./case-state-util');
 
 const CCD_STATE = {
     when(context) {
@@ -95,7 +95,8 @@ const referredToJudge = {
         return context.caseData.ccdState === CONSTANTS.REFER_TO_JUDGE;
     },
     then(context) {
-        context.outcome = createCaseState(context.caseData.ccdState, null, CONSTANTS.CASE_FILE_GO_TO);
+        const consentOrder = context.caseData.consentOrder ? getDocId(context.caseData.consentOrder) : undefined;
+        context.outcome = createCaseState(context.caseData.ccdState, null, CONSTANTS.CASE_FILE_GO_TO, consentOrder);
     }
 };
 

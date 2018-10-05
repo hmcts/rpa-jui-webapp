@@ -139,13 +139,15 @@ function processState(caseLists) {
                 const ccdState = caseRow.state;
                 const hearingData = caseRow.hearing_data ? caseRow.hearing_data.hearing : undefined;
                 const questionRoundData = hearingData ? caseRow.hearing_data.latest_question_round : undefined;
+                const consentOrder = caseRow.case_data.consentOrder ? caseRow.case_data.consentOrder : undefined
 
                 const caseState = processCaseStateEngine({
                     jurisdiction,
                     caseType,
                     ccdState,
                     hearingData,
-                    questionRoundData
+                    questionRoundData,
+                    consentOrder
                 });
 
                 caseRow.state = caseState;

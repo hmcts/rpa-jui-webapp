@@ -13,12 +13,18 @@ function caseStateFilter(caseData) {
     return !result;
 }
 
-function createCaseState(state, date, actionUrl) {
+function createCaseState(state, date, actionUrl, id) {
     return {
         stateName: state,
         stateDateTime: date,
-        actionGoTo: actionUrl
+        actionGoTo: actionUrl,
+        ID: id
     };
+}
+
+function getDocId(consentOrder) {
+    const splitURL = consentOrder.document_url.split('/');
+    return splitURL[splitURL.length - 1];
 }
 
 const CONSTANTS = {
@@ -51,3 +57,5 @@ module.exports.CASE_FILE_GO_TO = 'casefile';
 module.exports.caseStateFilter = caseStateFilter;
 
 module.exports.createCaseState = createCaseState;
+
+module.exports.getDocId = getDocId;

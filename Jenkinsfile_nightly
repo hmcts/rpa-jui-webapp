@@ -36,7 +36,25 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
+    //    enablePerformanceTest(15)
+    //    enableApiGatewayTest(15)
+    //    enableFullFunctionalTest(30)
+    //    enableMutationTest(120)
+         enableCrossBrowserTest(120)
+    //    enableDockerBuild()
+    //    enableDeployToAKS()
 
-    after('checkout') {sh 'yarn cache clean'}
-    after('build') {sh 'npm run build'}
+    after('checkout') {
+    sh 'yarn cache clean'}
+
+    after('build') {
+    sh 'npm run build'
+    }
+
+     after('crossBrowserTest') {
+       steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+     }
+
+
+
 }

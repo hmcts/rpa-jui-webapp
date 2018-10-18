@@ -28,7 +28,7 @@ function getOptions(req) {
     return {
         headers: {
             Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: `Bearer ${req.headers.ServiceAuthorization}` // ServiceAuthorisation needs Bearer for draft-store apparently!
+            ServiceAuthorization: req.headers.ServiceAuthorization
         }
     };
 }

@@ -49,14 +49,9 @@
                             }
                         ],
                         "styles": [
-                            "src/public/sass/annotation-ui-theme.scss",
                             "src/styles.scss"
                         ],
-                        "scripts": [
-                            "src/public/javascripts/pdf.js",
-                            "src/public/javascripts/pdf_viewer.js",
-                            "src/public/javascripts/pdf-annotate.js"
-                        ]
+                        "scripts": []
                     },
                     "configurations": {
                         "production": {

@@ -48,17 +48,16 @@ export class DocumentViewerComponent implements OnChanges, OnInit {
         if (!this.url) {
             throw new Error('url is a required arguments');
         }
+
         this.documentViewerService.fetch(`${this.urlFixer.fixDm(this.url, this.baseUrl)}`).subscribe(resp => {
             if (resp && resp._links) {
                 this.docName = resp.originalDocumentName;
                 this.viewerComponent =
                     this.viewerFactoryService.buildViewer(resp, this.annotate, this.viewerAnchor.viewContainerRef, this.baseUrl);
-                if (this.viewerComponent != null) {
-                    this.viewerComponent.pageChanged.subscribe((value => {
-                        this.pageChanged.emit(value);
-                    }));
-                    this.viewerComponent.page = this.page;
-                }
+                this.viewerComponent.pageChanged.subscribe((value => {
+                    this.pageChanged.emit(value);
+                }));
+                this.viewerComponent.page = this.page;
             }
         }, err => {
             this.error = err;

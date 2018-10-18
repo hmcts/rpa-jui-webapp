@@ -11,8 +11,6 @@ import { DocumentViewerModule } from '../../shared/components/document-viewer/do
 import { RouterModule } from '@angular/router';
 import {HmctsModule} from '../../hmcts/hmcts.module';
 import {GovukModule} from '../../govuk/govuk.module';
-import { FormsModule }   from '@angular/forms';
-
 
 @NgModule({
     imports: [
@@ -21,8 +19,7 @@ import { FormsModule }   from '@angular/forms';
         DocumentViewerModule,
         RouterModule,
         HmctsModule,
-        GovukModule,
-        FormsModule
+        GovukModule
     ],
     exports: [
         CaseViewerComponent,
@@ -35,8 +32,6 @@ import { FormsModule }   from '@angular/forms';
         PartiesPanelComponent,
         TimelinePanelComponent,
         QuestionsPanelComponent
-    ],
-    providers: [
     ]
 })
 export class CaseViewerModule {

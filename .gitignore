@@ -57,3 +57,5 @@ reports_json/
 cb_reports/
 report.json
 
+
+\.sessions/

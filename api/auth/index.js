@@ -1,5 +1,5 @@
-const express = require('express');
-const config = require('../../config');
+const express = require('express')
+const config = require('../../config')
 
 const { getDetails, postOauthToken } = require('../services/idam-api/idam-api');
 
@@ -7,9 +7,9 @@ const cookieToken = config.cookies.token;
 const cookieUserId = config.cookies.userId;
 
 module.exports = app => {
-    const router = express.Router();
+    const router = express.Router()
 
-    app.use('/oauth2/callback', router);
+    app.use('/oauth2/callback', router)
 
     router.use((req, res, next) => {
         postOauthToken(req.query.code, req.get('host'))
@@ -25,10 +25,10 @@ module.exports = app => {
                 }
             })
             .catch(e => {
-                console.log('error - ', e);
-                res.redirect('/');
-            });
-    });
+                console.log('error - ', e)
+                res.redirect('/')
+            })
+    })
 
     app.use('/logout', (req, res, next) => {
         res.clearCookie(cookieToken);

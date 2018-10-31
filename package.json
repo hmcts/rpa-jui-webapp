@@ -15,7 +15,7 @@
     "lint": "npm run lint:node || npm run lint:ng || true",
     "lint:node": "eslint -f node_modules/eslint-html-reporter/reporter.js -o ./reports/lint/node/index.html .",
     "lint:ng": "ng lint jui",
-    "lint:fix": "npm run lint:node:fix || npm run lint:ng:fix || true",
+    "lint:fix": "npm run lint:fix:node || npm run lint:fix:ng || true",
     "lint:fix:node": "eslint . --fix",
     "lint:fix:ng": "ng lint jui --fix",
     "test": "npm run test:node && npm run test:ng",

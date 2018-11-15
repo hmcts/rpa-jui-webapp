@@ -12,18 +12,12 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     When(/^I will be redirected to the JUI dashboard page$/, async function() {
-        browser.sleep(SHORT_DELAY);
+        browser.sleep(LONG_DELAY);
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.dashboard_header.getText())
             .to
             .eventually
             .equal('Dashboard');
-
-        await expect(dashBoardPage.your_cases.getText())
-            .to
-            .eventually
-            .equal('Your cases');
-
 
     });
 

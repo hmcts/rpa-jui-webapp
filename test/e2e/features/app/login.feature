@@ -21,7 +21,7 @@ Feature: Login
 
     @RIUI_289 @logout @all @smoke
     Scenario: log out from JUI
-        Given I am logged into JUI web app
+        Given I am logged into JUI web app with SSCS judge details
         Then I should be redirected to JUI dashboard page
         When I select the sign out link
         Then I should be redirected to the Idam login page

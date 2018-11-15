@@ -1,7 +1,7 @@
 'use strict';
 
 function caseSummaryPage() {
-    this.case_header_text = element(by.css(".hmcts-page-heading__title-wrapper > h1.hmcts-page-heading__title.govuk-heading-xl"));
+    this.case_header_text = element(by.css("h1.hmcts-page-heading__title.govuk-heading-xl"));
     this.caseDetails_header_text = element(by.css('app-data-list:nth-child(2) > div > h2'));
     this.representatives_text = element(by.css('app-data-list:nth-child(3) > div > h2'));
     this.panel_members_text = element(by.css('app-data-list:nth-child(3) > div > h2'));
@@ -23,6 +23,7 @@ function caseSummaryPage() {
     this.error_message_selection = element(by.css('#decision-error'));
     this.error_message_decision_notes = element(by.css('#notes-error'));
     this.decision_submitted = element(by.css('.govuk-heading-xl'));
+    this.questions_tab = element.all(by.css('.hmcts-sub-navigation__link'));
 }
 
 module.exports = new caseSummaryPage;

@@ -57,13 +57,15 @@ const config = {
         username: process.env.TEST_EMAIL,
         password: process.env.TEST_PASSWORD,
         fr_judge_username: process.env.FR_EMAIL,
-        fr_judge_password: process.env.FR_PASSWORD
+        fr_judge_password: process.env.FR_PASSWORD,
+        sscs_username: process.env.SSCS_EMAIL,
+        sscs_password: process.env.SSCS_PASSWORD
 
 
     },
     directConnect: true,
     // seleniumAddress: 'http://localhost:4444/wd/hub',
-    getPageTimeout: 60000,
+    getPageTimeout: 120000,
     allScriptsTimeout: 500000,
     multiCapabilities: cap,
 

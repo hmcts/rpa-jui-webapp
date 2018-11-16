@@ -89,8 +89,8 @@ function applySchema(caseData) {
     return { caseData, schema }
 }
 
-function getCaseData(userId, jurisdiction, caseType, caseId, req) {
-    return getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
+function getCaseData(userId, jurisdiction, caseType, caseId, options) {
+    return getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, options)
         .then(([caseData, events, hearings, questions]) => appendCollectedData([caseData, events, hearings, questions]))
 }
 

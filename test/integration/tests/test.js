@@ -11,6 +11,7 @@ const mocha = new Mocha({
     }
 });
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 mocha.addFile('test/integration/tests/get_jui_cases.js');
 mocha.addFile('test/integration/tests/get_jui_case_details.js');
 mocha.addFile('test/integration/tests/get_jui_case_fields.js');

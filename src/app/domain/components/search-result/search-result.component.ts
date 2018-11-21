@@ -21,12 +21,12 @@ export class SearchResultComponent implements OnInit {
     }
 
     onSubmit() {
-        this.caseService.getNewCase().subscribe(
-            res => {
-                this.redirectionService.redirect(`/?newCase=success`);
-            }, () => {
-                this.redirectionService.redirect(`/?newCase=failure`);
-            }
-        );
+        // this.caseService.getNewCase().subscribe(
+        //     res => {
+        //         this.redirectionService.redirect(`/?newCase=success`);
+        //     }, () => {
+        //         this.redirectionService.redirect(`/?newCase=failure`);
+        //     }
+        // );
     }
 }

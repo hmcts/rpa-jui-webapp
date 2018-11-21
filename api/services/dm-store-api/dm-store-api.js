@@ -1,13 +1,16 @@
 const express = require('express')
+const fs = require('fs')
+const formidable = require('formidable')
+
 const config = require('../../../config')
 const generateRequest = require('../../lib/request/request')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const url = config.services.dm_store_api
 
-/// /////////////////////////////////////////////////
-// Document Data
-/// /////////////////////////////////////////////////
+/**
+ * DOCUMENT DATA
+ */
 
 // Retrieves JSON representation of a Stored Document.
 function getDocument(documentId, options) {
@@ -29,9 +32,9 @@ function getDocumentVersion(documentId, options) {
     return generateRequest('GET', `${url}/documents/${documentId}/versions/${versionId}`, options)
 }
 
-/// /////////////////////////////////////////////////
-// Document Binary
-/// /////////////////////////////////////////////////
+/**
+ * DOCUMENT BINARY
+ */
 
 // Streams contents of the most recent Document Content Version associated with the Stored Document.
 function getDocumentBinary(documentId, options) {
@@ -43,9 +46,9 @@ function getDocumentVersionBinary(documentId, options) {
     return generateRequest('GET', `${url}/documents/${documentId}/versions/${versionId}/binary`, options)
 }
 
-/// /////////////////////////////////////////////////
-// Document Thumbnail
-/// /////////////////////////////////////////////////
+/**
+ * DOCUMENT THUMBNAIL
+ */
 
 // Streams contents of the most recent Document Content Version associated with the Stored Document.
 function getDocumentThumbnail(documentId, options) {
@@ -57,13 +60,35 @@ function getDocumentVersionThumbnail(documentId, versionId, options) {
     return generateRequest('GET', `${url}/documents/${documentId}/versions/${versionId}/thumbnail`, options)
 }
 
-/// /////////////////////////////////////////////////
-// Document Creation
-/// /////////////////////////////////////////////////
+/**
+ * DOCUMENT CREATION
+ */
 
 // Creates a list of Stored Documents by uploading a list of binary/text files.
-function postDocument(file, options) {
+function postDocument(file, classification, options) {
+    options.formData = {
+        files: [
+            {
+                value: fs.createReadStream(file.path),
+                options: { filename: file.name, contentType: file.type }
+            }
+        ],
+        classification: getClassification(classification)
+    }
+
     return generateRequest('POST', `${url}/documents`, options)
+}
+
+/**
+ * getClassification
+ *
+ * If classification has not been entered, we assume that it is public.
+ *
+ * @param {String} classification - 'RESTRICTED'
+ * @return {String}
+ */
+function getClassification(classification) {
+    return classification || 'PUBLIC'
 }
 
 // Adds a Document Content Version and associates it with a given Stored Document.
@@ -76,27 +101,27 @@ function postDocumentVersionVersion(documentId, file, options) {
     return generateRequest('POST', `${url}/documents/${documentId}/versions`, options)
 }
 
-/// /////////////////////////////////////////////////
-// Document Update
-/// /////////////////////////////////////////////////
+/**
+ * DOCUMENT UPDATE
+ */
 
 // Updates document instance (ex. ttl)
 function patchDocument(documentId, updateDocumentCommand, options) {
     return generateRequest('PATCH', `${url}/documents/${documentId}`, { ...options, body: updateDocumentCommand })
 }
 
-/// /////////////////////////////////////////////////
-// Document Deletion
-/// /////////////////////////////////////////////////
+/**
+ * DOCUMENT DELETION
+ */
 
 // Deletes a Stored Document.
 function deleteDocument(documentId, updateDocumentCommand, options) {
     return generateRequest('DELETE', `${url}/documents/${documentId}`, options)
 }
 
-/// /////////////////////////////////////////////////
-// Document Others
-/// /////////////////////////////////////////////////
+/**
+ * DOCUMENT ORDERS
+ */
 
 // Retrieves audits related to a Stored Document.
 function getDocumentAuditEntries(documentId, updateDocumentCommand, options) {
@@ -109,8 +134,9 @@ function filterDocument(options) {
 }
 
 // Search stored documents by ownership.
-function ownedDocument(options) {
-    return generateRequest('POST', `${url}/documents/owned`, options)
+function ownedDocument(params, options) {
+    const queryStringParams = Object.keys(params).map(key => key + '=' + params[key]).join('&')
+    return generateRequest('POST', `${url}/documents/owned?${queryStringParams}`, options)
 }
 
 // Starts migration for a specific version of the content of a Stored Document.
@@ -130,6 +156,11 @@ function getOptions(req) {
     return headerUtilities.getAuthHeadersWithUserIdAndRoles(req)
 }
 
+/**
+ * Routing Logic
+ *
+ * TODO : We should move this out into a seperate routes file.
+ */
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
     app.use('/dm-store', router)
@@ -146,23 +177,21 @@ module.exports = app => {
         filterDocument(getOptions(req)).pipe(res)
     })
 
-    router.get('/documents/owned', (req, res, next) => {
-        ownedDocument(getOptions(req)).pipe(res)
-    })
-
     router.post('/documents/owned', (req, res, next) => {
-        ownedDocument(getOptions(req)).pipe(res)
+        ownedDocument(req.query, getOptions(req)).pipe(res)
     })
 
-    // got to solve this
+    /**
+     * Retrieves the file from a multipart form.
+     */
     router.post('/documents', (req, res, next) => {
-        console.dir(req.body)
+        const form = new formidable.IncomingForm()
 
-        const files = req.body.files
-        const classification = req.body.classification
+        form.on('file', (name, file) => {
+            postDocument(file, 'PUBLIC', getOptions(req)).pipe(res)
+        })
 
-        console.log(files, classification)
-        postDocument(files, getOptions(req)).pipe(res)
+        form.parse(req)
     })
 
     router.get('/documents/:documentId/binary', (req, res, next) => {

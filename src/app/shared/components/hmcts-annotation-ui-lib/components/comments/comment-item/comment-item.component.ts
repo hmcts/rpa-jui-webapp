@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, ChangeDetectorRef, ElementRef} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, ChangeDetectorRef, ElementRef, AfterViewInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import {Comment, Annotation} from '../../../data/annotation-set.model';
@@ -10,7 +10,7 @@ import {PdfService} from '../../../data/pdf.service';
     templateUrl: './comment-item.component.html',
     styleUrls: ['./comment-item.component.scss']
 })
-export class CommentItemComponent implements OnInit, OnDestroy {
+export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private commentBtnSub: Subscription;
     private commentFocusSub: Subscription;
@@ -25,11 +25,13 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     @Output() commentRendered: EventEmitter<any> = new EventEmitter<any>();
     @ViewChild('commentArea') commentArea: ElementRef;
     @ViewChild('commentItem') commentItem: NgForm;
-
+    @ViewChild('detailsWrapper') detailsWrapper: ElementRef;
 
     model = new Comment(null, null, null, null, null, null, null, null, null);
     commentTopPos: number;
     commentZIndex: number;
+    commentHeight: number;
+    annotationTopPos: number;
 
     constructor(private annotationStoreService: AnnotationStoreService,
                 private pdfService: PdfService,
@@ -57,20 +59,27 @@ export class CommentItemComponent implements OnInit, OnDestroy {
 
         this.commentBtnSub = this.annotationStoreService.getCommentBtnSubject()
             .subscribe((commentId) => {
-                if (commentId === this.comment.id) {
-                this.handleShowBtn();
-                } else {
-                this.handleHideBtn();
-                }
+                (commentId === this.comment.id) ? this.handleShowBtn() : this.handleHideBtn();
           });
 
         this.dataLoadedSub = this.pdfService.getDataLoadedSub()
             .subscribe( (dataLoaded: boolean) => {
                 if (dataLoaded) {
-                    this.commentTopPos = this.getRelativePosition(this.comment.annotationId);
+                    this.annotationTopPos = this.getRelativePosition(this.comment.annotationId);
+                    this.commentTopPos = this.annotationTopPos;
                     this.commentRendered.emit(true);
                 }
             });
+    }
+
+    ngAfterViewInit() {
+        this.setHeight();
+    }
+
+    setHeight(modifier = 50) {
+        const extraHeight = modifier;
+        this.commentHeight = this.commentArea.nativeElement.offsetHeight + this.detailsWrapper.nativeElement.offsetHeight + extraHeight;
+        this.commentRendered.emit(true);
     }
 
     ngOnDestroy() {
@@ -105,7 +114,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     onBlur() {
-        // this.handleHideBtn();
         if (!this.ref['destroyed']) {
             this.ref.detectChanges();
         }
@@ -138,11 +146,13 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     handleShowBtn() {
+        this.setHeight(120);
         this.focused = true;
         this.hideButton = false;
     }
 
     handleHideBtn() {
+        this.setHeight();
         if (!this.commentItem.value.content) {
             this.annotationStoreService.deleteComment(this.comment.id);
         }
@@ -156,7 +166,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         if (svgSelector === null) {
             return null;
         } else {
-            const highlightRect = <DOMRect>svgSelector.getBoundingClientRect();
+            const highlightRect = <DOMRect> svgSelector.getBoundingClientRect();
             const wrapperRect = <DOMRect> this.pdfService.getAnnotationWrapper().nativeElement.getBoundingClientRect();
 
             const topPosition = (highlightRect.y - wrapperRect.top);

@@ -1,118 +1,137 @@
-// import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-// import {ViewCaseComponent} from './view-case.component';
-// import {RouterTestingModule} from '@angular/router/testing';
-// import {CaseViewerModule} from '../../../domain/case-viewer/case-viewer.module';
-// import {ActivatedRoute} from '@angular/router';
-// import {Observable} from 'rxjs';
-// import 'rxjs-compat/add/observable/of';
-// import {DomainModule} from '../../../domain/domain.module';
-// import {Selector} from '../../../../../test/selector-helper';
-// import {Router} from '@angular/router';
-// import {HmctsModule} from '../../../hmcts/hmcts.module';
-// import {SharedModule} from '../../../shared/shared.module';
-// import { mockCase } from './mock/view-case.mock';
-// import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-// import {SectionsCaseItem} from '../../../domain/models/section_fields';
-//
-// class MockCaseDataService {
-//     getCaseData() {
-//         return mockCase.caseData;
-//     }
-// }
-//
-// describe('ViewCaseComponent', () => {
-//     let component: ViewCaseComponent;
-//     let fixture: ComponentFixture<ViewCaseComponent>;
-//     let activeRouteMock;
-//     let routerNavigateSpy;
-//     let router;
-//     let service: MockCaseDataService;
-//
-//     beforeEach(async(() => {
-//         activeRouteMock = {
-//             params: Observable.of({section: 'section_id2'}),
-//             snapshot: {
-//                 data: mockCase
-//             }
-//         };
-//         return setupModule();
-//     }));
-//
-//     function setupModule(providers = []) {
-//
-//         TestBed.configureTestingModule({
-//             declarations: [ViewCaseComponent],
-//             schemas: [CUSTOM_ELEMENTS_SCHEMA],
-//             imports: [DomainModule, CaseViewerModule, RouterTestingModule, HmctsModule, SharedModule],
-//             providers: [
-//                 { provide: ActivatedRoute, useFactory: () => activeRouteMock },
-//                 ...providers
-//             ]
-//         })
-//             .compileComponents();
-//         router = TestBed.get(Router);
-//         routerNavigateSpy = spyOn(router, 'navigate').and.returnValue(Promise.resolve({}));
-//     }
-//
-//     // beforeEach(() => {
-//     //     fixture = TestBed.createComponent(ViewCaseComponent);
-//     //     component = fixture.componentInstance;
-//     //     service = new MockCaseDataService();
-//     //     component.case = service.getCaseData();
-//     //     component.sectionTabName = 'section_id2';
-//     //     component.sections = this.MockCaseDataService.getNavigation(this.case);
-//     //     fixture.detectChanges();
-//     // });
-//
-//     it('should create', () => {
-//         expect(component).toBeTruthy();
-//     });
-//
-//     describe('Section Tabs Count', () => {
-//
-//         // it('should create links for each section', () => {
-//         //     expect(component.sections.length).toEqual(3);
-//         // });
-//
-//         // it('should render anchor links for each link', () => {
-//         // //     const linkElements = document.querySelectorAll(Selector.selector('case-viewer-component|sub-nav-link'));
-//         // //     expect(linkElements.length).toEqual(3);
-//         // //     const linkEl = linkElements[0];
-//         // //     expect(linkEl.tagName).toEqual('A');
-//         // //     expect(linkEl.getAttribute('href')).toEqual('/case/SSCS/Benefit/case_id/section_id1');
-//         // //     expect(linkEl.innerHTML).toEqual('section_name1');
-//         // });
-//     });
-//
-//     // describe('targetSection', () => {
-//     //     // THIS TEST INCORRECTLY WRITTEN
-//     //     // it('should set the target section', () => {
-//     //     //     expect(component.sectionTabName).toEqual('section_id2');
-//     //     //     expect(component.targetSection).toEqual(
-//     //     //         {
-//     //     //             id: 'section_id2',
-//     //     //             name: 'section_name2'
-//     //     //         }
-//     //     //     );
-//     //     // });
-//     //
-//     //     // it('should navigate to the first link if it cannot find the section specified', () => {
-//     //     //     activeRouteMock.params = Observable.of({section: 'bob'});
-//     //     //     TestBed.resetTestingModule();
-//     //     //     setupModule([
-//     //     //         {
-//     //     //             provide: ActivatedRoute,
-//     //     //             useValue: activeRouteMock
-//     //     //         }
-//     //     //     ]);
-//     //     //     fixture = TestBed.createComponent(ViewCaseComponent);
-//     //     //     component = fixture.componentInstance;
-//     //     //     service = new MockCaseDataService();
-//     //     //     component.case = service.getCaseData();
-//     //     //     fixture.detectChanges();
-//     //     //     expect(routerNavigateSpy).toHaveBeenCalledWith(['section_id1'], {relativeTo: TestBed.get(ActivatedRoute)});
-//     //     // });
-//     // });
-//
-//
-// });
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import {ViewCaseComponent} from './view-case.component';
+import {mockCase, mockSectionsService} from './mock/view-case.mock';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {CaseDataService} from './view-case.services';
+import {LinkItem, SectionsCaseItem} from '../../../domain/models/section_fields';
+import {mockActiveRouteViewCase, mockActiveRouteViewCaseEmpty} from './mock/activeRouterViewCase.mock';
+
+class MockCaseDataService {
+    getCaseData() {
+        return mockCase.caseData;
+    };
+    getNavigation(obj, sectionTabName): Array<LinkItem> {
+        return [
+            {
+                href: `/case/SSCS/Benefit/case_id/section_id1`,
+                text: 'section_name1',
+                label: 'section_name1',
+                id: 'section_id1',
+                active:  'section_id1' === sectionTabName
+            },
+            {
+                href: `/case/SSCS/Benefit/case_id/section_id2`,
+                text: 'section_name2',
+                label: 'section_name2',
+                id: 'section_id2',
+                active:  'section_id2' === sectionTabName
+            },
+            {
+                href: `/case/SSCS/Benefit/case_id/section_id3`,
+                text: 'section_name3',
+                label: 'section_name3',
+                id: 'section_id3',
+                active:  'section_id3' === sectionTabName
+            }
+        ];
+    }
+    findTargetSection(): SectionsCaseItem {
+        return {
+            id: 'section_id2',
+            name: 'section_name2'
+        };
+    }
+}
+describe('ViewCaseComponent: Active Router Test', () => {
+        let component: ViewCaseComponent;
+        let fixture: ComponentFixture<ViewCaseComponent>;
+        let activeRouteMock;
+        let routerNavigateSpy;
+        let router;
+
+
+        function setupModule(providers = []) {
+
+            TestBed.configureTestingModule({
+                declarations: [ViewCaseComponent],
+                schemas: [CUSTOM_ELEMENTS_SCHEMA],
+                imports: [ RouterTestingModule],
+                providers: [
+                    { provide: ActivatedRoute, useFactory: () => activeRouteMock },
+                    { provide: CaseDataService, useClass : MockCaseDataService},
+                    ...providers
+                ]
+            }).compileComponents();
+
+            router = TestBed.get(Router);
+            routerNavigateSpy = spyOn(router, 'navigate').and.returnValue(Promise.resolve({}));
+        }
+
+    function createComponent() {
+        fixture = TestBed.createComponent(ViewCaseComponent);
+        component = fixture.componentInstance;
+        activeRouteMock.params.subscribe(params => {
+            params.section ? component.sectionTabName = params.section : component.sectionTabName = null;
+        });
+        component.case = activeRouteMock.snapshot.data['caseData'];
+        fixture.detectChanges();
+    }
+
+    beforeEach(async(() => {
+        activeRouteMock = mockActiveRouteViewCaseEmpty;
+        return setupModule();
+    }));
+    it('should init ViewCaseComponent but fields not valid as State is empty', () => {
+        createComponent();
+        expect(component.case).toBeUndefined();
+        expect(component.targetSection).toBeUndefined();
+        expect(component.sectionTabName).toBeNull();
+        expect(component).toBeTruthy();
+    });
+
+    // Test data
+    describe('Should load data correctly', () => {
+        beforeEach(async(() => {
+            activeRouteMock = mockActiveRouteViewCase;
+            activeRouteMock.params = Observable.of({
+                section: 'section_id2'
+            });
+            TestBed.resetTestingModule();
+            setupModule([
+                {
+                    provide: ActivatedRoute,
+                    useValue: activeRouteMock
+                }
+            ]);
+            createComponent();
+            routerNavigateSpy();
+        }));
+        it('Revewing case object', () => {
+
+            expect(component.case.id).toEqual('case_id');
+            expect(component.case.sections.length).toEqual(3);
+            expect(component.sectionTabName).toEqual('section_id2');
+        });
+        it('Sections to be mapped out based on getNavigation service', () => {
+            expect(component.sections).toEqual(mockSectionsService);
+        })
+        it('Case: targetSection', () => {
+            expect(component.targetSection).toEqual( {
+                id: 'section_id2',
+                name: 'section_name2'
+            });
+        });
+        it('Case: sections should have min 1', () => {
+            expect(component.case.sections[0].id).toEqual('section_id1');
+        });
+    });
+
+})
+
+
+
+
+

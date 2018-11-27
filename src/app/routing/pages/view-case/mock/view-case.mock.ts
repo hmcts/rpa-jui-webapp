@@ -25,3 +25,27 @@ export const mockCase: CaseData = {
         ]
     }
 };
+
+export const mockSectionsService = [
+    {
+        href: `/case/SSCS/Benefit/case_id/section_id1`,
+        text: 'section_name1',
+        label: 'section_name1',
+        id: 'section_id1',
+        active: false
+    },
+    {
+        href: `/case/SSCS/Benefit/case_id/section_id2`,
+        text: 'section_name2',
+        label: 'section_name2',
+        id: 'section_id2',
+        active:  true
+    },
+    {
+        href: `/case/SSCS/Benefit/case_id/section_id3`,
+        text: 'section_name3',
+        label: 'section_name3',
+        id: 'section_id3',
+        active: false
+    }
+];

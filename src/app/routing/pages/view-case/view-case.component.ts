@@ -12,9 +12,7 @@ import {Subscription} from 'rxjs';
     styleUrls: ['./view-case.component.scss']
 })
 export class ViewCaseComponent implements OnInit {
-
     public case: PageDateCase;
-    public caseid: string;
     public sections: Array<LinkItem> = [];
     public sectionTabName: string | null;
     public targetSection: SectionsCaseItem | null;
@@ -28,8 +26,8 @@ export class ViewCaseComponent implements OnInit {
 
     ngOnInit() {
         if (this.case) {
-            this.targetSection = this.case.sections.find((item: SectionsCaseItem ) => item.id === this.sectionTabName);
-            this.sections = this.caseDataService.getNavigation(this.case);
+            this.targetSection = this.caseDataService.findTargetSection(this.case, this.sectionTabName);
+            this.sections = this.caseDataService.getNavigation(this.case, this.sectionTabName);
         }
         if (!this.targetSection) {
             if (this.sections[0]) {

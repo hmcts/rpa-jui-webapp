@@ -17,6 +17,9 @@ export class FormsService {
      *
      * prop can be a fieldset, legend, text, idPrefix, name, header, checkboxes, if we
      *
+     * Here is where the validation is applied to each of the controls of the form, based on the validators that
+     * have been plaed into the state_meta.js.
+     *
      * TODO: Name this something totally different, as create doesn't really explain what it does,
      * also there it's quite hard to work out.
      *

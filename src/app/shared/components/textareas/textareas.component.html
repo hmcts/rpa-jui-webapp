@@ -8,6 +8,7 @@
         <app-validation-error-formcontrol *ngIf="showValidation" [group]="group" [controlId]="control">{{validationError.value}}</app-validation-error-formcontrol>
     </ng-container>
     <textarea [class]="classes"
+              [ngClass]="{'govuk-textarea--error':isControlInvalidAndShowValidation(group, control, showValidation)}"
               [rows]="rows"
               [id]="labelFor"
               [formControlName]="control"></textarea>

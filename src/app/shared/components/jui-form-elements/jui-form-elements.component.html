@@ -6,6 +6,11 @@
     <app-hint *ngIf="data.hint" [classes]="data.hint.classes">
         {{data.hint.text}}
     </app-hint>
+    <ng-container *ngIf="data.validationError && validate">
+        <app-validation-error-formgroup [group]="group" [validationErrorId]="data.validationError.identifier">
+            {{data.validationError.value}}
+        </app-validation-error-formgroup>
+    </ng-container>
     <app-inputs *ngIf="data.input"
                 [item]="data.input"
                 [group]="group"
@@ -31,12 +36,13 @@
                 <div *ngIf="data.checkbox.groups && group.controls[data.checkbox.control].value" class="govuk-checkboxes__conditional">
                     <ng-container  *ngFor="let subgroup of data.checkbox.groups">
                         <app-fieldset *ngIf="subgroup.fieldset"
+                                      [validate]="validate"
                                       [classes]="'govuk-fieldset'"
                                       [group]="group"
                                       [data]="subgroup.fieldset"
                                       >
                         </app-fieldset>
-                        <app-jui-form-elements [group]="group" [data]="subgroup"></app-jui-form-elements>
+                        <app-jui-form-elements [validate]="validate" [group]="group" [data]="subgroup"></app-jui-form-elements>
                     </ng-container>
                 </div>
             </div>

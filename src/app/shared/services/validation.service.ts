@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import {Form, FormGroup} from '@angular/forms';
 import {Validators, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {FormGroupValidator} from './validation.typescript';
 
 @Injectable({
     providedIn: 'root'
@@ -93,7 +94,7 @@ export class ValidationService {
     /**
      * Checks if the control is valid.
      *
-     * Returns a boolean, based on if the the control, which is part
+     * Returns a boolean, based on if the control which is part
      * of a form group is valid or not.
      *
      * TODO: Unit test.
@@ -113,11 +114,11 @@ export class ValidationService {
      *
      * Checks if a validation error has been thrown on the pages Angular FormGroup.
      *
-     * FormGroup is the common ancestor of FormControls, and therefore and according to the Angular
+     * FormGroup is a the parent of FormControls, and therefore and according to the Angular
      * Docs the best place to validate against multiply controls, that have dependencies upon one
-     * another.
+     * another is on the FormGroup level.
      *
-     * An example being we should check if a user has checked one of eight checkboxes.
+     * An example being; we should check if a user has checked one of eight checkboxes.
      *
      * TODO : Unit Test
      *
@@ -146,20 +147,16 @@ export class ValidationService {
      * This is due to the fact that we might have multiply checkboxes within the view, and the user needs to
      * select at least one of these checkboxes to have entered a valid input.
      *
-     * Note that we valid on the formGroup level, and not the control level for this as we are concerned with
-     * multiply controls and the Angular 6 way is to have the validator on a common ancestor of controls, in this
+     * Note that we validate on the formGroup level, and not the control level for this as we are concerned with
+     * multiple controls and the Ng 6 way is to have the validator on a common ancestor of controls; in this
      * case our formGroup.
      *
-     * If this function returns null, there is no validation error.
-     *
-     * TODO : Can we return ValidationFn from this?
-     *
-     * If there the user has checked a checked box, this func, returns null, and therefore no validation error is returned,
-     * as the user has checked a box, if it returns a validation error, the user has not checked any of the checkboxes.
+     * If the user has checked a checked box this function returns null and therefore no validation error is returned.
+     * If the user has NOT checked a checkbox this function returns a validation error.
      *
      * @param formGroup
      * @param {string} validationIdentifier - An error name assigned by the developer, this name can then be referred
-     * to display the view.
+     * to display the error in the  view.
      * @return {any}
      */
     isAnyCheckboxChecked(formGroup: FormGroup, checkboxes: Array<string>, validationIdentifier: string): ValidatorFn | null {
@@ -178,5 +175,84 @@ export class ValidationService {
         };
 
         return isAnyCheckboxCheckedValidationFn;
+    }
+
+    /**
+     * isTextAreaValidWhenCheckboxChecked
+     *
+     * @param formGroup
+     * @param checkboxControl
+     * @param textareaControl
+     * @param validationIdentifier
+     * @return {any}
+     */
+    isTextAreaValidWhenCheckboxChecked(formGroup: FormGroup, checkboxControl: string, textareaControl: string,
+                                       validationIdentifier: string) {
+
+        const isTextAreaValidWhenCheckboxChecked: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
+
+            if (!controls.get(checkboxControl).value) {
+                return null;
+            }
+
+            if (controls.get(textareaControl).value.length > 0) {
+                return null;
+            }
+
+            return {
+                [validationIdentifier]: true,
+            };
+        };
+
+        return isTextAreaValidWhenCheckboxChecked;
+    }
+
+    /**
+     * createFormGroupValidators
+     *
+     * FormGroup Validators are used for validation that involves more than one FormControl. ie. When a control
+     * depends on another, or we need to validate a group of controls together. Validation for multiply controls is
+     * required on the common ancestor as per the Angular Documentation.
+     *
+     * @see @see https://angular.io/guide/form-validation#adding-to-reactive-forms-1
+     *
+     * @param {FormGroup} formGroup - Angular FormGroup
+     * @param formGroupValidators - [{
+     *    validatorFunc: 'isAnyCheckboxChecked',
+     *    validationErrorId: 'reasonsConstentOrderNotApproved',
+     *    checkboxes: [
+     *        'partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
+     *        'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'
+     *    ]}]
+     */
+    createFormGroupValidators(formGroup: FormGroup, formGroupValidators) {
+
+        return formGroupValidators.map(formGroupValidator => {
+
+            const groupValidator: FormGroupValidator = formGroupValidator;
+
+            return this.createFormGroupValidator(formGroup, groupValidator.validatorFunc, groupValidator.checkboxes,
+                groupValidator.validationErrorId);
+        });
+    }
+
+    /**
+     * createFormGroupValidator
+     *
+     * You'll need to pass in the name of the validator function that you wish to use.
+     *
+     * @see state_meta.js
+     *
+     * @param formGroup
+     * @param {String} validatorFunc - 'isAnyCheckboxChecked'
+     * @param {Array} checkboxes - ['partiesNeedAttend', 'NotEnoughInformation']
+     * @param {String} validationErrorId - 'reasonsConstentOrderNotApproved'
+     *
+     * @return {ValidatorFn}
+     */
+    createFormGroupValidator(formGroup: FormGroup, validatorFunc: string, checkboxes: Array<string>,
+                             validationErrorId: string): ValidatorFn {
+
+        return this[validatorFunc](formGroup, checkboxes, validationErrorId);
     }
 }

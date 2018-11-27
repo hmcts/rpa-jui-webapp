@@ -11,6 +11,8 @@ export class FieldsetComponent implements OnInit, OnChanges {
     @Input() validate;
     @Input() group;
     @Input() data;
+
+    //TODO: Can we deprecate?
     @Input() childrenOf;
 
     constructor() {}

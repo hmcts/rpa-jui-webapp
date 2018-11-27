@@ -5,7 +5,51 @@ import {CaseViewerModule} from '../../case-viewer.module';
 import {Selector} from '../../../../../../test/selector-helper';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ConfigService} from '../../../../config.service';
-import { mockQuestion } from './mock/mock-questions.mock';
+import {mockQuestion, mockQuestionEmpty, mockQuestions2, mockQuestionsPanelData} from './mock/mock-questions.mock';
+import {api_base_url} from '../../../../enviorment.mock';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PageDateQuestion} from '../../../models/section_fields';
+import {mockActiveRouteQuestionsPanel} from './mock/activeRoute.mock';
+@Component({
+    selector: `app-host-dummy-component`,
+    template: `<app-questions-panel [panelData]="data"></app-questions-panel>`
+})
+class TestQuestionsPanelDummyHostComponent {
+    private data: PageDateQuestion = mockQuestion;
+    @ViewChild(QuestionsPanelComponent)
+    public QuestionsPanelComponent: QuestionsPanelComponent;
+}
+describe('Testing @input', () => {
+    let testHostComponent: TestQuestionsPanelDummyHostComponent;
+    let testHostFixture: ComponentFixture<TestQuestionsPanelDummyHostComponent>;
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [ QuestionsPanelComponent, TestQuestionsPanelDummyHostComponent ],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA],
+            imports: [RouterTestingModule]
+        })
+            .compileComponents();
+    }));
+    beforeEach(() => {
+        testHostFixture = TestBed.createComponent(TestQuestionsPanelDummyHostComponent);
+        testHostComponent = testHostFixture.componentInstance;
+    });
+    it('should fail panelData as not be passed through', () => {
+        expect(testHostComponent.QuestionsPanelComponent.panelData).toBeUndefined();
+    });
+    it('should pass panelData as not be passed through', () => {
+        testHostFixture.detectChanges();
+        expect(testHostComponent.QuestionsPanelComponent.panelData).toBeDefined();
+        expect(testHostComponent.QuestionsPanelComponent.panelData.fields[0].value.length).toEqual(1);
+    });
+    it('panelData questions should be 2', () => {
+        testHostFixture.detectChanges();
+        expect(testHostComponent.QuestionsPanelComponent.panelData.fields[0].value.length).toEqual(1);
+        expect(testHostComponent.QuestionsPanelComponent.panelData.fields[0].value instanceof Array).toBeTruthy();
+    });
+})
+
 
 describe('QuestionsPanelComponent', () => {
     let component: QuestionsPanelComponent;
@@ -16,7 +60,7 @@ describe('QuestionsPanelComponent', () => {
     beforeEach(() => {
         mockConfigService = {
             config: {
-                api_base_url: 'http://localhost:3000'
+                api_base_url: api_base_url
             }
         };
     });
@@ -116,15 +160,7 @@ describe('QuestionsPanelComponent', () => {
                 .compileComponents();
         }));
 
-        const data = {
-            'name': 'Questions',
-            'type': 'questions-panel',
-            'fields': [
-                {
-                    'value': []
-                }
-            ]
-        };
+        const data = mockQuestionEmpty;
 
         beforeEach(async(() => {
             fixture = TestBed.createComponent(QuestionsPanelComponent);
@@ -186,36 +222,7 @@ describe('QuestionsPanelComponent', () => {
                 .compileComponents();
         }));
 
-        const data = {
-            'name': 'Questions',
-            'type': 'questions-panel',
-            'fields': [
-                {
-                    'value': [{
-                        'question_round_number': '1',
-                        'state': 'question_issue_pending',
-                        'questions': [
-                            {
-                                'id': 'be8ac935-ed7a-47b5-84ce-b5aa25e64512',
-                                'header': 'Test header 1',
-                                'body': 'Test body 1',
-                                'owner_reference': '5899',
-                                'state_datetime': new Date(Date.UTC(2018, 6, 13, 8, 52, 38)),
-                                'state': 'question_issue_pending'
-                            },
-                            {
-                                'id': 'c7935438-b54c-4dad-bbe8-34fff72caf81',
-                                'header': 'Test header 2',
-                                'body': 'Test Header 2',
-                                'owner_reference': '5899',
-                                'state_datetime': new Date(Date.UTC(2018, 6, 14, 8, 52, 38)),
-                                'state': 'question_issue_pending'
-                            }
-                        ]
-                    }]
-                }
-            ]
-        };
+        const data = mockQuestionsPanelData;
 
         beforeEach(async(() => {
             fixture = TestBed.createComponent(QuestionsPanelComponent);
@@ -282,36 +289,7 @@ describe('QuestionsPanelComponent', () => {
                 .compileComponents();
         }));
 
-        const data = {
-            'name': 'Questions',
-            'type': 'questions-panel',
-            'fields': [
-                {
-                    'value': [{
-                        'question_round_number': '1',
-                        'state': 'question_issue_pending',
-                        'questions': [
-                            {
-                                'id': 'be8ac935-ed7a-47b5-84ce-b5aa25e64512',
-                                'header': 'Test header 1',
-                                'body': 'Test body 1',
-                                'owner_reference': '5899',
-                                'state_datetime': new Date(Date.UTC(2018, 6, 13, 8, 52, 38)),
-                                'state': 'question_answered'
-                            },
-                            {
-                                'id': 'c7935438-b54c-4dad-bbe8-34fff72caf81',
-                                'header': 'Test header 2',
-                                'body': 'Test Header 2',
-                                'owner_reference': '5899',
-                                'state_datetime': new Date(Date.UTC(2018, 6, 14, 8, 52, 38)),
-                                'state': 'question_issued'
-                            }
-                        ]
-                    }]
-                }
-            ]
-        };
+        const data = mockQuestions2;
 
         beforeEach(async(() => {
             fixture = TestBed.createComponent(QuestionsPanelComponent);

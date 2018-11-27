@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {LinkItem, PageDateQuestion, QuestionValue} from '../../../models/section_fields';
 
 @Component({
     selector: 'app-questions-panel',
@@ -7,15 +8,13 @@ import {ActivatedRoute} from '@angular/router';
     styleUrls: ['./questions-panel.component.scss']
 })
 export class QuestionsPanelComponent implements OnInit {
-    @Input() panelData;
-
+    @Input() panelData: PageDateQuestion;
     createdQuestion: string;
     updatedQuestion: string;
     deletedQuestion: string;
     sentQuestions: string;
-
-    rounds = [];
-
+    actionPrimaryButton: LinkItem = {href: '../decision/create', text: 'Make decision'};
+    actionSecondaryButton: LinkItem = {href: '../hearing/list', text: 'List for hearing'};
     constructor(private route: ActivatedRoute) {}
 
     ngOnInit(): void {
@@ -25,6 +24,5 @@ export class QuestionsPanelComponent implements OnInit {
             this.updatedQuestion = queryParams['updated'];
             this.sentQuestions = queryParams['sent'];
         });
-        this.rounds = this.panelData.fields[0].value;
     }
 }

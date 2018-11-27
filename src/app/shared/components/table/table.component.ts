@@ -28,7 +28,6 @@ export class TableComponent implements OnChanges {
     }
 
     ngOnChanges(changes) {
-        console.log('data.currentValue', changes.data.currentValue);
         this.resultView = changes.data.currentValue;
     }
 }

@@ -8,6 +8,11 @@ export interface PageDateDefault extends PageDate {
     sections: Array<SectionsItem>;
 }
 
+export interface PageDateQuestion extends PageDate {
+    type: string;
+    fields: Array<QuestionField>;
+}
+
 export interface PageDateCase extends PageDate {
     case_jurisdiction: string;
     case_type_id: string;
@@ -44,4 +49,20 @@ export interface FieldItemValue {
     user_first_name: string;
     user_last_name: string;
     created_date: string;
+}
+export interface QuestionField {
+    value: Array<QuestionValue> | [{}];
+}
+export interface QuestionValue {
+    question_round_number: string;
+    state: string;
+    questions: Array<QuestionItem>;
+}
+export interface QuestionItem {
+    id: string;
+    header: string;
+    body: string;
+    owner_reference: string;
+    state_datetime: object;
+    state: string;
 }

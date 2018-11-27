@@ -38,6 +38,7 @@ let deleteCookiesSpy;
 let routerNavigateSpy;
 
 describe('AuthService', () => {
+    let setup;
     beforeEach(() => {
         deleteCookiesSpy = spyOn(cookieService, 'removeAll');
         routerNavigateSpy = spyOn(router, 'navigate');

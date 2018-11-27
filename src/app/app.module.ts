@@ -10,6 +10,7 @@ import { ConfigService } from './config.service';
 import {AuthModule} from './auth/auth.module';
 import {HmctsModule} from './hmcts/hmcts.module';
 import {GovukModule} from './govuk/govuk.module';
+import { StaticPagesModule } from '../../projects/static-pages/src/lib/static-pages.module';
 
 @NgModule({
     declarations: [

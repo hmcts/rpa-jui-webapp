@@ -24,10 +24,6 @@ export class CaseService {
         return this.httpClient.get(url).pipe(map(data => {
             this.state.set(key, data);
             return data;
-        })).pipe(catchError(error => {
-            const value: any = {error};
-            this.state.set(key, value);
-            return value;
         }));
     }
 

@@ -28,10 +28,12 @@ defineSupportCode(function ({Given, When, Then}) {
         browser.sleep(LONG_DELAY);
         await timelinePage.button_continue.click();
         browser.sleep(LONG_DELAY);
+        await timelinePage.select_reason_not_to_approve.click();
+        browser.sleep(MID_DELAY);
         await timelinePage.annotate_continue.click();
         browser.sleep(MID_DELAY);
         await timelinePage.button_continue.click();
-        browser.sleep(MID_DELAY);
+        browser.sleep(LONG_DELAY);
     });
 
     Then(/^I verify the Check Decision page$/, async function () {

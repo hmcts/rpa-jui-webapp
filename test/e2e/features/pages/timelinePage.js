@@ -17,10 +17,11 @@ function timelinePage() {
 
     this.panel_members = element(by.xpath(("//*[@id='content']/app-case-viewer/app-summary-panel/div/div[1]/app-data-list[2]/div/h2")));
     this.panel_table = element(by.xpath('//*[@id="content"]/app-case-viewer/app-summary-panel/div/div[1]/app-data-list[2]/div'));
-    this.make_decision = element.all(by.css('a.govuk-button.hmcts-page-heading__button'));
-    this.draft_button = element(by.css('input#create-2'));
+    this.make_decision = element.all(by.css('input#itemControl'));
+    this.draft_button = element(by.css('#approveDraftConsent-2'));
     this.button_continue = element(by.css("input[type='submit'][value='Continue']"));
-    this.annotate_continue = element(by.css('input#reject-reasons-2'));
+    this.select_reason_not_to_approve = element(by.css('input.govuk-checkboxes__input.ng-valid.ng-touched.ng-dirty'));
+    this.annotate_continue = element(by.css('#includeAnnotatedVersionDraftConsOrder-2'));
     this.check_decision = element(by.css('h1.govuk-heading-xl'));
 }
 

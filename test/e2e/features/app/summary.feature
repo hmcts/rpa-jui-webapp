@@ -31,7 +31,7 @@ Feature: View Case Summary Page
          Then I will be redirected to the JUI dashboard page
 
 
-    @all
+   # @all
     Scenario: Verify summary page sub nav links and their redirected pages
         Then I should see Summary sub nav link
         Then I can see sub nav links as Parties,Case file,Timeline
@@ -45,8 +45,8 @@ Feature: View Case Summary Page
 
 
 
-    @RIUI_299 @all
-    Scenario Outline: I can see case summary and panel members information
+    # @RIUI_299 @all
+     Scenario Outline: I can see case summary and panel members information
         Then I should see case details of that case <type>
         Then I should see linked cases or panel members details for that case <type>
         Examples:
@@ -56,16 +56,16 @@ Feature: View Case Summary Page
 
 
 
-    @all
-    Scenario: Verify Summary page Decision needed on status text
+   # @all
+     Scenario: Verify Summary page Decision needed on status text
         Then I should see case alert on summary page for that case
         Then also can see case alert header as Decision needed
         Then I should see case action alert link
 
 
 
-    @bug
-    Scenario: select case action alert link redirects to key facts or case file page
+   # @bug
+     Scenario: select case action alert link redirects to key facts or case file page
         When I click on case action alert link
         Then I will be redirected to the Case file page for that case
 

@@ -1,4 +1,4 @@
-import { Rectangle } from "./annotation-set.model";
+import { Rectangle } from './annotation-set.model';
 
 export class Utils {
 
@@ -41,24 +41,24 @@ export class Utils {
 
     sortByY(rectangles, lowest) {
         rectangles.sort(
-            function(a, b) {
+            function (a, b) {
                 const keyA = a.y,
                     keyB = b.y;
-                    if (keyA < keyB) { return lowest ? -1 : 1; }
-                    if (keyA > keyB) { return lowest ? 1 : -1; }
+                if (keyA < keyB) { return lowest ? -1 : 1; }
+                if (keyA > keyB) { return lowest ? 1 : -1; }
                 return 0;
-        });
+            });
     }
 
     sortByX(rectangles, lowest) {
         rectangles.sort(
-            function(a, b) {
+            function (a, b) {
                 const keyA = a.x,
                     keyB = b.x;
                 if (keyA < keyB) { return lowest ? -1 : 1; }
                 if (keyA > keyB) { return lowest ? 1 : -1; }
                 return 0;
-        });
+            });
     }
 
     isSameLine(a: number, b: number): boolean {
@@ -74,7 +74,7 @@ export class Utils {
     difference(a, b): number { return Math.abs(a - b); }
 
     clickIsHighlight(event: MouseEvent): boolean {
-        const target = <HTMLElement> event.target;
+        const target = <HTMLElement>event.target;
         const isHighlight = target.firstElementChild;
         if (isHighlight == null) {
             return false;

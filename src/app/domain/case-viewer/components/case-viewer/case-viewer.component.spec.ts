@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CaseViewerComponent } from './case-viewer.component';
 import { CaseViewerModule } from '../../case-viewer.module';
 import {CUSTOM_ELEMENTS_SCHEMA, DebugElement} from '@angular/core';
-import { Selector } from '../../../../../../test/selector-helper';
+import {Selector} from '../../../../shared/selector-helper';
 
 describe('CaseViewerComponent', () => {
     let component: CaseViewerComponent;

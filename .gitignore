@@ -46,7 +46,7 @@ testem.log
 .DS_Store
 Thumbs.db
 version
-reports/
+/test/reports/
 .tmp/
 !.sessions/
 .sessions/*

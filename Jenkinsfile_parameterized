@@ -61,7 +61,7 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/lint/node/",
+            reportDir            : "test/reports/lint/node/",
             reportFiles          : 'index.html',
             reportName           : 'node lint Report'
         ])
@@ -70,7 +70,7 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/lint/ng/",
+            reportDir            : "test/reports/lint/ng/",
             reportFiles          : 'index.html',
             reportName           : 'ng lint Report'
         ])
@@ -82,7 +82,7 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/unit/node",
+            reportDir            : "test/reports/tests/unit/node",
             reportFiles          : "index.html",
             reportName           : "node unit tests"
         ])
@@ -91,7 +91,7 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/unit/ng",
+            reportDir            : "test/reports/tests/unit/ng",
             reportFiles          : "index.html",
             reportName           : "ng unit Tests"
         ])
@@ -100,7 +100,7 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/coverage/node",
+            reportDir            : "test/reports/tests/coverage/node",
             reportFiles          : "index.html",
             reportName           : "node coverage tests"
         ])
@@ -143,7 +143,7 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/smoke_tests/functional/",
+            reportDir            : "test/reports/smoke_tests/functional/",
             reportFiles          : 'index.html',
             reportName           : 'PREVIEW Smoke Test'
         ])
@@ -154,7 +154,7 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/functional/",
+            reportDir            : "test/reports/tests/functional/",
             reportFiles          : 'index.html',
             reportName           : 'PREVIEW Functional Test'
         ])
@@ -165,7 +165,7 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/smoke_tests/functional/",
+            reportDir            : "test/reports/smoke_tests/functional/",
             reportFiles          : 'index.html',
             reportName           : 'AAT Smoke Test'
         ])
@@ -176,7 +176,7 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/functional/",
+            reportDir            : "test/reports/tests/functional/",
             reportFiles          : 'index.html',
             reportName           : 'AAT Functional Test'
         ])
@@ -187,7 +187,7 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/smoke_tests/functional/",
+            reportDir            : "test/reports/smoke_tests/functional/",
             reportFiles          : 'index.html',
             reportName           : 'PROD Smoke Test'
         ])

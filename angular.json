@@ -12,7 +12,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist",
+                        "outputPath": "dist/jui-frontend/main",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "tsConfig": "src/tsconfig.app.json",
@@ -32,7 +32,8 @@
                                 "glob": "**/*",
                                 "input": "node_modules/@hmcts/frontend/assets",
                                 "output": "/public"
-                            },                            {
+                            },
+                            {
                                 "glob": "**/*",
                                 "input": "node_modules/@hmcts/frontend/assets",
                                 "output": "/assets"
@@ -81,7 +82,7 @@
                 "server": {
                     "builder": "@angular-devkit/build-angular:server",
                     "options": {
-                        "outputPath": "dist-server",
+                        "outputPath": "dist/jui-frontend/server",
                         "main": "src/server.main.ts",
                         "tsConfig": "src/tsconfig.server.json"
                     }
@@ -152,7 +153,8 @@
                                 "glob": "**/*",
                                 "input": "node_modules/@hmcts/frontend/assets",
                                 "output": "/public"
-                            },                            {
+                            },
+                            {
                                 "glob": "**/*",
                                 "input": "node_modules/@hmcts/frontend/assets",
                                 "output": "/assets"
@@ -168,9 +170,7 @@
                                 "output": "/assets"
                             }
                         ],
-                        "styles": [
-                            "src/styles.scss"
-                        ],
+                        "styles": ["src/styles.scss"],
                         "scripts": []
                     }
                 },
@@ -181,9 +181,7 @@
                             "src/tsconfig.app.json",
                             "src/tsconfig.spec.json"
                         ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
+                        "exclude": ["**/node_modules/**"]
                     }
                 }
             }

@@ -2,7 +2,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CaseViewerModule } from '../../../domain/case-viewer/case-viewer.module';
 import { DebugElement } from '@angular/core';
-import { Selector } from '../../../../../test/selector-helper';
+import {Selector} from '../../../shared/selector-helper';
 import {TimelineComponent} from './timeline.component';
 import {HmctsTimelineComponent} from '../../../hmcts/components/hmcts-timeline/hmcts-timeline.component';
 import {SentenceCasePipe} from '../../../hmcts/pipes/sentence-case/sentence-case-pipe';

@@ -4,7 +4,7 @@ import { SearchResultComponent } from './search-result.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { DomainModule } from '../../domain.module';
 import { CaseService } from '../../services/case.service';
-import { Selector } from '../../../../../test/selector-helper';
+import {Selector} from '../../../shared/selector-helper';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ConfigService } from '../../../config.service';
 import { BrowserTransferStateModule, StateKey } from '@angular/platform-browser';

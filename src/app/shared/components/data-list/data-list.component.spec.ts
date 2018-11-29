@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataListComponent } from './data-list.component';
 import { SharedModule } from '../../shared.module';
 import { DebugElement } from '@angular/core';
-import { Selector } from '../../../../../test/selector-helper';
+import {Selector} from '../../../shared/selector-helper';
 import {HmctsModule} from '../../../hmcts/hmcts.module';
 import {GovukModule} from '../../../govuk/govuk.module';
 

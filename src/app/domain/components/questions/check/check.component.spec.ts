@@ -9,7 +9,7 @@ import { BrowserTransferStateModule} from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {ActivatedRoute} from '@angular/router';
 import {of} from 'rxjs';
-import {Selector} from '../../../../../../test/selector-helper';
+import {Selector} from '../../../../shared/selector-helper';
 import {RedirectionService} from '../../../../routing/redirection.service';
 
 describe('CheckQuestionsComponent', () => {

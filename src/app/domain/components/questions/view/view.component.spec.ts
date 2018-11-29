@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { CaseService } from '../../../services/case.service';
 import { of } from 'rxjs';
-import { Selector } from '../../../../../../test/selector-helper';
+import {Selector} from '../../../../shared/selector-helper';
 import { RedirectionService } from '../../../../routing/redirection.service';
 
 describe('ViewQuestionComponent', () => {

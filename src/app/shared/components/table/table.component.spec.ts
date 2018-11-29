@@ -4,7 +4,7 @@ import {TableComponent} from './table.component';
 import {SharedModule} from '../../shared.module';
 import {DebugElement} from '@angular/core';
 
-import {Selector} from '../../../../../test/selector-helper';
+import {Selector} from '../../../shared/selector-helper';
 import {RouterTestingModule} from '@angular/router/testing';
 import {mockColumData, mockDataWithNoRows, mockDataWithTwoRows, mockResultData, mockResultData2} from './mock/table.mock';
 

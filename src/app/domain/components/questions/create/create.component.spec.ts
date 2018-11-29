@@ -3,7 +3,7 @@ import {CreateQuestionsComponent} from './create.component';
 import {SharedModule} from '../../../../shared/shared.module';
 import {DomainModule} from '../../../domain.module';
 import {QuestionService} from '../../../services/question.service';
-import {Selector} from '../../../../../../test/selector-helper';
+import {Selector} from '../../../../shared/selector-helper';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {ConfigService} from '../../../../config.service';
 import {BrowserTransferStateModule} from '@angular/platform-browser';

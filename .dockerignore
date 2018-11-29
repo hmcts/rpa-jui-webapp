@@ -4,8 +4,8 @@
 !src
 !angular.json
 !tsconfig.json
-!application.js
-!server.js
+!application.ts
+!server.ts
 !package.json
 !package-lock.json
 !yarn.lock

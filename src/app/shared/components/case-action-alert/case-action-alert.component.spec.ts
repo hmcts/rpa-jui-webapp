@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CaseActionAlertComponent } from './case-action-alert.component';
-import {Selector} from '../../../../../test/selector-helper';
 import {DebugElement} from '@angular/core';
 
 describe('CaseActionAlertComponent', () => {

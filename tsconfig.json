@@ -1,25 +1,18 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "outDir": "./dist/out-tsc",
+        "outDir": "./dist/jui-backend",
         "sourceMap": true,
         "declaration": false,
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "target": "es5",
-        "typeRoots": [
-            "node_modules/@types"
-        ],
+        "typeRoots": ["node_modules/@types"],
         "baseUrl": ".",
         "paths": {
-            "@angular/*": [
-                "../node_modules/@angular/*"
-            ]
+            "@angular/*": ["../node_modules/@angular/*"]
         },
-        "lib": [
-            "es2017",
-            "dom"
-        ]
+        "lib": ["es2017", "dom"]
     }
 }

@@ -1,0 +1,40 @@
+export const template = {
+    columns: [
+        {
+            label: 'Case Reference',
+            case_field_id: 'case_ref',
+            value: '$.id'
+        },
+        {
+            label: 'Parties',
+            case_field_id: 'parties',
+            value: [
+                '$.case_data.claimData.claimants[0].value.individual.name',
+                'v',
+                '$.case_data.claimData.defendants[0].value.individual.name'
+            ]
+        },
+        {
+            label: 'Type',
+            case_field_id: 'type',
+            value: 'CMC'
+        },
+        {
+            label: 'Decision needed on',
+            case_field_id: 'status',
+            value: '$.state|case_status_processor'
+        },
+        {
+            label: 'Case received',
+            case_field_id: 'createdDate',
+            value: '$.created_date',
+            date_format: 'd MMM yyyy'
+        },
+        {
+            label: 'Date of Last Action',
+            case_field_id: 'lastModified',
+            value: '$.last_modified',
+            date_format: 'd MMM yyyy'
+        }
+    ]
+}

@@ -1,9 +1,9 @@
-import {inject, TestBed} from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
-import {AuthService} from './auth.service';
-import {ConfigService} from '../config.service';
-import {Router} from '@angular/router';
-import {CookieService} from 'ngx-cookie';
+import { AuthService } from './auth.service';
+import { ConfigService } from '../config.service';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie';
 
 const config = {
     config: {
@@ -21,7 +21,7 @@ const config = {
 };
 
 const router = {
-    navigate: () => {}
+    navigate: () => { }
 };
 
 const cookieService = {
@@ -29,9 +29,9 @@ const cookieService = {
         return this[key];
     },
     set: (key, value) => {
-      this[key] = value;
+        this[key] = value;
     },
-    removeAll: () => {}
+    removeAll: () => { }
 };
 
 let deleteCookiesSpy;
@@ -71,7 +71,7 @@ describe('AuthService', () => {
         cookieService.set(service.COOKIE_KEYS.TOKEN, 'value1');
         cookieService.set(service.COOKIE_KEYS.USER, 'value2');
         const headers = service.getAuthHeaders();
-        expect(headers).toEqual({Authorization: 'value1', ben: 'value2'});
+        expect(headers).toEqual({ Authorization: 'value1', ben: 'value2' });
     }));
 
     describe('isAuthenticated', () => {

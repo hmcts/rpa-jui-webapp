@@ -2,7 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {QuestionsPanelComponent} from './questions-panel.component';
 import {CaseViewerModule} from '../../case-viewer.module';
-import {Selector} from '../../../../../../test/selector-helper';
+import {Selector} from '../../../../shared/selector-helper';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ConfigService} from '../../../../config.service';
 import {mockQuestion, mockQuestionEmpty, mockQuestions2, mockQuestionsPanelData} from './mock/mock-questions.mock';

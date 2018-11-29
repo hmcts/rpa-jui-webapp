@@ -63,7 +63,7 @@ withNightlyPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/lint/node/",
+            reportDir            : "test/reports/lint/node/",
             reportFiles          : 'index.html',
             reportName           : 'node lint Report'
         ])
@@ -72,7 +72,7 @@ withNightlyPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/lint/ng/",
+            reportDir            : "test/reports/lint/ng/",
             reportFiles          : 'index.html',
             reportName           : 'ng lint Report'
         ])

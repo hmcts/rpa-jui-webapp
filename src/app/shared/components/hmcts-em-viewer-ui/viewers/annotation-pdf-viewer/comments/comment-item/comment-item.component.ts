@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Annotation, Comment } from '../../../../data/annotation-set.model';
 import { AnnotationStoreService } from '../../../../data/annotation-store.service';
 import { PdfService } from '../../../../data/pdf.service';
+import { Utils } from '../../../../data/utils';
 
 @Component({
     selector: 'app-comment-item',
@@ -34,11 +35,14 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     commentZIndex: number;
     commentHeight: number;
     annotationTopPos: number;
-
+    annotationLeftPos: number;
+    annotationHeight: number;
+    
     constructor(private annotationStoreService: AnnotationStoreService,
                 private pdfService: PdfService,
                 private ref: ChangeDetectorRef,
-                private renderer: Renderer2) {
+                private renderer: Renderer2,
+                private utils: Utils) {
     }
 
     ngOnInit() {
@@ -69,6 +73,9 @@ export class CommentItemComponent implements OnInit, OnDestroy {
                 if (dataLoaded) {
                     this.annotationTopPos = this.getRelativePosition(this.comment.annotationId);
                     this.commentTopPos = this.annotationTopPos;
+                    this.utils.sortByX(this.annotation.rectangles, true);
+                    this.annotationHeight = this.utils.getAnnotationLineHeight(this.annotation.rectangles);
+                    this.annotationLeftPos = this.annotation.rectangles[0].x;
                     this.commentRendered.emit(true);
                     this.collapseComment();
                 }

@@ -10,8 +10,8 @@ import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { NpaService } from '../../data/npa.service';
 import { ApiHttpService } from '../../data/api-http.service';
 import { Utils } from '../../data/utils';
-import { CommentsComponent } from '../comments/comments.component';
 import { PdfAnnotateWrapper } from '../../data/js-wrapper/pdf-annotate-wrapper';
+import { CommentsComponent } from './comments/comments.component';
 
 class MockPdfAnnotateWrapper {
   setStoreAdapter() {}

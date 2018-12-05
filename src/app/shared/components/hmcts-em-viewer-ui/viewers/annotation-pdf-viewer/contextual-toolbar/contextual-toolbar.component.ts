@@ -1,8 +1,8 @@
 import {Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AnnotationStoreService } from '../../data/annotation-store.service';
-import { Annotation, Comment } from '../../data/annotation-set.model';
-import { PdfService } from '../../data/pdf.service';
+import { Annotation, Comment } from '../../../data/annotation-set.model';
+import { AnnotationStoreService } from '../../../data/annotation-store.service';
+import { PdfService } from '../../../data/pdf.service';
 
 @Component({
   selector: 'app-contextual-toolbar',

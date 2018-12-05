@@ -3,11 +3,11 @@ import { NgForm, FormsModule } from '@angular/forms';
 import {Subject, of} from 'rxjs';
 
 import { CommentItemComponent } from './comment-item.component';
-import { AnnotationStoreService } from '../../../data/annotation-store.service';
-import { Comment, Annotation } from '../../../data/annotation-set.model';
 import { NO_ERRORS_SCHEMA, Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import {PdfService} from '../../../data/pdf.service';
+import { Annotation, Comment } from '../../../../data/annotation-set.model';
+import { AnnotationStoreService } from '../../../../data/annotation-store.service';
+import { PdfService } from '../../../../data/pdf.service';
 
 class MockAnnotationStoreService {
   comment: Comment;

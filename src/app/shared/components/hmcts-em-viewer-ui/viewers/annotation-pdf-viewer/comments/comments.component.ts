@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewChildren, QueryList } from '@angular/core';
 import {Subscription} from 'rxjs';
-import {PdfService} from '../../data/pdf.service';
-import {AnnotationStoreService} from '../../data/annotation-store.service';
-import { Annotation } from '../../data/annotation-set.model';
 import { CommentItemComponent } from './comment-item/comment-item.component';
-import { Utils } from '../../data/utils';
+import { Annotation } from '../../../data/annotation-set.model';
+import { AnnotationStoreService } from '../../../data/annotation-store.service';
+import { PdfService } from '../../../data/pdf.service';
+import { Utils } from '../../../data/utils';
 
 @Component({
     selector: 'app-comments',

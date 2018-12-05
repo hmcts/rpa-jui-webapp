@@ -1,10 +1,9 @@
 import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import { Subject, of } from 'rxjs';
-
 import { ContextualToolbarComponent } from './contextual-toolbar.component';
-import { PdfService } from '../../data/pdf.service';
-import { AnnotationStoreService } from '../../data/annotation-store.service';
-import {Annotation, Comment} from '../../data/annotation-set.model';
+import { Annotation, Comment } from '../../../data/annotation-set.model';
+import { PdfService } from '../../../data/pdf.service';
+import { AnnotationStoreService } from '../../../data/annotation-store.service';
 
 class MockPdfService {
   annotationSub: Subject<string>;

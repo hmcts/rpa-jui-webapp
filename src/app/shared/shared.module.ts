@@ -5,7 +5,6 @@ import { DataListComponent } from './components/data-list/data-list.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
 import {CdkTableModule} from '@angular/cdk/table';
-import {DocumentViewerModule} from './components/document-viewer/document-viewer.module';
 import { RouterModule} from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import {GovukModule} from '../govuk/govuk.module';
@@ -39,6 +38,7 @@ import { ValidationErrorFormGroupComponent } from './components/validation-error
 import { ValidationHeaderComponent } from './components/validation-header/validation-header.component';
 import { JuiFormElementsComponent } from './components/jui-form-elements/jui-form-elements.component';
 import { InputsComponent } from './components/inputs/inputs.component';
+import { HmctsEmViewerUiModule } from './components/hmcts-em-viewer-ui/hmcts-em-viewer-ui.module';
 
 @NgModule({
     imports: [
@@ -46,7 +46,7 @@ import { InputsComponent } from './components/inputs/inputs.component';
         CdkTableModule,
         FormsModule,
         ReactiveFormsModule,
-        DocumentViewerModule,
+        HmctsEmViewerUiModule,
         RouterModule,
         GovukModule,
         HmctsModule
@@ -88,6 +88,7 @@ import { InputsComponent } from './components/inputs/inputs.component';
     ],
     exports: [
         JuiFormElementsComponent,
+        HmctsEmViewerUiModule,
         TableComponent,
         DataListComponent,
         FooterComponent,
@@ -109,17 +110,14 @@ import { InputsComponent } from './components/inputs/inputs.component';
         StatusComponent,
         CaseActionsComponent,
         CaseActionAlertComponent,
-        DocumentViewerModule,
         ValidationErrorFormControlComponent,
         ValidationErrorFormGroupComponent,
         ValidationHeaderComponent,
-        DocumentViewerModule,
         CaseFileComponent,
         CaseFileToolBarComponent,
         CaseFileTreeListComponent,
         CaseFileAnnotationListComponent,
         CaseFileViewerComponent,
-        DocumentViewerModule,
         DocumentListComponent,
         DocumentUploadComponent,
     ]

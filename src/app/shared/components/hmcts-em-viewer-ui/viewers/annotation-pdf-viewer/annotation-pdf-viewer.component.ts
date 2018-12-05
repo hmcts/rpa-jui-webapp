@@ -6,9 +6,9 @@ import {IAnnotationSet, Annotation} from '../../data/annotation-set.model';
 import {NpaService} from '../../data/npa.service';
 import {ApiHttpService} from '../../data/api-http.service';
 import { Utils } from '../../data/utils';
-import { ContextualToolbarComponent } from '../contextual-toolbar/contextual-toolbar.component';
-import { CommentsComponent } from '../comments/comments.component';
 import { PdfAnnotateWrapper } from '../../data/js-wrapper/pdf-annotate-wrapper';
+import { CommentsComponent } from './comments/comments.component';
+import { ContextualToolbarComponent } from './contextual-toolbar/contextual-toolbar.component';
 
 
 @Component({

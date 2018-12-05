@@ -1,9 +1,8 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {ViewerAnchorDirective} from './viewers/viewer-anchor.directive';
-import {ViewerFactoryService} from './viewers/viewer-factory.service';
-import {Viewer} from './viewers/viewer';
-import {UrlFixerService} from './url-fixer.service';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {ViewerAnchorDirective} from './viewer-anchor.directive';
 import {DocumentViewerService} from './document-viewer.service';
+import { ViewerFactoryService } from '../viewers/viewer-factory.service';
+import { UrlFixerService } from '../data/url-fixer.service';
 
 @Component({
     selector: 'app-document-viewer',
@@ -16,13 +15,12 @@ export class DocumentViewerComponent implements OnChanges, OnInit {
     @Input() url = '';
     @Input() annotate: boolean;
     @Input() page = 1;
-    @Output() pageChanged = new EventEmitter<number>();
     @Input() baseUrl: string;
 
     // todo make a class
     mimeType: string;
     docName: string;
-    viewerComponent: Viewer;
+    viewerComponent: any;
     error: string;
 
     constructor(private viewerFactoryService: ViewerFactoryService,
@@ -39,9 +37,6 @@ export class DocumentViewerComponent implements OnChanges, OnInit {
         if (changes.url || changes.annotate) {
             this.buildComponent();
         }
-        if (changes.page && this.viewerComponent) {
-            this.viewerComponent.page = changes.page.currentValue;
-        }
     }
 
     buildComponent() {
@@ -53,12 +48,6 @@ export class DocumentViewerComponent implements OnChanges, OnInit {
                 this.docName = resp.originalDocumentName;
                 this.viewerComponent =
                     this.viewerFactoryService.buildViewer(resp, this.annotate, this.viewerAnchor.viewContainerRef, this.baseUrl);
-                if (this.viewerComponent != null && this.viewerComponent.pageChanged) {
-                    this.viewerComponent.pageChanged.subscribe((value => {
-                        this.pageChanged.emit(value);
-                    }));
-                    this.viewerComponent.page = this.page;
-                }
             }
         }, err => {
             this.error = err;

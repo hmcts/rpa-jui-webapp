@@ -1,9 +1,9 @@
 import {Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, ChangeDetectorRef, ElementRef, Renderer2} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import { Subscription } from 'rxjs';
-import {Comment, Annotation} from '../../../data/annotation-set.model';
-import {AnnotationStoreService} from '../../../data/annotation-store.service';
-import {PdfService} from '../../../data/pdf.service';
+import { Annotation, Comment } from '../../../../data/annotation-set.model';
+import { AnnotationStoreService } from '../../../../data/annotation-store.service';
+import { PdfService } from '../../../../data/pdf.service';
 
 @Component({
     selector: 'app-comment-item',

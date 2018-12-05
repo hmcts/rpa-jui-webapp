@@ -3,11 +3,11 @@ import { NO_ERRORS_SCHEMA, QueryList } from '@angular/core';
 import { Subject, Observable, of } from 'rxjs';
 
 import { CommentsComponent } from './comments.component';
-import { AnnotationStoreService } from '../../data/annotation-store.service';
-import { PdfService } from '../../data/pdf.service';
-import { Annotation, Comment } from '../../data/annotation-set.model';
-import { Utils } from '../../data/utils';
 import { CommentItemComponent } from './comment-item/comment-item.component';
+import { Annotation, Comment } from '../../../data/annotation-set.model';
+import { Utils } from '../../../data/utils';
+import { PdfService } from '../../../data/pdf.service';
+import { AnnotationStoreService } from '../../../data/annotation-store.service';
 
 class MockUtils {
   isSameLine() {}

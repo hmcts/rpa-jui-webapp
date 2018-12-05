@@ -30,6 +30,8 @@ List<LinkedHashMap<String, Object>> secrets = [
     secret('sscs-password', 'SSCS_PASSWORD')
 ]
 
+
+
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     [ $class: 'AzureKeyVaultSecret',
       secretType: 'Secret',
@@ -126,7 +128,7 @@ withPipeline(type, product, component) {
 //            reportName           : 'DEMO Smoke Test'
 //        ])
 //    }
-
+    
     after('functionalTest:demo') {
         publishHTML([
             allowMissing         : true,

@@ -143,12 +143,6 @@ describe('CommentItemComponent', () => {
       expect(component['hideButton']).toBeTruthy();
     });
 
-    it('should call showBtn and set focused on commentFocusedSub with matching annotationId', () => {
-      component.comment.annotationId = annotation.id;
-      component.ngOnInit();
-      expect(component.focused).toBeTruthy();
-    });
-
     it('should subscribe to handle comment btn subject', () => {
       spyOn(mockAnnotationStoreService, 'getCommentBtnSubject').and
         .returnValue(of(null));

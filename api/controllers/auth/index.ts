@@ -6,7 +6,15 @@ const { getDetails, postOauthToken } = require('../../services/idam-api/idam-api
 const cookieToken = config.cookies.token
 const cookieUserId = config.cookies.userId
 
-module.exports = app => {
+const test = true
+
+export function logout(req, res) {
+    res.clearCookie(cookieToken)
+    res.clearCookie(cookieUserId)
+    res.redirect(req.query.redirect || '/')
+}
+
+export function auth(app) {
     const router = express.Router()
 
     app.use('/oauth2/callback', router)
@@ -30,9 +38,5 @@ module.exports = app => {
             })
     })
 
-    app.use('/logout', (req, res, next) => {
-        res.clearCookie(cookieToken)
-        res.clearCookie(cookieUserId)
-        res.redirect(req.query.redirect || '/')
-    })
+    app.use('/logout', logout)
 }

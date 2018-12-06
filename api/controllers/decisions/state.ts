@@ -18,6 +18,7 @@ const exceptionOptions = {
     maxLines: 1
 }
 
+
 // This needs tidying up
 
 function getOptions(req) {

@@ -1,0 +1,26 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "outDir": "../dist/jui-backend",
+        "target": "es5",
+        "types": [
+            "node",
+            "mocha",
+            "rxjs"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "@angular/*": [
+                "../../node_modules/@angular/*"
+            ]
+        },
+        "lib": [
+            "es2017",
+            "dom"
+        ]
+    },
+    "include": [
+        "**/*.ts",
+        "../*.ts"
+    ]
+}

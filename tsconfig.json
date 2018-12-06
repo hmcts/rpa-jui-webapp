@@ -14,5 +14,6 @@
             "@angular/*": ["../node_modules/@angular/*"]
         },
         "lib": ["es2017", "dom"]
-    }
+    },
+    "exclude": ["support/**/*.spec.ts"]
 }

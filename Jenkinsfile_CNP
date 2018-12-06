@@ -27,7 +27,10 @@ List<LinkedHashMap<String, Object>> secrets = [
     secret('fr-email', 'FR_EMAIL'),
     secret('fr-password', 'FR_PASSWORD'),
     secret('sscs-email', 'SSCS_EMAIL'),
-    secret('sscs-password', 'SSCS_PASSWORD')
+    secret('sscs-password', 'SSCS_PASSWORD'),
+    secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+
+
 ]
 
 
@@ -128,7 +131,7 @@ withPipeline(type, product, component) {
 //            reportName           : 'DEMO Smoke Test'
 //        ])
 //    }
-    
+
     after('functionalTest:demo') {
         publishHTML([
             allowMissing         : true,

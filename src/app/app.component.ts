@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.title = this.title.concat()
         if (environment.googleAnalyticsKey) {
             // this.appendGaTrackingCode(); // TODO: fix analytics
         }

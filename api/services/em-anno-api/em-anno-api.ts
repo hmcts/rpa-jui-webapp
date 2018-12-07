@@ -109,3 +109,11 @@ module.exports = app => {
 module.exports.getInfo = getInfo
 
 module.exports.getHealth = getHealth
+
+module.exports.getAnnotionSet = getAnnotionSet
+
+module.exports.createAnnotationSet = createAnnotationSet
+
+module.exports.addAnnotation = addAnnotation
+
+module.exports.deleteAnnotation = deleteAnnotation

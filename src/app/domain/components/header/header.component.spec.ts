@@ -3,6 +3,7 @@ import {HeaderComponent} from './header.component';
 import {AuthService} from '../../../auth/auth.service';
 import {HmctsGlobalHeaderComponent} from '../../../hmcts/components/hmcts-global-header/hmcts-global-header.component';
 import {HmctsPrimaryNavigationComponent} from '../../../hmcts/components/hmcts-primary-navigation/hmcts-primary-navigation.component';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('HeaderComponent', () => {
     let component: HeaderComponent;
@@ -10,6 +11,7 @@ describe('HeaderComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports: [RouterTestingModule],
             declarations: [HeaderComponent, HmctsGlobalHeaderComponent, HmctsPrimaryNavigationComponent],
             providers: [
                 { provide: AuthService, useValue: {

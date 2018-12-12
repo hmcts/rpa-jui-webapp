@@ -1,10 +1,10 @@
-<nav class="hmcts-sub-navigation" attr.aria-label="{{label}}">
-    <ul class="hmcts-sub-navigation__list" role="tablist">
-        <li class="hmcts-sub-navigation__item" *ngFor="let item of items" role="tab">
+<nav class="hmcts-sub-navigation" attr.aria-label="{{label}}" role="navigation">
+    <ul class="hmcts-sub-navigation__list">
+        <li class="hmcts-sub-navigation__item" *ngFor="let item of items">
             <ng-container >
                 <a data-selector="sub-nav-link"
                    class="hmcts-sub-navigation__link"
-                   [attr.aria-current]="item.active ? 'page' : ''"
+                   [attr.aria-current]="item.active ? 'page' : null"
                    routerLink="{{item.href}}"
                 >
                     {{item.text}}

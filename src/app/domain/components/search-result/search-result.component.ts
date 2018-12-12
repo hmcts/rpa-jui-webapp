@@ -13,20 +13,10 @@ export class SearchResultComponent implements OnInit {
     data$: Object;
     error: string;
 
-    constructor(private caseService: CaseService,  private route: ActivatedRoute , private redirectionService: RedirectionService) {
+    constructor(private caseService: CaseService) {
     }
 
     ngOnInit() {
         this.data$ = this.caseService.search();
-    }
-
-    onSubmit() {
-        // this.caseService.getNewCase().subscribe(
-        //     res => {
-        //         this.redirectionService.redirect(`/?newCase=success`);
-        //     }, () => {
-        //         this.redirectionService.redirect(`/?newCase=failure`);
-        //     }
-        // );
     }
 }

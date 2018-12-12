@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Event, NavigationEnd, NavigationStart, Router} from '@angular/router';
 import 'rxjs/add/operator/filter';
 import {LinkItem, PageDateCase, SectionsCaseItem} from '../../../domain/models/section_fields';
 import {CaseDataService} from './view-case.services';
@@ -11,7 +11,8 @@ import {Subscription} from 'rxjs';
     templateUrl: './view-case.component.html',
     styleUrls: ['./view-case.component.scss']
 })
-export class ViewCaseComponent implements OnInit {
+export class ViewCaseComponent implements OnInit, OnDestroy {
+    public routerSubscription: Subscription;
     public case: PageDateCase;
     public sections: Array<LinkItem> = [];
     public sectionTabName: string | null;
@@ -25,9 +26,17 @@ export class ViewCaseComponent implements OnInit {
     }
 
     ngOnInit() {
+        // TODO revisit this when components initialisation bug is fixed
+        this.routerSubscription = this.router.events.subscribe((event: Event) => {
+            if (event instanceof NavigationEnd) {
+                this.setNavigationSections();
+            }
+        });
+        if (this.case && !this.sections.length) {
+            this.setNavigationSections();
+        }
         if (this.case) {
             this.targetSection = this.caseDataService.findTargetSection(this.case, this.sectionTabName);
-            this.sections = this.caseDataService.getNavigation(this.case, this.sectionTabName);
         }
         if (!this.targetSection) {
             if (this.sections[0]) {
@@ -41,6 +50,13 @@ export class ViewCaseComponent implements OnInit {
                 this.router.navigate(['']);
             }
         }
+    }
+    private setNavigationSections(): void {
+        this.sections = this.caseDataService.getNavigation(this.case, this.sectionTabName);
+    }
+
+    ngOnDestroy(): void {
+        this.routerSubscription.unsubscribe();
     }
 
 }

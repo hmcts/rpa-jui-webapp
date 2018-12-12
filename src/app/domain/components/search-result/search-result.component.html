@@ -1,6 +1,5 @@
 <div data-selector="search-result">
-    <div *ngIf="data$ | async as data">
-        <span class="govuk-heading-m">Your cases</span>
+    <div *ngIf="data$ | async as data; else noResults">
         <app-table *ngIf="data.results && data.results.length; else noResultsOrError" [data]="data"></app-table>
         <ng-template #noResultsOrError>
             <span *ngIf="data.error; else noResults" data-selector="error-text" class="govuk-error-message">
@@ -13,8 +12,9 @@
             </ng-template>
         </ng-template>
     </div>
+    <ng-template #noResults>
+        <!--TODO add this as external component when provided by UX guys-->
+        <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </ng-template>
 </div>
-<!-- Disabled until needed-->
-<!--<div>-->
-    <!--<button data-selector="get-case" class="govuk-button" (click)="onSubmit()">Get new case</button>-->
-<!--</div>-->
+

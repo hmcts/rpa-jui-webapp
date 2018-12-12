@@ -10,16 +10,17 @@ import { ConfigService } from './config.service';
 import {AuthModule} from './auth/auth.module';
 import {HmctsModule} from './hmcts/hmcts.module';
 import {GovukModule} from './govuk/govuk.module';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
     declarations: [
         AppComponent
     ],
     imports: [
+        RouterModule,
         BrowserModule.withServerTransition({appId: 'jui'}),
         BrowserTransferStateModule,
         RoutingModule,
-        // RouterModule.forRoot(routes),
         HttpClientModule,
         SharedModule,
         DomainModule,

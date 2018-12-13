@@ -9,9 +9,9 @@ export class CaseFileTreeListComponent implements OnInit {
 
     @Input() documents: any;
 
-    constructor() { }
+    constructor() {
+    }
 
     ngOnInit() {
     }
-
 }

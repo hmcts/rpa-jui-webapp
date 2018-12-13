@@ -263,7 +263,7 @@ module.exports = {
                             controlId: 'Directions'
                         },
                         control: 'Directions',
-                        value: 'Direction text'
+                        value: ''
                     }
                 },
                 {
@@ -328,7 +328,7 @@ module.exports = {
                     textarea: {
                         label: 'Notes for court administrator',
                         control: 'notesForAdmin',
-                        value: 'No optional notes'
+                        value: ''
                     }
                 },
                 {

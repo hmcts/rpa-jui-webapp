@@ -1,6 +1,6 @@
 <div class="govuk-tabs" data-module="tabs" data-selector="tabs-component">
     <ul class="govuk-tabs__list" role="tablist">
-        <li class="govuk-tabs__list-item" role="presentation" *ngFor="let tab of data.sections; let i = index">
+        <li class="govuk-tabs__list-item" role="tab" *ngFor="let tab of data.sections; let i = index">
             <a class="govuk-tabs__tab"  [attr.aria-selected]="tab.id===fragment ? true : false" routerLink="./" fragment="{{tab.id}}">
                 {{tab.name}}
             </a>

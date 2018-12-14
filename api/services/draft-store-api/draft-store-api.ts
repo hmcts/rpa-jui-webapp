@@ -55,6 +55,8 @@ module.exports = app => {
     })
 }
 
+module.exports.getOptions = getOptions
+
 module.exports.getInfo = getInfo
 
 module.exports.getHealth = getHealth

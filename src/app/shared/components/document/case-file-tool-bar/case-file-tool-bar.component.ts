@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
     styleUrls: ['./case-file-tool-bar.component.scss']
 })
 export class CaseFileToolBarComponent implements OnInit {
-    isCommentView = true;
+    isCommentView = false;
 
     @Input() commentViewRedirect = {
         command: [],

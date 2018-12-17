@@ -144,17 +144,6 @@ describe('CommentsComponent', () => {
     });
   });
 
-  describe('redrawCommentItemComponents', () => {
-    it('should call sortCommentItemComponents', (done) => {
-      spyOn(component, 'sortCommentItemComponents').and.stub();
-      component.redrawCommentItemComponents();
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-          done(); // waits for promise to complete
-      });
-    });
-  });
-
   describe('sortCommentItemComponents', () => {
     it('should sort comments by their top position', () => {
       spyOn(mockUtils, 'sortByLinePosition').and.stub();

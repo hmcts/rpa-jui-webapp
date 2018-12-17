@@ -185,15 +185,6 @@ describe('ContextualToolbarComponent', () => {
     });
   });
 
-  describe('handleClearClick', () => {
-    it('should call pdfservice with null value and hide the toolbar', () => {
-      spyOn(mockAnnotationStoreService, 'clearAnnotations').and.returnValue(null);
-
-      component.handleClearAnnotations();
-      expect(mockAnnotationStoreService.clearAnnotations).toHaveBeenCalled();
-    });
-  });
-
   describe('getRelativePosition', () => {
     it('should return an object with left and top fields', () => {
       const toolpos = component.getRelativePosition('2ff3514f-1b0d-499a-991a-fb17881ead7c');

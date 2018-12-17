@@ -187,14 +187,6 @@ export class AnnotationStoreService implements OnDestroy {
         );
     }
 
-    clearAnnotations() {
-        if (confirm('Are you sure you want to clear annotations?')) {
-            this.pdfAdapter.annotations = [];
-            this.pdfService.render();
-            this.saveData();
-        }
-    }
-
     editComment(comment: Comment) {
         this.pdfAdapter.editComment(comment);
     }

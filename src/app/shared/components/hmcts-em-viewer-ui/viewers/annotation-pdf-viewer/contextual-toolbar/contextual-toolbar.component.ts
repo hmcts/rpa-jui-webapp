@@ -106,8 +106,4 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
     setTimeout(() => {this.hideToolBar(); }, 10);
     this.annotationStoreService.setAnnotationFocusSubject(this.annotation);
   }
-
-  handleClearAnnotations() {
-    this.annotationStoreService.clearAnnotations();
-  }
 }

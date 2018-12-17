@@ -38,7 +38,8 @@
                             [formGroup]="form"
                     ></app-textarea>
                 </fieldset>
-                <button data-selector="save-button" class="govuk-button" type="submit">Save question</button>
+                <button [disabled]="!asyncResolved" data-selector="save-button" class="govuk-button" type="submit">{{asynctext}}</button>
+                
             </app-form>
         </div>
     </div>

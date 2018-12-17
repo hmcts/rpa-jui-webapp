@@ -80,6 +80,10 @@ export const mapping = [
                 result: 'check-tribunal'
             },
             {
+                state: 'check-tribunal',
+                result: 'decision-confirmation'
+            },
+            {
                 state: 'communicating-verbally',
                 result: '...',
             },

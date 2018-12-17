@@ -120,13 +120,13 @@ export async function payload(req, res, data) {
     }
 
     logger.info('Posting to CCD')
-    let result = false
-    result = await finalDecision(req, state, data)
+    let result = true
+    //result = await finalDecision(req, state, data)
 
     logger.info('Posted to CCD', result)
 
     if (result) {
-        return true
+        return "decision-confirmation"
     }
 
     res.status(ERROR400)

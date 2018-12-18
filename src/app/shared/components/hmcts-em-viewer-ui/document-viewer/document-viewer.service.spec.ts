@@ -13,6 +13,7 @@ describe('DocumentViewerService', () => {
 
         TestBed.configureTestingModule({
           providers: [
+              EmLoggerService,
               DocumentViewerService,
               TransferState,
               EmLoggerService

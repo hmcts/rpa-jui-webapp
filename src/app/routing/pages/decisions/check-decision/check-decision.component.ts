@@ -115,7 +115,7 @@ export class CheckDecisionComponent implements OnInit {
 
     // For preliminary view only
     hasActivities(activities) {
-        for (let activity of activities) {
+        for (const activity of activities) {
             if ( this.pageValues[activity.type] === true ) return true;
         }
     }
@@ -161,16 +161,18 @@ export class CheckDecisionComponent implements OnInit {
             this.useValidation = true;
             return;
         } else {
-            this.decisionService.submitDecisionDraft(
-                this.jurId,
-                this.activatedRoute.snapshot.parent.data.caseData.id,
-                this.pageitems.name,
-                this.typeId,
-                this.request)
-                .subscribe(decision => {
-                    console.log(decision.newRoute);
-                    this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
-                });
+
+
+            // this.decisionService.submitDecisionDraft(
+            //     this.jurId,
+            //     this.activatedRoute.snapshot.parent.data.caseData.id,
+            //     this.pageitems.name,
+            //     this.typeId,
+            //     this.request)
+            //     .subscribe(decision => {
+            //         console.log(decision.newRoute);
+            //         this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
+            //     });
         }
     }
 

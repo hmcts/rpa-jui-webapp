@@ -77,7 +77,7 @@ export class CreateQuestionsComponent implements OnInit {
                     console.log(res)
                     //this.asyncResolved = true;
                     this.redirectionService.redirect(`/case/${this.jurisdiction}/${this.caseType}/${this.caseId}/questions?created=success`);
-                }, err => {
+ 		}, err => {
                     console.log('err')
                     this.asyncResolved = true;
                     this.asynctext = 'Save question'

@@ -30,12 +30,11 @@ export class DecisionService {
 
     submitDecisionDraft(jurId: string, caseId: string, pageId: string, caseType: string, body: any): Observable<any> {
         const url = this.generateDecisionUrl(jurId, caseId, pageId, caseType);
-        console.log('Submit', url, jurId, caseId, pageId, caseType, body);
         return this.httpClient.post(url, body);
     }
 
     issueDecision(decision: any): void  {
-        console.log("Decisin", decision);
+
         //this.router.navigate([`/demo`], {relativeTo: this.activatedRoute});
         // const url = this.generateDecisionUrl('fr', caseId, 'create');
         //

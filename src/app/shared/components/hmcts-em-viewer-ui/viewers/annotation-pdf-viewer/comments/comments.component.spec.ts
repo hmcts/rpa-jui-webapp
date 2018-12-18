@@ -188,7 +188,7 @@ describe('CommentsComponent', () => {
   });
 
   describe('isAnnotationOnSameLine', () => {
-    
+
     const aCommentItemComponent = new MockCommentItemComponent();
     aCommentItemComponent.annotationHeight = 10;
 
@@ -228,7 +228,7 @@ describe('CommentsComponent', () => {
       const returnedComment = component.isOverlapping(commentItemComponent, previousCommentItemComponent);
       expect(returnedComment.commentTopPos).toBe(previousCommentItemComponent.commentTopPos + previousCommentItemComponent.commentHeight);
     });
-  }); 
+  });
 
   describe('preRun', () => {
     it('should subscribe to pageNumSub', () => {

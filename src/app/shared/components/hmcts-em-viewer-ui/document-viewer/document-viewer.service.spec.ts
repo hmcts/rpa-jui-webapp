@@ -2,6 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { DocumentViewerService } from './document-viewer.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TransferState } from '@angular/platform-browser';
+import {EmLoggerService} from '../logging/em-logger.service';
 
 describe('DocumentViewerService', () => {
     let httpMock: HttpTestingController;
@@ -9,11 +10,12 @@ describe('DocumentViewerService', () => {
     let mockDocuments;
 
     beforeEach(() => {
-        
+
         TestBed.configureTestingModule({
           providers: [
               DocumentViewerService,
-              TransferState
+              TransferState,
+              EmLoggerService
             ],
             imports: [HttpClientTestingModule]
         });
@@ -33,7 +35,7 @@ describe('DocumentViewerService', () => {
         httpMock = TestBed.get(HttpTestingController);
 
       });
-    
+
     describe('constructor', () => {
         it('should be created', inject([DocumentViewerService], (service: DocumentViewerService) => {
           expect(service).toBeTruthy();

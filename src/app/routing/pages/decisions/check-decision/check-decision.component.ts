@@ -111,6 +111,15 @@ export class CheckDecisionComponent implements OnInit {
             this.useValidation = true;
             return;
         } else {
+            this.decisionService.submitDecisionDraft(
+                this.jurId,
+                this.activatedRoute.snapshot.parent.data.caseData.id,
+                this.pageitems.name,
+                this.typeId,
+                this.request)
+                .subscribe(decision => {
+                    this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
+                });
         }
     }
 

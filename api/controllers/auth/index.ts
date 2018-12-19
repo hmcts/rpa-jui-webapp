@@ -33,7 +33,6 @@ export function auth(app) {
                 }
             })
             .catch(e => {
-                console.log('error - ', e)
                 res.redirect('/')
             })
     })

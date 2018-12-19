@@ -74,13 +74,11 @@ export class CreateQuestionsComponent implements OnInit {
             this.asynctext = 'saving...';
             this.questionService.create(this.caseId, values)
                 .subscribe(res => {
-                    console.log(res)
                     //this.asyncResolved = true;
                     this.redirectionService.redirect(`/case/${this.jurisdiction}/${this.caseType}/${this.caseId}/questions?created=success`);
  		}, err => {
-                    console.log('err')
                     this.asyncResolved = true;
-                    this.asynctext = 'Save question'
+                    this.asynctext = 'Save question';
                 });
         } else {
             this.error.subject = !this.form.controls.subject.valid;

@@ -1,7 +1,7 @@
 module.exports = {
     idPrefix: 'set-award-dates',
     name: 'set-award-dates',
-    header: 'Do you want to approve the draft consent order?',
+    header: 'Set award dates',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
         {

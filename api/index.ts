@@ -1,6 +1,6 @@
 import * as express from 'express'
 import * as config from '../config'
-import {auth} from './controllers/auth'
+import { auth } from './controllers/auth'
 
 const router = express.Router()
 

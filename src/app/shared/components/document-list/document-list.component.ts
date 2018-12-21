@@ -3,8 +3,7 @@ import {DocumentStoreService} from '../../services/documentStore/document-store.
 
 @Component({
     selector: 'app-document-list',
-    templateUrl: './document-list.component.html',
-    styleUrls: ['./document-list.component.scss']
+    templateUrl: './document-list.component.html'
 })
 export class DocumentListComponent implements OnInit {
 

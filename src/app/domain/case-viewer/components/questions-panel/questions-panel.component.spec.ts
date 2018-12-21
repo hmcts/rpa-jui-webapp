@@ -11,7 +11,7 @@ import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild} from '@angul
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageDateQuestion} from '../../../models/section_fields';
 import {mockActiveRouteQuestionsPanel} from './mock/activeRoute.mock';
-
+import {mockConfigService} from '../../../mock/config.mock';
 @Component({
     selector: `app-host-dummy-component`,
     template: `<app-questions-panel [panelData]="data"></app-questions-panel>`
@@ -24,17 +24,31 @@ class TestQuestionsPanelDummyHostComponent {
 describe('Testing @input', () => {
     let testHostComponent: TestQuestionsPanelDummyHostComponent;
     let testHostFixture: ComponentFixture<TestQuestionsPanelDummyHostComponent>;
+    let component: QuestionsPanelComponent;
+    let fixture: ComponentFixture<QuestionsPanelComponent>;
+    let nativeElement;
+    let mockConfigService;
+
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [ QuestionsPanelComponent, TestQuestionsPanelDummyHostComponent ],
             schemas: [CUSTOM_ELEMENTS_SCHEMA],
-            imports: [RouterTestingModule]
+            imports: [RouterTestingModule],
+            providers: [
+                {
+                    provide: ConfigService,
+                    useValue: mockConfigService
+                }
+            ]
         })
             .compileComponents();
     }));
     beforeEach(() => {
         testHostFixture = TestBed.createComponent(TestQuestionsPanelDummyHostComponent);
         testHostComponent = testHostFixture.componentInstance;
+        fixture = TestBed.createComponent(QuestionsPanelComponent);
+        component = fixture.componentInstance;
     });
     it('should fail panelData as not be passed through', () => {
         expect(testHostComponent.QuestionsPanelComponent.panelData).toBeUndefined();
@@ -49,182 +63,59 @@ describe('Testing @input', () => {
         expect(testHostComponent.QuestionsPanelComponent.panelData.fields[0].value.length).toEqual(1);
         expect(testHostComponent.QuestionsPanelComponent.panelData.fields[0].value instanceof Array).toBeTruthy();
     });
-})
 
 
-
-
-describe('QuestionsPanelComponent: testing route.queryParams', () => {
-    let component: QuestionsPanelComponent;
-    let fixture: ComponentFixture<QuestionsPanelComponent>;
-    let nativeElement;
-    let mockConfigService;
-
-    beforeEach(() => {
-        mockConfigService = {
-            config: {
-                api_base_url: api_base_url
-            }
-        };
+    it('should create', () => {
+        component.panelData = mockQuestion;
+        nativeElement = fixture.nativeElement;
+        fixture.detectChanges();
+        expect(component)
+            .toBeTruthy();
+    });
+    it('should not display link to send all draft questions', () => {
+        component.panelData = mockQuestion;
+        nativeElement = fixture.nativeElement;
+        fixture.detectChanges();
+        expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')))
+            .toBeFalsy();
     });
 
-    describe('when no create param is in the url', () => {
-        describe('When there is one round of draft questions to appellant', () => {
-            beforeEach(async(() => {
-                TestBed
-                    .configureTestingModule({
-                        imports: [
-                            // CaseViewerModule,
-                            RouterTestingModule
-                        ],
-                        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-                        declarations: [QuestionsPanelComponent]
-                    })
-                    .compileComponents();
-            }));
-
-            const data = mockQuestion;
-
-            beforeEach(async(() => {
-                fixture = TestBed.createComponent(QuestionsPanelComponent);
-                component = fixture.componentInstance;
-                component.panelData = data;
-                nativeElement = fixture.nativeElement;
-                fixture.detectChanges();
-            }));
-
-            it('should create', () => {
-                expect(component)
-                    .toBeTruthy();
-            });
-
-
-        });
+    it('should see no draft questions', () => {
+        component.panelData = mockQuestion;
+        nativeElement = fixture.nativeElement;
+        fixture.detectChanges();
+        expect(nativeElement.querySelectorAll(Selector.selector('draft-questions-list')).length)
+            .toBe(0);
     });
 
-    describe('When there are no draft questions to appellant', () => {
-        beforeEach(async(() => {
-            TestBed
-                .configureTestingModule({
-                    imports: [
-                        RouterTestingModule
-                    ],
-                    declarations: [QuestionsPanelComponent],
-                    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-                    providers: [
-                        {
-                            provide: ConfigService,
-                            useValue: mockConfigService
-                        }
-                    ]
-                })
-                .compileComponents();
-        }));
-
-        const data = mockQuestionEmpty;
-
-        beforeEach(async(() => {
-            fixture = TestBed.createComponent(QuestionsPanelComponent);
-            component = fixture.componentInstance;
-            component.panelData = data;
-            nativeElement = fixture.nativeElement;
-            fixture.detectChanges();
-        }));
-
-        it('should create', () => {
-            expect(component)
-                .toBeTruthy();
-        });
-
-        it('should not display link to send all draft questions', () => {
-            expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')))
-                .toBeFalsy();
-        });
-
-        it('should see no draft questions', () => {
-            expect(nativeElement.querySelectorAll(Selector.selector('draft-questions-list')).length)
-                .toBe(0);
-        });
-    });
-
-    describe('When there are sent questions to appellant', () => {
-        beforeEach(async(() => {
-            TestBed
-                .configureTestingModule({
-                    imports: [
-                        RouterTestingModule
-                    ],
-                    declarations: [QuestionsPanelComponent],
-                    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-                    providers: [
-                        {
-                            provide: ConfigService,
-                            useValue: mockConfigService
-                        }
-                    ]
-                })
-                .compileComponents();
-        }));
-
+    it('mockQuestionsPanelData: should create with', () => {
         const data = mockQuestionsPanelData;
-
-        beforeEach(async(() => {
-            fixture = TestBed.createComponent(QuestionsPanelComponent);
-            component = fixture.componentInstance;
-            component.panelData = data;
-            nativeElement = fixture.nativeElement;
-            fixture.detectChanges();
-        }));
-
-        it('should create', () => {
-            expect(component)
-                .toBeTruthy();
-        });
-        it('should display sent questions', () => {
-            expect(nativeElement.querySelectorAll(Selector.selector('questions-item')).length)
-                .toBe(0);
-        });
-
-
+        component.panelData = data;
+        fixture.detectChanges();
+        expect(component)
+            .toBeTruthy();
+    });
+    it('mockQuestionsPanelData: should display sent questions', () => {
+        const data = mockQuestionsPanelData;
+        component.panelData = data;
+        fixture.detectChanges();
+        expect(nativeElement.querySelectorAll(Selector.selector('questions-item')).length)
+            .toBe(0);
+    });
+    it('should create', () => {
+        component.panelData = mockQuestions2;
+        nativeElement = fixture.nativeElement;
+        fixture.detectChanges();
+        expect(component)
+            .toBeTruthy();
+    });
+    it('should display sent questions', () => {
+        component.panelData = mockQuestions2;
+        nativeElement = fixture.nativeElement;
+        fixture.detectChanges();
+        expect(nativeElement.querySelectorAll(Selector.selector('questions-item')).length)
+            .toBe(0);
     });
 
-    describe('When there are answers from appellant', () => {
-        beforeEach(async(() => {
-            TestBed
-                .configureTestingModule({
-                    imports: [
-                        CaseViewerModule,
-                        RouterTestingModule
-                    ],
-                    declarations: [],
-                    providers: [
-                        {
-                            provide: ConfigService,
-                            useValue: mockConfigService
-                        }
-                    ]
-                })
-                .compileComponents();
-        }));
-
-        const data = mockQuestions2;
-
-        beforeEach(async(() => {
-            fixture = TestBed.createComponent(QuestionsPanelComponent);
-            component = fixture.componentInstance;
-            component.panelData = data;
-            nativeElement = fixture.nativeElement;
-            fixture.detectChanges();
-        }));
-
-        it('should create', () => {
-            expect(component)
-                .toBeTruthy();
-        });
-        it('should display sent questions', () => {
-            expect(nativeElement.querySelectorAll(Selector.selector('questions-item')).length)
-                .toBe(2);
-        });
-    });
-});
+})
 

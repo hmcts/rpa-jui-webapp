@@ -3,8 +3,7 @@ import {TimeDataStamp} from './mock/timeline.mock';
 
 @Component({
     selector: 'app-timeline',
-    templateUrl: './timeline.component.html',
-    styleUrls: ['./timeline.component.scss']
+    templateUrl: './timeline.component.html'
 })
 export class TimelineComponent implements OnChanges {
     @Input() events: Array<TimeDataStamp>;

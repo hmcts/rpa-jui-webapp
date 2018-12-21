@@ -11,8 +11,7 @@ export interface ListView {
 };
 @Component({
     selector: 'app-case-file-tool-bar',
-    templateUrl: './case-file-tool-bar.component.html',
-    styleUrls: ['./case-file-tool-bar.component.scss']
+    templateUrl: './case-file-tool-bar.component.html'
 })
 export class CaseFileToolBarComponent {
     isCommentView = false;

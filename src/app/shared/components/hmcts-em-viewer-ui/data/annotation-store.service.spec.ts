@@ -161,7 +161,7 @@ describe('AnnotationStoreService', () => {
         expect(mockPdfAdapter.setStoreData).not.toHaveBeenCalled();
       }));
 
-      it('should set cursorTool and setStoreAdapter with null', 
+      it('should set cursorTool and setStoreAdapter with null',
         inject([AnnotationStoreService], (service: AnnotationStoreService) => {
           spyOn(mockPdfService, 'setCursorTool').and.stub();
           spyOn(mockPdfAnnotateWrapper, 'setStoreAdapter').and.stub();
@@ -268,13 +268,9 @@ describe('AnnotationStoreService', () => {
 
       service.handleAnnotationEvent({type: 'addAnnotation', annotation: mockAnnotation});
       expect(mockApiHttpService.saveAnnotation).toHaveBeenCalled();
-    })));
 
-    it('should call saveAnnotation for addComment event', async(inject([AnnotationStoreService], (service: AnnotationStoreService) => {
-      spyOn(mockApiHttpService, 'saveAnnotation').and.returnValue(Observable.of({response: 'ok', error: 'not ok'}));
-
-      service.handleAnnotationEvent({type: 'addComment', annotation: mockAnnotation});
-      expect(mockApiHttpService.saveAnnotation).toHaveBeenCalled();
+        service.handleAnnotationEvent({type: 'addComment', annotation: mockAnnotation});
+        expect(mockApiHttpService.saveAnnotation).toHaveBeenCalled();
     })));
 
     it('should call saveAnnotation for editComment event', async(inject([AnnotationStoreService], (service: AnnotationStoreService) => {

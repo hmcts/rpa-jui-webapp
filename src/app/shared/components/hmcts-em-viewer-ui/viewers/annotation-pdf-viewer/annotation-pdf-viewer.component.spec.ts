@@ -16,10 +16,7 @@ import { EmLoggerService } from '../../logging/em-logger.service';
 
 class MockPdfAnnotateWrapper {
   setStoreAdapter() {}
-  getStoreAdapter() {
-    const getAnnotation = function() {};
-    const getAnnotations = function() {};
-  }
+  getStoreAdapter() {}
 }
 
 class MockPdfService {

@@ -16,6 +16,7 @@ describe('DecisionService', () => {
     let httpMock: HttpTestingController;
     let url: string;
     const mockCaseId = '123';
+    const mockDummyData = [{ id: 1 }, { id: 2 }];
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -50,7 +51,6 @@ describe('DecisionService', () => {
     });
 
     it('should fetch decisions via http GET', () => {
-        const mockDummyData = [{ id: 1 }, { id: 2 }];
         //const mockCaseId='123';
         const urls = decisionService.generateDecisionUrl(mockCaseId, 'something', 'something', 'something');
         decisionService.fetch(mockCaseId, 'something', 'something', 'something').subscribe(data => {
@@ -68,14 +68,12 @@ describe('DecisionService', () => {
     it('should all methods be valid', inject([DecisionService], (
         service: DecisionService
     ) => {
-        const mockCaseId = '123';
         const caseId =  '1';
         const pageId = '1';
         const body = {
             decision_text: 'text data',
             decision_award: 'award data'
         };
-        const mockDummyData = [{ id: 1 }, { id: 2 }];
         const jurId = '1';
         const caseType = 'something';
         // TODO to mock correctly this property to terst valid also
@@ -89,12 +87,11 @@ describe('DecisionService', () => {
         expect(service.generateDecisionUrl( jurId, caseId, pageId, caseType)).toBeTruthy()
         expect(service.fetch(jurId, caseId, pageId, caseType)).toBeTruthy();
         expect(service.submitDecisionDraft(jurId, caseId, pageId, caseType, body)).toBeTruthy();
-        expect(service.issueDecision('')).toBeUndefined();
+        // expect(service.issueDecision('')).toBeUndefined();
         expect(service.findConsentOrderDocumentUrl(caseData)).toBeNull();
     }));
 
     it('should all methods be trully',     () => {
-        const mockCaseId = '123';
         const caseId =  '1';
         const pageId = '1';
         const postBody = {
@@ -102,7 +99,6 @@ describe('DecisionService', () => {
             decision_award: 'award data'
         };
 
-        const mockDummyData = [{ id: 1 }, { id: 2 }];
         const jurId = '1';
         const caseType = 'something';
 

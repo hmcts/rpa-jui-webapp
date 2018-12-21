@@ -64,9 +64,4 @@ describe('HmctsTimelineComponent', () => {
         de = testHostFixture.debugElement.queryAll(By.css('.hmcts-timeline__item'));
         expect(de.length).toEqual(3);
     });
-    it('should have container class hmcts-timeline', () => {
-        testHostFixture.detectChanges();
-        de = testHostFixture.debugElement.queryAll(By.css('.hmcts-timeline'));
-        expect(de.length).toEqual(1);
-    });
 });

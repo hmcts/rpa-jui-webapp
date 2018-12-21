@@ -12,16 +12,16 @@ export class PdfAdapter {
     annotations: Annotation[];
     private commentData: Comment[];
     annotationSetId: string;
-    private annotationChangeSubject: Subject<{ type: String, annotation: Annotation }>;
+    private annotationChangeSubject: Subject<{ type: string, annotation: Annotation }>;
 
     constructor(private log: EmLoggerService,
                 private utils: Utils,
                 @Inject(WINDOW) private window: Window) {
-        this.annotationChangeSubject = new Subject<{ type: String, annotation: Annotation }>();
+        this.annotationChangeSubject = new Subject<{ type: string, annotation: Annotation }>();
         log.setClass('PdfAdapter');
     }
 
-    getAnnotationChangeSubject(): Subject<{ type: String, annotation: Annotation }> {
+    getAnnotationChangeSubject(): Subject<{ type: string, annotation: Annotation }> {
         return this.annotationChangeSubject;
     }
 

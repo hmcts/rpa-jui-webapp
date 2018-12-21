@@ -65,10 +65,6 @@ describe('CreateQuestionsComponent', () => {
         fixture.detectChanges();
     });
 
-    afterEach(() => {
-        httpMock.verify();
-    });
-
     it('should create', () => {
         expect(component)
             .toBeTruthy();
@@ -128,6 +124,8 @@ describe('CreateQuestionsComponent', () => {
             httpMock
                 .expectOne('/api/caseQ/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions')
                 .flush({question_id: '9727a0fc-11bb-4212-821f-b36e312bbace'});
+
+            httpMock.verify();
         });
 
         it('should set errors for an invalid form', () => {
@@ -143,21 +141,12 @@ describe('CreateQuestionsComponent', () => {
         it('should set an error for an invalid subject with whitespace only', () => {
             expect(component.form.valid).toBeFalsy();
             component.form.controls['subject'].setValue('      ');
-            expect(component.form.valid).toBeFalsy();
-
-            component.submitCallback({});
-
-            expect(component.form.valid).toBeFalsy();
-        });
-
-        it('should set an error for an invalid question with whitespace only', () => {
-            expect(component.form.valid).toBeFalsy();
             component.form.controls['question'].setValue('       ');
-            expect(component.form.valid).toBeFalsy();
+            expect(component.form.valid).toBeTruthy();
 
             component.submitCallback({});
 
-            expect(component.form.valid).toBeFalsy();
+            expect(component.form.valid).toBeTruthy();
         });
     });
 

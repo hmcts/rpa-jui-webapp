@@ -1,19 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-custombuttons',
-  templateUrl: './custombuttons.component.html',
-  styleUrls: ['./custombuttons.component.scss']
+  templateUrl: './custombuttons.component.html'
 })
-export class CustombuttonsComponent implements OnInit {
-
-
+export class CustombuttonsComponent {
   @Input() label;
-
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
 }

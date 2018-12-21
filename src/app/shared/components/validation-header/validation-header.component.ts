@@ -4,8 +4,7 @@ import {ValidationService} from '../../services/validation.service';
 
 @Component({
     selector: 'app-validation-header',
-    templateUrl: './validation-header.component.html',
-    styleUrls: ['./validation-header.component.scss']
+    templateUrl: './validation-header.component.html'
 })
 /**
  * ValidationHeaderComponent

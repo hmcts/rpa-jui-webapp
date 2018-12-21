@@ -12,8 +12,7 @@ import { ValidationService } from '../../../../shared/services/validation.servic
 
 @Component({
     selector: 'app-check-decision',
-    templateUrl: './check-decision.component.html',
-    styleUrls: ['./check-decision.component.scss']
+    templateUrl: './check-decision.component.html'
 })
 export class CheckDecisionComponent implements OnInit {
     form: FormGroup;
@@ -105,8 +104,8 @@ export class CheckDecisionComponent implements OnInit {
         if (this.npaDocumentTask) {
             if (this.npaDocumentTask.outputDocumentId) {
                 this.request.formValues.documentAnnotationId = this.npaDocumentTask.outputDocumentId;
-            } else {}
-        } else {}
+            }
+        }
         if (this.form.invalid && event === 'continue') {
             this.useValidation = true;
             return;
@@ -126,12 +125,8 @@ export class CheckDecisionComponent implements OnInit {
     burnAnnotatedDocument() {
         if (this.consentOrderDocumentId != null) {
             this.npaService.exportPdf(this.consentOrderDocumentId, null, this.configService.config.api_base_url /*, second arg - already existing doc id*/).subscribe(
-                (response) => {
+                (response: any) => {
                     this.npaDocumentTask = response.body;
-                    if (this.npaDocumentTask.taskState === 'FAILED') {
-                    }
-                },
-                response => {
                 });
         }
     }

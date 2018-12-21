@@ -4,8 +4,7 @@ export type alertType =  'success' | 'information' | 'warning';
 
 @Component({
   selector: 'app-hmcts-alert',
-  templateUrl: './hmcts-alert.component.html',
-  styleUrls: ['./hmcts-alert.component.scss']
+  templateUrl: './hmcts-alert.component.html'
 })
 export class HmctsAlertComponent {
     @Input() type: alertType; // success, information, warning

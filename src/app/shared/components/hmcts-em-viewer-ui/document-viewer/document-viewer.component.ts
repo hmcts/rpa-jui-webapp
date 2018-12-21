@@ -7,8 +7,7 @@ import { EmLoggerService } from '../logging/em-logger.service';
 
 @Component({
     selector: 'app-document-viewer',
-    templateUrl: './document-viewer.component.html',
-    styleUrls: ['./document-viewer.component.scss']
+    templateUrl: './document-viewer.component.html'
 })
 export class DocumentViewerComponent implements OnChanges, OnInit {
 

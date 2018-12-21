@@ -81,10 +81,7 @@ describe('EmViewerComponent', () => {
         });
 
         describe('when the url is changed', () => {
-
             const newUrl = 'http://api-gateway.dm.com/documents/5678-5678-5678';
-            const fixedNewUrl = '/demproxy/dm/documents/5678-5678-5678';
-
             beforeEach(() => {
                 component.url = newUrl;
                 component.ngOnChanges({url: new SimpleChange(originalUrl, newUrl, false)});
@@ -141,64 +138,8 @@ describe('EmViewerComponent', () => {
         it('pdf element should be visible', () => {
             expect(element.nativeElement.querySelector('app-annotation-pdf-viewer')).toBeTruthy();
         });
-    });
-
-    describe('when the mime type is unsupported', () => {
-        beforeEach(() => {
-            mockDocuments = {
-                mimeType: 'text/plain',
-                originalDocumentName: 'plain.txt',
-                _links: {
-                    binary: {
-                        href: `${originalUrl}/binary`
-                    },
-                    self: {
-                        href: `${originalUrl}`
-                    }
-                }
-            };
-            createComponent();
-            fixture.detectChanges();
-        });
-
-        it('should show a message with link to download', () => {
-            expect(element.nativeElement.querySelector('p').innerHTML)
-                .toContain(`${url}/binary`);
-        });
-
         it('img element should not be visible', () => {
             expect(element.nativeElement.querySelector('app-image-viewer')).not.toBeTruthy();
         });
-
-        it('pdf element should not be visible', () => {
-            expect(element.nativeElement.querySelector('app-annotation-pdf-viewer')).not.toBeTruthy();
-        });
     });
-
-    // TODO reinstate this
-    // describe('when the server returns an error', () => {
-    //     beforeEach(() => {
-    //         const req = httpMock.expectOne(url);
-    //         const mockErrorResponse = {
-    //             status: 404, statusText: 'Not Found'
-    //         };
-    //         const data = 'Invalid request parameters';
-    //         req.flush(data, mockErrorResponse);
-    //         fixture.detectChanges();
-    //     });
-    //
-    //     it('should display an error with the status', () => {
-    //         expect(element.nativeElement.querySelector('.error-summary').textContent).toContain('404');
-    //     });
-    //
-    //     it('img element should not be visible', () => {
-    //         expect(element.nativeElement.querySelector('app-img-viewer')).not.toBeTruthy();
-    //     });
-    //
-    //     it('pdf element should not be visible', () => {
-    //         expect(element.nativeElement.querySelector('app-pdf-viewer')).not.toBeTruthy();
-    //     });
-    //
-    // });
-
 });

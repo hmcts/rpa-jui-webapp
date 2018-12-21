@@ -6,8 +6,7 @@ export interface TitleObject {
 
 @Component({
     selector: 'app-hmcts-details-bar',
-    templateUrl: './hmcts-details-bar.component.html',
-    styleUrls: ['./hmcts-details-bar.component.scss']
+    templateUrl: './hmcts-details-bar.component.html'
 })
 export class HmctsDetailsBarComponent implements OnInit {
 

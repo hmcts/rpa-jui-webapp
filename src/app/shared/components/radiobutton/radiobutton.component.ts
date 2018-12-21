@@ -3,8 +3,7 @@ import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-radiobutton',
-  templateUrl: './radiobutton.component.html',
-  styleUrls: ['./radiobutton.component.scss']
+  templateUrl: './radiobutton.component.html'
 })
 export class RadiobuttonComponent {
     @Input() group: FormGroup;

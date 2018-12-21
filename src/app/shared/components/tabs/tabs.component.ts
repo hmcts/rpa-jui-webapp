@@ -4,8 +4,7 @@ import {PageDateDefault} from '../../../domain/models/section_fields';
 
 @Component({
   selector: 'app-tabs',
-  templateUrl: './tabs.component.html',
-  styleUrls: ['./tabs.component.scss']
+  templateUrl: './tabs.component.html'
 })
 export class TabsComponent implements OnInit {
 

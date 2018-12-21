@@ -1,6 +1,9 @@
 <div [ngClass]="{'jui-cf': true, 'jui-cf jui-cf--show-comments': allowAnnotations}" *ngIf="documents && documents.length; else noDocuments">
 
-    <app-case-file-tool-bar></app-case-file-tool-bar>
+    <app-case-file-tool-bar
+    [commentViewRedirect]="{command: [], extra: { queryParams: { type: 'comment'}}}"
+    [listViewRedirect]="{command: [], extra: {queryParams: {type: 'list'}}}"
+    ></app-case-file-tool-bar>
 
     <!-- Case file complete start-->
     <div class="jui-cf__window" >

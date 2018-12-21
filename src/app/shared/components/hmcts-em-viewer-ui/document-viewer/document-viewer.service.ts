@@ -31,6 +31,7 @@ export class DocumentViewerService {
             .pipe(catchError(error => {
                 const value: any = {error};
                 this.state.set(key, value);
+                this.log.error('Encountered error while downloading document:' + documentUri + '-' + error);
                 return of(value);
             }));
     }

@@ -18,6 +18,6 @@ export class EmLoggerService {
     }
 
     buildLog(message) {
-        return console.log(`${this.loggingClass}-${message}`);
+        console.log(`${this.loggingClass}-${message}`);
     }
 }

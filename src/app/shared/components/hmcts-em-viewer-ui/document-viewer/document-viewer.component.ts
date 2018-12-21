@@ -54,7 +54,7 @@ export class DocumentViewerComponent implements OnChanges, OnInit {
                     this.viewerFactoryService.buildViewer(resp, this.annotate, this.viewerAnchor.viewContainerRef, this.baseUrl);
             }
         }, err => {
-            this.log.error(err);
+            this.log.error('An error has occured while fetching document' + err);
             this.error = err;
         });
     }

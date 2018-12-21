@@ -154,15 +154,15 @@ export class AnnotationStoreService implements OnDestroy {
 
         toKeepAnnotations.forEach((annotation: Annotation) => {
             this.apiHttpService.saveAnnotation(annotation).subscribe(
-                response => this.log.info(response),
-                error => this.log.error(error)
+                response => this.log.info('Successfully saved annotation:' + response),
+                error => this.log.error('There has been a problem saving the annotation:' + annotation.id + '-' + error)
             );
         });
 
         toRemoveAnnotations.forEach((annotation: Annotation) => {
             this.apiHttpService.deleteAnnotation(annotation).subscribe(
-                response => this.log.info(response),
-                error => this.log.error(error)
+                response => this.log.info('Successfully deleted annotation:' + response),
+                error => this.log.error('There has been a problem deleting annotation:' + annotation.id + '-' + error)
             );
         });
 
@@ -178,18 +178,18 @@ export class AnnotationStoreService implements OnDestroy {
                     this.pdfAdapter.annotationSet.annotations[this.pdfAdapter.annotationSet.annotations
                         .findIndex(x => x.id === annotation.id)] = response.body;
                 }
-                this.log.info(response);
+                this.log.info('Successfully saved annotation:' + response);
             },
-            error => this.log.error(error)
+            error => this.log.error('There has been a problem saving the annotation:' + annotation.id + '-' + error)
         );
     }
 
     deleteAnnotation(annotation) {
         this.apiHttpService.deleteAnnotation(annotation).subscribe(
             response => {
-                this.log.info(response);
+                this.log.info('Successfully deleted annotation:' + annotation.id + '-' + response);
             },
-            error => this.log.error(error)
+            error => this.log.error('There has been a problem deleting annotation:' + annotation.id + '-' + error)
         );
     }
 

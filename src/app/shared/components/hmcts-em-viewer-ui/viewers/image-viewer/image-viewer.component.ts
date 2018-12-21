@@ -34,7 +34,7 @@ export class ImageViewerComponent implements OnInit {
     }
 
     rotateImage() {
-        this.log.info('rotating to-' + this.rotateImage + 'degrees');
+        this.log.info('rotating to-' + this.rotation + 'degrees');
         const styles = ['transform', '-ms-transform', '-o-transform', '-moz-transform', '-webkit-transform'];
         for (const style of styles) {
             this.renderer.setStyle(this.img.nativeElement, style, `rotate(${this.rotation}deg)`);

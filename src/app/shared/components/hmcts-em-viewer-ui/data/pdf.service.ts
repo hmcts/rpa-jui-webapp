@@ -22,7 +22,9 @@ export class PdfService {
     }
 
     preRun() {
-        this.pdfWrapper.workerSrc('/public/javascripts/pdf.worker.js');
+        const workerLocation = '/public/javascripts/pdf.worker.js';
+        this.log.info('point to workSrc file:' + workerLocation);
+        this.pdfWrapper.workerSrc(workerLocation);
         this.pageNumber = new BehaviorSubject(1);
     }
 
@@ -70,7 +72,7 @@ export class PdfService {
         if (viewerElementRef != null) {
             this.viewerElementRef = viewerElementRef;
         }
-
+        this.log.info('Rendering PDF document');
         this.pdfWrapper.getDocument(this.RENDER_OPTIONS.documentId)
             .then(pdf => {
                 this.RENDER_OPTIONS.pdfDocument = pdf;

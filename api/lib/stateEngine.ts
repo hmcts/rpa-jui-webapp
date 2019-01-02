@@ -73,10 +73,13 @@ export async function process(req, res, mapping, payload, templates, store) {
     if (variables) {
         // get current store
         let stored = await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`)
+        console.log('stored', stored)
         if (!(stored + '').length) {
             stored = {}
         }
-        await store.set(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`, { ...stored, ...variables })
+        variables = { ...stored, ...variables }
+
+        await store.set(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`, variables)
     }
 
     if (req.method === 'POST') {
@@ -122,7 +125,7 @@ export async function process(req, res, mapping, payload, templates, store) {
     }
 
     if (result) {
-        variables = await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`) || {}
+        variables = (await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`)) || {}
 
         const response = {
             formValues: variables,

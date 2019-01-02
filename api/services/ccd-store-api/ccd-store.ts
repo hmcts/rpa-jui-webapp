@@ -1,5 +1,5 @@
 import * as express from 'express'
-import {config} from '../../../config'
+import { config } from '../../../config'
 const generateRequest = require('../../lib/request/request')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 
@@ -88,7 +88,10 @@ function createCase(userId, jurisdiction, caseType, eventId, description, summar
                 data
             }
         })
-        .then(obj => { console.dir(obj); return obj }) // use to debug case creation or update
+        .then(obj => {
+            console.dir(obj)
+            return obj
+        }) // use to debug case creation or update
         .then(body => postCCDCase(userId, jurisdiction, caseType, body, options))
 }
 
@@ -106,7 +109,10 @@ function updateCase(userId, jurisdiction, caseType, caseId, eventId, description
                 data
             }
         })
-        .then(obj => { console.dir(obj); return obj }) // use to debug case creation or update
+        .then(obj => {
+            console.dir(obj)
+            return obj
+        }) // use to debug case creation or update
         .then(body => postCCDEvent(userId, jurisdiction, caseType, caseId, body, options))
 }
 

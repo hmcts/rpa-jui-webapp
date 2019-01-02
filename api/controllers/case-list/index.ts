@@ -308,7 +308,6 @@ module.exports = app => {
     router.get('/', (req: any, res, next) => {
         const userId = req.auth.userId
         const options = getOptions(req)
-
         getDetails(options).then(details => {
             getMutiJudCaseTransformed(userId, details, options)
                 .then(results => {

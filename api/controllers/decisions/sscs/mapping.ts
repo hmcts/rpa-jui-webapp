@@ -32,12 +32,12 @@ export const mapping = [
             { readingAndUnderstanding: 'reading-signs' },
             { takingNutrition: 'taking-nutrition' },
             { washingBathing: 'washing-bathing' },
-            'check',
+            'check'
         ]
     },
     {
         event: 'change',
-        result: '[state]',
+        result: '[state]'
     },
     {
         event: 'continue',
@@ -47,11 +47,11 @@ export const mapping = [
                 conditions: [
                     {
                         condition: [{ preliminaryView: 'yes' }],
-                        result: 'preliminary-advanced',
+                        result: 'preliminary-advanced'
                     },
                     {
                         condition: [{ preliminaryView: 'no' }],
-                        result: 'final-decision',
+                        result: 'final-decision'
                     }
                 ]
             },
@@ -65,11 +65,11 @@ export const mapping = [
             },
             {
                 state: 'preliminary-advanced',
-                result: 'set-award-dates',
+                result: 'set-award-dates'
             },
             {
                 state: 'set-award-dates',
-                result: 'scores',
+                result: 'scores'
             },
             {
                 state: 'scores',
@@ -81,55 +81,55 @@ export const mapping = [
             },
             {
                 state: 'check-tribunal',
-                result: 'decision-confirmation'
+                result: '.'
             },
             {
                 state: 'communicating-verbally',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'dressing-undressing',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'engaging-face',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'budgeting-decisions',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'managing-therapy',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'managing-toilet',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'moving-around',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'planning-journeys',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'preparing-food',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'reading-signs',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'taking-nutrition',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'washing-bathing',
-                result: '...',
+                result: '...'
             }
         ]
     }

@@ -1,9 +1,10 @@
 import * as log4js from 'log4js'
 import * as moment from 'moment'
-import {config} from '../../config'
-import {http} from '../lib/http'
+import { config } from '../../config'
+import { http } from '../lib/http'
 
-import {ERROR_NO_HEARING_IDENTIFIER, ERROR_UNABLE_TO_RELIST_HEARING} from '../constants/cohConstants'
+import { ERROR_NO_HEARING_IDENTIFIER, ERROR_UNABLE_TO_RELIST_HEARING } from '../constants/cohConstants'
+import { valueOrNull } from '../lib/util'
 
 export const url = config.services.coh_cor_api
 
@@ -22,15 +23,13 @@ function convertDateTime(dateObj: string): DateTimeObject {
     const date = conDateTime.format('D MMMM YYYY')
     const time = conDateTime.format('h:mma')
 
-    return {date, dateUtc, time}
+    return { date, dateUtc, time }
 }
 
 function mergeCohEvents(eventsJson: any): any[] {
     const history = eventsJson.online_hearing.history
     const questionHistory = eventsJson.online_hearing.questions
-        ? eventsJson.online_hearing.questions
-            .map(arr => arr.history)
-            .reduce((historyArray, item) => historyArray.concat(item), [])
+        ? eventsJson.online_hearing.questions.map(arr => arr.history).reduce((historyArray, item) => historyArray.concat(item), [])
         : []
 
     const answersHistory = eventsJson.online_hearing.answers
@@ -45,7 +44,7 @@ export async function createHearing(caseId: string, userId: string, jurisdiction
     const response = await http.post(`${url}/continuous-online-hearings`, {
         case_id: caseId,
         jurisdiction: jurisdictionId,
-        panel: [{identity_token: 'string', name: userId}],
+        panel: [{ identity_token: 'string', name: userId }],
         start_date: new Date().toISOString(),
     })
 
@@ -113,27 +112,36 @@ export async function getOrCreateHearing(caseId, userId) {
 
 export async function createDecision(hearingId: string): Promise<string> {
     const response = await http.post(`${url}/continuous-online-hearings/${hearingId}/decisions`, {
-        "decision_award": "n/a",
-        "decision_header": "n/a",
-        "decision_reason": "n/a",
-        "decision_text": "n/a",
+        decision_award: 'n/a',
+        decision_header: 'n/a',
+        decision_reason: 'n/a',
+        decision_text: 'n/a',
     })
 
     return response.data.decision_id
 }
 
-export async function storeData(hearingId, data) {
-    const response = await http.put(`${url}/continuous-online-hearings/${hearingId}/decisions`, {
-        "decision_award": "n/a",
-        "decision_header": "n/a",
-        "decision_reason": "n/a",
-        "decision_state": "decision_drafted",
-        "decision_text": JSON.stringify(data),
-    })
+export async function storeData(hearingId, data, state = 'decision_drafted') {
+    // okay we need to check the state of the decision. Not very efficent to do this every set, but
+    // while things are being sorted out this is safest
+
+    const decision = await getDecision(hearingId)
+
+    if (
+        valueOrNull(decision, 'decision_state.state_name') !== 'decision_issued' &&
+        valueOrNull(decision, 'decision_state.state_name') !== 'decision_issue_pending'
+    ) {
+        const response = await http.put(`${url}/continuous-online-hearings/${hearingId}/decisions`, {
+            decision_award: 'n/a',
+            decision_header: 'n/a',
+            decision_reason: 'n/a',
+            decision_state: state,
+            decision_text: JSON.stringify(data),
+        })
+    }
 }
 
 export async function getData(hearingId) {
-
     let response
 
     try {
@@ -197,7 +205,6 @@ export async function getOrCreateDecision(caseId, userId) {
  * @return {Promise}
  */
 export async function relistHearing(caseId: string, userId: string, state: string, reason: string): Promise<any> {
-
     const hearingId = await getOrCreateHearing(caseId, userId)
 
     if (!hearingId) {
@@ -208,8 +215,7 @@ export async function relistHearing(caseId: string, userId: string, state: strin
     }
 
     try {
-        const response = await http.put(`${url}/continuous-online-hearings/${hearingId}/relist`,
-            {state, reason})
+        const response = await http.put(`${url}/continuous-online-hearings/${hearingId}/relist`, { state, reason })
         return response
     } catch (error) {
         return Promise.reject({
@@ -233,7 +239,6 @@ export class Store {
         const data = {}
         data[key] = value
         await storeData(this.hearingId, data)
-
     }
 
     async get(key) {

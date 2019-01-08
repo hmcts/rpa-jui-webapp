@@ -10932,7 +10932,7 @@ zone.js@0.7.6:
   resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.7.6.tgz#fbbc39d3e0261d0986f1ba06306eb3aeb0d22009"
   integrity sha1-+7w50+AmHQmG8boGMG6zrrDSIAk=
 
-zone.js@0.8.19:
-  version "0.8.19"
-  resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.8.19.tgz#a4b522cd9e8b7b616a638c297d720d4c7f292f71"
-  integrity sha512-l9rofaOs6a4y1W8zt4pDmnCUCnYG377dG+5SZlXNWrTWYUuXFqcJZiOarhYiRVR0NI9sH/8ooPJiz4uprB/Mkg==
+zone.js@0.8.26:
+  version "0.8.26"
+  resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.8.26.tgz#7bdd72f7668c5a7ad6b118148b4ea39c59d08d2d"
+  integrity sha512-W9Nj+UmBJG251wkCacIkETgra4QgBo/vgoEkb4a2uoLzpQG7qF9nzwoLXWU5xj3Fg2mxGvEDh47mg24vXccYjA==

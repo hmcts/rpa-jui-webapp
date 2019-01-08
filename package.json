@@ -78,7 +78,7 @@
     "body-parser": "1.18.3",
     "camelcase": "^5.0.0",
     "cookie-parser": "1.4.3",
-    "core-js": "2.6.0",
+    "core-js": "2.6.1",
     "eslint-html-reporter": "0.5.2",
     "exception-formatter": "1.0.7",
     "express-session": "^1.15.6",

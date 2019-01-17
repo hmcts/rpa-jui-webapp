@@ -24,7 +24,7 @@ export class HearingService {
         this.messageSource.next(message);
     }
 
-    listForHearing(caseId: string, relistReason: string, relistState: string): Observable<any> {
+    listForHearing(caseId: string, relistReason: any, relistState: string): Observable<any> {
         const url = this.generateHearingsUrl(caseId);
 
         const body = {
@@ -49,4 +49,21 @@ export class HearingService {
 
         return this.httpClient.get(url);
     }
+
+    
+    generateHearingUrl( jurId: string, caseId: string, pageId: string, caseType: string ) {
+        // TODO: needs its own api endpoint, not decisions. And maybe no state
+        return `${this.configService.config.api_base_url}/api/decisions/state/${jurId}/${caseType}/${caseId}/${pageId}`;
+    }
+
+    fetch(jurId: string, caseId: string, pageId: string, caseType: string): Observable<any> {
+        const url = this.generateHearingUrl(jurId, caseId, pageId, caseType);
+        return this.httpClient.get(url);
+    }
+
+    submitHearingDraft(jurId: string, caseId: string, pageId: string, caseType: string, body: any): Observable<any> {
+        const url = this.generateHearingUrl(jurId, caseId, pageId, caseType);
+        return this.httpClient.post(url, body);
+    }
+
 }

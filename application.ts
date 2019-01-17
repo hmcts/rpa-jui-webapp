@@ -3,6 +3,7 @@ const { InfoContributor, infoRequestHandler } = require("@hmcts/info-provider");
 import * as express from "express";
 const apiRoute = require("./api");
 import { config } from "./config";
+import * as helmet from 'helmet';
 
 const app = express();
 const bodyParser = require("body-parser");
@@ -17,11 +18,25 @@ const FileStore = sessionFileStore(session);
 const appInsightsInstrumentationKey =
     process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "AAAAAAAAAAAAAAAA";
 
+// TODO: figure out why our helmet middleware isn't setting headers correctly
+app.use(helmet());
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+        fontSrc: [`'self'`, 'data:'],
+        scriptSrc: [`'self'`, `'unsafe-inline'`],
+        connectSrc: [`'self'`],
+        mediaSrc: [`'self'`],
+        frameSrc: [`'self'`],
+        imgSrc: [`'self'`]
+    }
+}));
+app.use(helmet.referrerPolicy({ policy: 'origin' }));
+
 app.use(
     session({
         cookie: {
             httpOnly: true,
-            maxAge: 31536000,
+            maxAge: 1800000,
             secure: config.secureCookie !== false
         },
         name: "jui-webapp",

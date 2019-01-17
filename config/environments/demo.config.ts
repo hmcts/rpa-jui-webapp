@@ -17,6 +17,6 @@ export default {
         coh_cor_api: 'https://coh-cor-demo.service.core-compute-demo.internal'
     },
     useProxy: false,
-    secureCookie: false,
+    secureCookie: true,
     sessionSecret: 'secretSauce'
 };

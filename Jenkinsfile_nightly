@@ -46,7 +46,7 @@ withNightlyPipeline(type, product, component) {
 
 //    enablePerformanceTest(15)
 //    enableApiGatewayTest(15)
-//    enableFullFunctionalTest(30)
+    enableFullFunctionalTest(30)
 //    enableMutationTest(120)
     enableCrossBrowserTest(120)
     enableDockerBuild()

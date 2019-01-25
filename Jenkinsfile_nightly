@@ -82,12 +82,21 @@ withNightlyPipeline(type, product, component) {
        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*',
 
            publishHTML([
-               allowMissing         : true,
-               alwaysLinkToLastBuild: true,
-               keepAll              : true,
-               reportDir            : "/functional-output/crossbrowser/reports'",
-               reportFiles          : 'index.html',
-               reportName           : 'JUI Cross Browser Test Report'
-           ])
+         allowMissing         : true,
+         alwaysLinkToLastBuild: true,
+         keepAll              : true,
+         reportDir            : "reports/tests/crossbrowser/",
+         reportFiles          : 'index.html',
+         reportName           : 'JUI Cross Browser Test Report'
+     ])
+
+         publishHTML([
+             allowMissing         : true,
+             alwaysLinkToLastBuild: true,
+             keepAll              : true,
+             reportDir            : "reports/tests/fullFunctional/",
+             reportFiles          : 'index.html',
+             reportName           : 'JUI Cross Browser Test Report'
+         ])
      }
 }

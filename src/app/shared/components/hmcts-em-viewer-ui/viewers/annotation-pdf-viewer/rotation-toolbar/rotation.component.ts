@@ -31,14 +31,4 @@ export class RotationComponent {
         this.pdfRenderService.setRenderOptions(RENDER_OPTIONS);
         this.pdfRenderService.render();
     }
-    
-     onRotateAntiClockwise() {
-        const RENDER_OPTIONS = this.pdfRenderService.getRenderOptions();
-        const rotation = RENDER_OPTIONS.rotationPages
-            .find(rotatePage => rotatePage.page === this.pageNumber).rotate;
-        RENDER_OPTIONS.rotationPages
-            .find(rotatePage => rotatePage.page === this.pageNumber).rotate = this.calculateRotation(rotation - 90);
-        this.pdfRenderService.setRenderOptions(RENDER_OPTIONS);
-        this.pdfRenderService.render();
-    }
 }

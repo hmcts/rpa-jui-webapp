@@ -1,7 +1,7 @@
 
 .viewer-menu {
-    position: absolute;
-    top: 0;
+    width: 100%;
+    position: sticky;
     left: 0;
 }
 
@@ -11,4 +11,6 @@
     background-position: 3px 50%;
     background-image: url(/public/images/em-viewer-rotate.svg);
     padding-left: 25px;
+    float: right;
+    position: relative;
 }

@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import { PdfRenderService } from '../../../data/pdf-render.service';
 import { EmLoggerService } from '../../../logging/em-logger.service';
+import {Subscription} from 'rxjs';
 
 
 @Component({
@@ -9,14 +10,19 @@ import { EmLoggerService } from '../../../logging/em-logger.service';
     styleUrls: ['./rotation.component.scss'],
     providers: []
 })
-export class RotationComponent {
+export class RotationComponent implements OnInit, OnDestroy {
     @Input() pageNumber: number;
+    @ViewChild('rotationButton') rotationButton: ElementRef
 
     constructor(private pdfRenderService: PdfRenderService,
-                private log: EmLoggerService) {
+                private log: EmLoggerService,
+                private renderer: Renderer2) {
         this.log.setClass('RotationComponent');
     }
 
+        this.renderer.setStyle(this.rotationButton.nativeElement, 'margin-top',
+            '-' + (<HTMLElement>document.getElementById('pageContainer' + this.pageNumber).querySelector('.textLayer')).style.height);
+    }
     calculateRotation(rotateVal): number {
         const circleDegrees = 360;
         return (rotateVal % circleDegrees + circleDegrees) % circleDegrees;

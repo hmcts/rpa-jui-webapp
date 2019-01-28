@@ -20,7 +20,7 @@ export async function getCCDEventToken(
 }
 
 export async function getEventTokenAndCase(
-    userId: string, jurisdiction: string,caseType: string, caseId: string, eventId: string): Promise<CCDEventResponse> {
+    userId: string, jurisdiction: string, caseType: string, caseId: string, eventId: string): Promise<CCDEventResponse> {
     const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
         caseType}/cases/${caseId}/event-triggers/${eventId}/token`)
 

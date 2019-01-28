@@ -36,7 +36,7 @@ export class CheckHearingComponent implements OnInit {
 
     ngOnInit() {
         this.case = this.activatedRoute.parent.snapshot.data['caseData'];
-        
+
         this.hearingService.fetch('DIVORCE', this.case.id, 'check', 'FinancialRemedyMVP2').subscribe(hearing => {
             this.hearing = hearing;
             this.pageitems = this.hearing.meta;
@@ -50,7 +50,7 @@ export class CheckHearingComponent implements OnInit {
         });
 
     }
-    
+
     isSectionExist(value) {
         if ( this.pageValues.visitedPages[value] === true ) {
             return true;
@@ -66,7 +66,7 @@ export class CheckHearingComponent implements OnInit {
         }
         delete this.form.value.createButton;
         this.request = { formValues: { ...this.pageValues, ...this.form.value }, event: event };
-        
+
         if (this.form.invalid && event === 'continue') {
             this.useValidation = true;
             return;
@@ -83,7 +83,7 @@ export class CheckHearingComponent implements OnInit {
 
     submitCallback() {
         if (this.form.valid) {
-            this.hearingService.listForHearing(this.case.id, this.form, 'issued')
+            this.hearingService.listForHearing(this.case.id, this.request.formValues)
                 .subscribe(() => {
                         this.redirectionService.redirect(`/case/${this.case.case_jurisdiction}/${this.case.case_type_id}/${this.case.id}/hearing/confirm`);
                     }, error => {

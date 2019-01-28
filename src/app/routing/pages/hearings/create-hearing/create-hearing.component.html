@@ -8,13 +8,19 @@
                         </app-validation-header>
                     </ng-container>
                     <form *ngIf="pageitems" [formGroup]="form" (ngSubmit)="onSubmit()">
-                        
+
                         <div [ngClass]="{'govuk-form-group':true, 'govuk-form-group--error' : useValidation && form.invalid }">
-                            
+
                             <div class="govuk-form-group" *ngFor="let group of pageitems.groups">
+                                <app-fieldset *ngIf="group.fieldset"
+                                              [classes]="'govuk-fieldset'"
+                                              [group]="form"
+                                              [data]="group.fieldset"
+                                              [validate]="useValidation">
+                                </app-fieldset>
                                 <app-jui-form-elements [group]="form" [validate]="useValidation" [data]="group"></app-jui-form-elements>
                             </div>
-                            
+
                         </div>
                     </form>
                 </div>

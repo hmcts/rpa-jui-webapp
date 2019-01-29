@@ -1,6 +1,7 @@
 import {Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import { PdfRenderService } from '../../../data/pdf-render.service';
 import { EmLoggerService } from '../../../logging/em-logger.service';
+import {RotationService} from './rotation.service';
 import {Subscription} from 'rxjs';
 
 
@@ -11,18 +12,43 @@ import {Subscription} from 'rxjs';
     providers: []
 })
 export class RotationComponent implements OnInit, OnDestroy {
+    showRotationButton: boolean;
+    rotationButtonStatusSub: Subscription;
+
     @Input() pageNumber: number;
     @ViewChild('rotationButton') rotationButton: ElementRef
 
     constructor(private pdfRenderService: PdfRenderService,
                 private log: EmLoggerService,
+                private rotationService: RotationService,
                 private renderer: Renderer2) {
         this.log.setClass('RotationComponent');
     }
 
-        this.renderer.setStyle(this.rotationButton.nativeElement, 'margin-top',
-            '-' + (<HTMLElement>document.getElementById('pageContainer' + this.pageNumber).querySelector('.textLayer')).style.height);
+    ngOnInit() {
+        this.rotationButtonStatusSub = this.rotationService.getShowRotationSub().subscribe((value) => {
+            this.showRotationButton = value;
+        });
     }
+
+    ngOnDestroy() {
+        this.rotationButtonStatusSub.unsubscribe();
+    }
+
+    showRotations() {
+        if (this.showRotationButton) {
+            this.setRotationButton();
+        }
+        return this.showRotationButton;
+    }
+
+    setRotationButton() {
+        if (this.rotationButton) {
+            this.renderer.setStyle(this.rotationButton.nativeElement, 'margin-top',
+                '-' + (<HTMLElement>document.getElementById('pageContainer' + this.pageNumber).querySelector('.textLayer')).style.height);
+        }
+    }
+
     calculateRotation(rotateVal): number {
         const circleDegrees = 360;
         return (rotateVal % circleDegrees + circleDegrees) % circleDegrees;

@@ -1,23 +1,17 @@
-import {EventEmitter, Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class RotationService {
-    private isButtonVisible = false;
-    private showRotation = new Subject<boolean>();
+    private showRotation = new BehaviorSubject<boolean>(false);
 
-    getShowRotationSub(): Subject<boolean> {
+    getShowRotationSub(): BehaviorSubject<boolean> {
         return this.showRotation;
     }
 
-    getButtonVisibility(): boolean {
-        return this.isButtonVisible;
-    }
-
     toggleRotation() {
-        this.isButtonVisible = !this.isButtonVisible;
-        this.showRotation.next(this.isButtonVisible);
+        this.showRotation.next(!this.showRotation.getValue());
     }
 }

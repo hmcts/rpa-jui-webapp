@@ -2,7 +2,6 @@ import { Injectable, ComponentFactoryResolver, Injector, ApplicationRef, Embedde
 import { RotationComponent } from './rotation.component';
 import { EmLoggerService } from '../../../logging/em-logger.service';
 import { RotationModel } from '../../../model/rotation-factory.model';
-import {RotationService} from './rotation.service';
 
 @Injectable()
 export class RotationFactoryService {
@@ -10,8 +9,7 @@ export class RotationFactoryService {
     constructor(private componentFactoryResolver: ComponentFactoryResolver,
                 private log: EmLoggerService,
                 private injector: Injector,
-                private appRef: ApplicationRef,
-                private rotationService: RotationService) {
+                private appRef: ApplicationRef) {
             this.log.setClass('RotationFactoryService');
         }
 
@@ -21,7 +19,6 @@ export class RotationFactoryService {
                             .resolveComponentFactory(RotationComponent)
                             .create(this.injector);
             componentRef.instance.pageNumber = rotationModel.pageNumber;
-            componentRef.instance.showRotationButton = this.rotationService.getButtonVisibility();
 
             this.appRef.attachView(componentRef.hostView);
             const domElem = (componentRef.hostView as EmbeddedViewRef<any>)

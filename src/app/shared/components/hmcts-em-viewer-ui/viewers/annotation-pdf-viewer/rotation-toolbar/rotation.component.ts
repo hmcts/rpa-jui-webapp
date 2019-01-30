@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { PdfRenderService } from '../../../data/pdf-render.service';
 import { EmLoggerService } from '../../../logging/em-logger.service';
 import {RotationService} from './rotation.service';
@@ -15,13 +15,13 @@ export class RotationComponent implements OnInit, OnDestroy {
     showRotationButton: boolean;
     rotationButtonStatusSub: Subscription;
 
+    rotationStyle = {};
+
     @Input() pageNumber: number;
-    @ViewChild('rotationButton') rotationButton: ElementRef
 
     constructor(private pdfRenderService: PdfRenderService,
                 private log: EmLoggerService,
-                private rotationService: RotationService,
-                private renderer: Renderer2) {
+                private rotationService: RotationService) {
         this.log.setClass('RotationComponent');
     }
 
@@ -29,23 +29,16 @@ export class RotationComponent implements OnInit, OnDestroy {
         this.rotationButtonStatusSub = this.rotationService.getShowRotationSub().subscribe((value) => {
             this.showRotationButton = value;
         });
+        this.rotationStyle = {
+            'margin-top':
+                `-${(<HTMLElement>document.getElementById('pageContainer' + this.pageNumber).querySelector('.textLayer')).style.height}`
+        };
+
     }
 
     ngOnDestroy() {
-        this.rotationButtonStatusSub.unsubscribe();
-    }
-
-    showRotations() {
-        if (this.showRotationButton) {
-            this.setRotationButton();
-        }
-        return this.showRotationButton;
-    }
-
-    setRotationButton() {
-        if (this.rotationButton) {
-            this.renderer.setStyle(this.rotationButton.nativeElement, 'margin-top',
-                '-' + (<HTMLElement>document.getElementById('pageContainer' + this.pageNumber).querySelector('.textLayer')).style.height);
+        if (this.rotationButtonStatusSub) {
+            this.rotationButtonStatusSub.unsubscribe();
         }
     }
 

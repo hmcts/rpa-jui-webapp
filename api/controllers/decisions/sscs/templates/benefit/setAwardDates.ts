@@ -148,12 +148,10 @@ module.exports = {
                                 hiddenAccessibilityText: 'some hidden text',
                                 groups: [
                                     {
-                                        validationError: [
-                                            {
-                                                value: 'Enter end date',
-                                                identifier: 'endDate'
-                                            }
-                                        ]
+                                        validationError: {
+                                            value: 'Enter end date',
+                                            identifier: 'endDate'
+                                        }
                                     },
                                     {
                                         legend: {
@@ -171,13 +169,6 @@ module.exports = {
                                     {
                                         date: {
                                             formName: 'awardEndDate',
-                                            validationError:
-                                                [
-                                                    {
-                                                    value: 'Select the end date',
-                                                    identifier: 'awardEndDate'
-                                                }
-                                            ],
                                             day: {
                                                 input: {
                                                     label: {

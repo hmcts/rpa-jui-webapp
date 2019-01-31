@@ -1,8 +1,8 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { PdfRenderService } from '../../../data/pdf-render.service';
 import { EmLoggerService } from '../../../logging/em-logger.service';
 import {RotationService} from './rotation.service';
-import {Subscription} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 
 
 @Component({
@@ -11,10 +11,8 @@ import {Subscription} from 'rxjs';
     styleUrls: ['./rotation.component.scss'],
     providers: []
 })
-export class RotationComponent implements OnInit, OnDestroy {
-    showRotationButton: boolean;
-    rotationButtonStatusSub: Subscription;
-
+export class RotationComponent implements OnInit {
+    rotationButtonStatusSub: BehaviorSubject<boolean>;
     rotationStyle = {};
 
     @Input() pageNumber: number;
@@ -26,20 +24,12 @@ export class RotationComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.rotationButtonStatusSub = this.rotationService.getShowRotationSub().subscribe((value) => {
-            this.showRotationButton = value;
-        });
+        this.rotationButtonStatusSub = this.rotationService.getShowRotationSub();
         this.rotationStyle = {
             'margin-top':
                 `-${(<HTMLElement>document.getElementById('pageContainer' + this.pageNumber).querySelector('.textLayer')).style.height}`
         };
 
-    }
-
-    ngOnDestroy() {
-        if (this.rotationButtonStatusSub) {
-            this.rotationButtonStatusSub.unsubscribe();
-        }
     }
 
     calculateRotation(rotateVal): number {

@@ -1,3 +1,3 @@
-<div class="viewer-menu" *ngIf="showRotationButton">
+<div class="viewer-menu" *ngIf="rotationButtonStatusSub | async">
     <button [ngStyle]="rotationStyle" class="govuk-button hmcts hmcts-button--secondary rotate" title="Clockwise" role="button" (click)="onRotateClockwise()">Rotate</button>
 </div>

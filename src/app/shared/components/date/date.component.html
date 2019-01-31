@@ -1,7 +1,7 @@
 <ng-container>
     <ng-container *ngIf="data.validationError && validate">
         <ng-container *ngFor="let error of data.validationError">
-            <ng-container *ngIf="displayOneMessage(group.errors, id, error.identifier)">
+            <ng-container *ngIf="error.identifier === displayOneMessage(group.errors, id)">
                 <app-validation-error-formgroup [group]="group" [validationErrorId]="error.identifier">
                     {{error.value}}
                 </app-validation-error-formgroup>

@@ -13,4 +13,8 @@ export class DateComponent {
     @Input() showValidation;
     @Input() validationError;
 
+    displayOneMessage(errors, controlId, errorId){
+        console.log(errors, controlId, errorId);
+    }
+
 }

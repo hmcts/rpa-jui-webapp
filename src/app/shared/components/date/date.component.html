@@ -1,4 +1,13 @@
 <ng-container>
+    <ng-container *ngIf="data.validationError && validate">
+        <ng-container *ngFor="let error of data.validationError">
+            <ng-container *ngIf="displayOneMessage(group.errors, id, error.identifier)">
+                <app-validation-error-formgroup [group]="group" [validationErrorId]="error.identifier">
+                    {{error.value}}
+                </app-validation-error-formgroup>
+            </ng-container>
+        </ng-container>
+    </ng-container>
     <div class="govuk-date-input" [id]="id" [attr.data]="data">
         <div class="govuk-date-input__item">
             <div class="govuk-form-group">

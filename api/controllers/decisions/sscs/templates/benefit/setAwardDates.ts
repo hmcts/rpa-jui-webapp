@@ -72,20 +72,18 @@ module.exports = {
             }
         },
         {
-            validationError: {
-                value: 'Enter start date',
-                identifier: 'startDate'
-            }
-        },
-        {
-            validationError: {
-                value: 'Start date must be valid',
-                identifier: 'startDateValid'
-            }
-        },
-        {
             date: {
                 formName: 'startDate',
+                validationError: [
+                    {
+                        value: 'Enter start date',
+                        identifier: 'startDate'
+                    },
+                    {
+                        value: 'Start date must be valid',
+                        identifier: 'startDateValid'
+                    }
+                ],
                 day: {
                     input: {
                         label: {
@@ -131,12 +129,11 @@ module.exports = {
         {
             fieldset: [
                 {
-                    validationError: [
-                        {
-                            value: 'Set end date',
-                            identifier: 'awardEndDate'
-                        }
-                    ]
+                    validationError: {
+                        value: 'Set end date',
+                        identifier: 'awardEndDate'
+                    }
+
                 },
                 {
                     radios: {
@@ -147,12 +144,6 @@ module.exports = {
                                 text: 'Set end date',
                                 hiddenAccessibilityText: 'some hidden text',
                                 groups: [
-                                    {
-                                        validationError: {
-                                            value: 'Enter end date',
-                                            identifier: 'endDate'
-                                        }
-                                    },
                                     {
                                         legend: {
                                             text: 'End date',
@@ -169,6 +160,16 @@ module.exports = {
                                     {
                                         date: {
                                             formName: 'awardEndDate',
+                                            validationError: [
+                                                {
+                                                    value: 'Enter end date',
+                                                    identifier: 'awardEndDate'
+                                                },
+                                                {
+                                                    value: 'End date must be valid',
+                                                    identifier: 'endDateValid'
+                                                }
+                                            ],
                                             day: {
                                                 input: {
                                                     label: {

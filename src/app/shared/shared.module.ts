@@ -42,6 +42,7 @@ import { InputsComponent } from './components/inputs/inputs.component';
 import { HmctsEmViewerUiModule } from './components/hmcts-em-viewer-ui/hmcts-em-viewer-ui.module';
 import { DateComponent } from './components/date/date.component';
 import { CustombuttonsComponent } from './components/custombuttons/custombuttons.component';
+import {FirstKeyPipe} from './pipes/first-error-message/first.error.message.pipe';
 
 @NgModule({
     imports: [
@@ -55,6 +56,7 @@ import { CustombuttonsComponent } from './components/custombuttons/custombuttons
         HmctsModule
     ],
     declarations: [
+        FirstKeyPipe,
         TableComponent,
         DataListComponent,
         FooterComponent,

@@ -8,4 +8,6 @@
             <app-questions-panel data-selector="questions-panel" *ngSwitchCase="'questions-panel'" [panelData]="item"></app-questions-panel>
         </ng-container>
     </ng-container>
+    <div>{{targetSection.sections | json}}</div>
+    <div>{{case | json}}</div>
 </ng-container>

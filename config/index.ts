@@ -36,3 +36,8 @@ if (process) {
     config.appInsightsInstrumentationKey =
         process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "AAAAAAAAAAAAAAAA";
 }
+
+if (configEnv === 'local') {
+    config.protocol = 'http';
+}
+

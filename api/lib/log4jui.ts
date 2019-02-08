@@ -29,8 +29,9 @@ function info(...messages: any[]) {
     }
 
     const category = this._logger.category
-
-    client.trackTrace({message: `[INFO] ${category} - ${fullMessage}`})
+    if (client) {
+        client.trackTrace({message: `[INFO] ${category} - ${fullMessage}`})
+    }
     this._logger.info(fullMessage)
 }
 
@@ -61,8 +62,9 @@ function error(...messages: any[]) {
     }
 
     const category = this._logger.category
-
-    client.trackException({exception: new Error(`[ERROR] ${category} - ${fullMessage}`)})
+    if (client) {
+        client.trackException({exception: new Error(`[ERROR] ${category} - ${fullMessage}`)})
+    }
     this._logger.error(fullMessage)
 
     if (config.logging === 'debug' || config.logging === 'error'  ) {

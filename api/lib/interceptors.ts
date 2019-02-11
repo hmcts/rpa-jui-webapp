@@ -1,5 +1,7 @@
 import * as exceptionFormatter from 'exception-formatter'
+import * as stringify from 'json-stringify-safe'
 import { config } from '../../config'
+import * as errorStack from '../lib/errorStack'
 import { shorten, valueOrNull } from '../lib/util'
 import { client } from './appInsights'
 import * as log4jui from './log4jui'
@@ -27,8 +29,7 @@ export function successInterceptor(response) {
 
     const url = shorten(response.config.url, config.maxLogLine)
 
-    // application insights logging
-    client.trackRequest({
+    logger.trackRequest({
         duration: response.duration,
         name: `Service ${response.config.method.toUpperCase()} call`,
         resultCode: response.status,
@@ -49,7 +50,7 @@ export function errorInterceptor(error) {
     const url = shorten(error.config.url, config.maxLogLine)
 
     // application insights logging
-    client.trackRequest({
+    logger.trackRequest({
         duration: error.duration,
         name: `Service ${error.config.method.toUpperCase()} call`,
         resultCode: error.status,
@@ -68,6 +69,9 @@ export function errorInterceptor(error) {
         logger.error(`Error on ${error.config.method.toUpperCase()} to ${url} in (${error.duration}) - ${error} \n
         ${JSON.stringify(data)}`)
     }
+
+    errorStack.push(['request', JSON.parse(stringify(error.request))])
+    errorStack.push(['response', JSON.parse(stringify(error.response))])
 
     return Promise.reject(error.response)
 }

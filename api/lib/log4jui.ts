@@ -1,6 +1,8 @@
 import * as log4js from 'log4js'
 import { config } from '../../config'
+import * as errorStack from '../lib/errorStack'
 import { client } from './appInsights'
+
 
 let logger = null
 
@@ -15,6 +17,7 @@ export function getLogger(category: string) {
         debug,
         error,
         info,
+        trackRequest,
         warn,
     }
 }
@@ -27,8 +30,9 @@ function info(...messages: any[]) {
     }
 
     const category = this._logger.category
-
-    client.trackTrace({message: `[INFO] ${category} - ${fullMessage}`})
+    if (client) {
+        client.trackTrace({ message: `[INFO] ${category} - ${fullMessage}` })
+    }
     this._logger.info(fullMessage)
 }
 
@@ -51,6 +55,12 @@ function debug(...messages: any[]) {
     this._logger.debug(fullMessage)
 }
 
+function trackRequest(obj: any) {
+    if (client) {
+        client.trackRequest(obj)
+    }
+}
+
 function error(...messages: any[]) {
     let fullMessage = ''
 
@@ -59,7 +69,13 @@ function error(...messages: any[]) {
     }
 
     const category = this._logger.category
-
-    client.trackException({exception: new Error(`[ERROR] ${category} - ${fullMessage}`)})
+    if (client) {
+        client.trackException({ exception: new Error(`[ERROR] ${category} - ${fullMessage}`) })
+    }
     this._logger.error(fullMessage)
+
+    if (config.logging === 'debug' || config.logging === 'error') {
+        errorStack.push([category, fullMessage])
+    }
 }
+

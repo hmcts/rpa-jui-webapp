@@ -142,6 +142,7 @@
     "eslint-plugin-node": "8.0.1",
     "eslint-plugin-promise": "4.0.1",
     "eslint-plugin-standard": "4.0.0",
+    "example-npm-module": "0.0.4",
     "file-loader": "3.0.1",
     "form-data": "2.3.3",
     "formidable": "^1.2.1",

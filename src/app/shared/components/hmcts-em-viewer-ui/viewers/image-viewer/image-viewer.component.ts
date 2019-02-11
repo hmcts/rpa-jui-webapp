@@ -11,7 +11,6 @@ import {BehaviorSubject} from 'rxjs';
 export class ImageViewerComponent implements OnInit {
 
     rotationButtonStatusSub: BehaviorSubject<boolean>;
-    rotationStyle = {};
 
     @Input() url: string;
     @Input() originalUrl: string;
@@ -32,11 +31,6 @@ export class ImageViewerComponent implements OnInit {
 
     onRotateClockwise() {
         this.rotation = this.rotation + 90;
-        this.rotateImage();
-    }
-
-    onRotateAntiClockwise() {
-        this.rotation = this.rotation - 90;
         this.rotateImage();
     }
 

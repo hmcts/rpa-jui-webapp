@@ -123,7 +123,7 @@ module.exports = {
                                         checkbox: {
                                             control: 'capitalPositions',
                                             value: false,
-                                            text: 'the parties’ capital positions if the order were affected'
+                                            text: 'The parties’ capital positions if the order were affected'
                                         }
                                     },
                                     {
@@ -144,7 +144,7 @@ module.exports = {
                                         checkbox: {
                                             control: 'partiesPensionProvision',
                                             value: false,
-                                            text: 'the parties’ pension provision if the order were affected'
+                                            text: 'The parties’ pension provision if the order were affected'
                                         }
                                     },
                                     {

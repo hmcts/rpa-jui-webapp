@@ -4,10 +4,36 @@ module.exports = {
     header: 'Set award dates',
     formGroupValidators: [
         {
+            validatorFunc: 'isRadioValidWhenSomeOptionSelected',
+            validationErrorId: 'endDateRadio',
+            controls: {
+                radioControl: 'endDateRadio',
+                selectedOptions: [
+                    {
+                        selectedOption: 'endDate',
+                        childValidator: {
+                            validatorFunc: 'isAllFieldsRequired',
+                            validationErrorId: 'awardEndDate',
+                            controls: [
+                                'awardEndDateDay', 'awardEndDateMonth', 'awardEndDateYear'
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
             validatorFunc: 'isAllFieldsRequired',
             validationErrorId: 'startDate',
             controls: [
                 'awardStartDateDay', 'awardStartDateMonth', 'awardStartDateYear'
+            ]
+        },
+        {
+            validatorFunc: 'isValidDate',
+            validationErrorId: 'startDateValid',
+            controls: [
+                'awardStartDateYear', 'awardStartDateMonth', 'awardStartDateDay' // accepts only format YYYY, mm, dd
             ]
         }
     ],
@@ -15,20 +41,20 @@ module.exports = {
         {
             validationLevel: 'formGroup',
             formGroupValidationErrorId: 'startDate',
-            text: 'Select start date',
-            href: '#'
+            text: 'Enter start date',
+            href: 'startDate'
         },
         {
             validationLevel: 'formGroup',
-            formGroupValidationErrorId: 'endDate',
+            formGroupValidationErrorId: 'startDateValid',
+            text: 'Start date must be valid',
+            href: 'startDateValid'
+        },
+        {
+            validationLevel: 'formGroup',
+            formGroupValidationErrorId: 'awardEndDate',
             text: 'Select the end date',
-            href: '#'
-        },
-        {
-            validationLevel: 'formGroup',
-            controlId: 'endDateRadio',
-            text: 'Select the end date or Indefinite award',
-            href: '#'
+            href: 'awardEndDate'
         }
     ],
     groups: [
@@ -46,11 +72,19 @@ module.exports = {
             }
         },
         {
+            validationError: {
+                value: 'Enter start date',
+                identifier: 'startDate'
+            }
+        },
+        {
+            validationError: {
+                value: 'Start date must be valid',
+                identifier: 'startDateValid'
+            }
+        },
+        {
             date: {
-                validationError: {
-                    value: 'Select start date',
-                    identifier: 'startDate'
-                },
                 formName: 'startDate',
                 day: {
                     input: {
@@ -97,13 +131,16 @@ module.exports = {
         {
             fieldset: [
                 {
+                    validationError: [
+                        {
+                            value: 'Set end date',
+                            identifier: 'awardEndDate'
+                        }
+                    ]
+                },
+                {
                     radios: {
                         control: 'endDateRadio',
-                        validationError: {
-                            value: 'Select the end date or indefinite award',
-                            controlId: 'endDateRadio'
-                        },
-                        validators: ['required'],
                         radioGroup: [
                             {
                                 value: 'endDate',
@@ -131,7 +168,7 @@ module.exports = {
                                     },
                                     {
                                         date: {
-                                            formName: 'endDate',
+                                            formName: 'awardEndDate',
                                             day: {
                                                 input: {
                                                     label: {
@@ -149,7 +186,7 @@ module.exports = {
                                                         classes: 'govuk-date-input__label'
                                                     },
                                                     control: 'awardEndDateMonth',
-                                                    classes: 'govuk-date-input__input govuk-input--width-2',
+                                                    classes: 'govuk-date-input__input govuk-input--width-2'
                                                 }
                                             },
                                             year: {
@@ -159,7 +196,7 @@ module.exports = {
                                                         classes: 'govuk-date-input__label'
                                                     },
                                                     control: 'awardEndDateYear',
-                                                    classes: 'govuk-date-input__input govuk-input--width-4',
+                                                    classes: 'govuk-date-input__input govuk-input--width-4'
                                                 }
                                             }
                                         }

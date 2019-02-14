@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Form, FormGroup} from '@angular/forms';
+import {AbstractControl, Form, FormGroup} from '@angular/forms';
 import {Validators, ValidationErrors, ValidatorFn} from '@angular/forms';
-import {controlsisTextAreaValidWhenCheckboxChecked, FormGroupValidator} from './validation.typescript';
+import {DatePipe} from '@angular/common';
+import {controlsisTextAreaValidWhenCheckboxChecked, controlsRadioConditionalModel, FormGroupValidator} from './validation.typescript';
 
 @Injectable({
     providedIn: 'root'
@@ -25,10 +26,11 @@ export class ValidationService {
         {
             simpleName: 'email',
             ngValidatorFunction: Validators.email
-        },
+        }
     ];
 
-    constructor() {
+
+    constructor(private datePipe: DatePipe) {
     }
 
     /**
@@ -57,7 +59,7 @@ export class ValidationService {
      * @see state_meta
      * @param validators - ie. ['required', 'email']
      */
-    getNgValidators(validators: Array<string>) {
+    getNgValidators(validators: Array<string>): any[] {
 
         const ngValidators: Array<any> = [];
 
@@ -129,8 +131,7 @@ export class ValidationService {
      * need to pass this in once the Universal Form Builder is merged with Validation.
      * @return {boolean}
      */
-    isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
-
+    isFormGroupInvalid(formGroup: any, validationErrorId: string): boolean {
         if (formGroup.errors && formGroup.errors.hasOwnProperty(validationErrorId)) {
             return formGroup.errors[validationErrorId];
         } else {
@@ -160,11 +161,10 @@ export class ValidationService {
      * @return {any}
      */
     isAnyCheckboxChecked(formGroup: FormGroup, checkboxes: Array<string>, validationIdentifier: string): ValidatorFn | null {
-
         const isAnyCheckboxCheckedValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
 
             for (const checkbox of checkboxes) {
-                if (controls.get(checkbox).value) {
+                if (controls.get(checkbox).value === true) {
                     return null;
                 }
             }
@@ -178,10 +178,11 @@ export class ValidationService {
     }
 
 
-    isAllFieldsRequired(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
+    // Common function for validator
+    // Returninng the validationIdentifier true if invalid and null if valid
 
-        const isAllFieldsRequiredValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
-
+    isAllFieldsRequiredValidationFn(controls: FormGroup, fields: Array<string>, validationIdentifier){
+        if (controls !== null && fields !== null) {
             for (const field of fields) {
                 if (!controls.get(field).value) {
                     return {
@@ -189,9 +190,127 @@ export class ValidationService {
                     };
                 }
             }
+        }
+
+        return null;
+    }
+
+    /**
+     * isAllFieldsRequired
+     *
+     * @param formGroup
+     * @param controls is object
+     * @param validationIdentifier
+     * @return {any}
+     */
+
+    isAllFieldsRequired(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
+         const isAllFieldsRequiredValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
+             return this.isAllFieldsRequiredValidationFn(controls, fields, validationIdentifier);
+          };
+         return isAllFieldsRequiredValidationFn;
+    }
+
+    /** Common function for date validator
+     * Returninng the validationIdentifier true if invalid and null if valid
+     *
+     * yyyy/mm/dd
+     *
+     */
+
+
+    isValidDateValidationFn(controls: FormGroup, fields: Array<string>, validationIdentifier){
+
+        if (controls !== null && fields !== null) {
+            const dateValueArray = [];
+
+            for (const field of fields) {
+
+                if (!controls.get(field).value) {
+                    return {
+                        [validationIdentifier]: true
+                    };
+                } else {
+
+                    // Form have valid values and we can create date
+                    // Check is form controls matching the right lengh and then create array contained date
+
+                    if (controls.get(field).value.length <= 2) {
+                        dateValueArray.push(controls.get(field).value);
+                    } else if  (controls.get(field).value.length === 4) {
+                        dateValueArray.push(controls.get(field).value);
+                    } else {
+                        return {
+                            [validationIdentifier]: true
+                        };
+                    }
+
+                    // Check if array is ready and convert to string
+
+                    if (dateValueArray.length === 3){
+
+                        //Return error if not numbers
+                        for (const element of dateValueArray) {
+                            if (element != Number(element)) {
+                                return {
+                                    [validationIdentifier]: true
+                                };
+                            }
+                        }
+
+                        // Convert user entered day and month to numbers
+                        dateValueArray[1] = Number(dateValueArray[1]);
+                        dateValueArray[2] = Number(dateValueArray[2]);
+
+                        // Return error if user entered months less than 0 and more than 12
+                        if (dateValueArray[1] <= 0 || dateValueArray[1] >= 12) {
+                            return {
+                                [validationIdentifier]: true
+                            };
+                        }
+                        // Return error if user entered months less than 0 and more than 31
+                        if (dateValueArray[2] <= 0 || dateValueArray[2] >= 31) {
+                            return {
+                                [validationIdentifier]: true
+                            };
+                        }
+
+                        // Here value might me invalid
+
+                        // Adding zeros in front if less than 10
+                        if (dateValueArray[1] < 10) { dateValueArray[1] = ("0" + (dateValueArray[1]).toString().slice(-2)); }
+                        if (dateValueArray[2] < 10) { dateValueArray[2] = ("0" + (dateValueArray[2]).toString().slice(-2)); }
+
+                        // Get proper date format by create Date object and convert it back to string for comparison with what the user entered
+
+                        const dateStr = dateValueArray.toString();
+
+                        const dateObj = new Date(dateStr);
+                        const checkDateStr = dateObj.toISOString().slice(0, 10).replace(/-/g, ",").replace("T", " ");
+
+                        // Return null if valid date
+                        if (checkDateStr === dateStr) {
+                            return null;
+                        }
+
+                        return {
+                            [validationIdentifier]: true
+                        };
+
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    isValidDate(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
+        const isValidDateValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
+            return this.isValidDateValidationFn(controls, fields, validationIdentifier);
         };
 
-        return isAllFieldsRequiredValidationFn;
+        return isValidDateValidationFn;
     }
 
     /**
@@ -213,7 +332,7 @@ export class ValidationService {
                 return null;
             }
 
-            if (formControls.get(controls.textareaControl).value.length > 0) {
+            if (formControls.get(controls.textareaControl).value && formControls.get(controls.textareaControl).value.length > 0) {
                 return null;
             }
 
@@ -223,6 +342,49 @@ export class ValidationService {
         };
 
         return isTextAreaValidWhenCheckboxChecked;
+    }
+
+    /**
+     * isRadioValidWhenSomeOptionSelected
+     *
+     * @param formGroup
+     * @param controls is object
+     * { checkboxControl : string, textareaControl : string }
+     * @param validationIdentifier
+     * @return {any}
+     */
+
+    isRadioValidWhenSomeOptionSelected(formGroup: FormGroup, controls: any, validationIdentifier: string){
+
+        const isRadioValidWhenSomeOptionSelected: ValidatorFn = (formControls: FormGroup): ValidationErrors | null => {
+
+            for (const option of controls.selectedOptions) {
+                if (formControls.get(controls.radioControl).value !== null && formControls.get(controls.radioControl).value !== option.selectedOption) {
+
+                    // Do not validate child if parent is valid so
+                    // Reset child validation to valid state here
+                    // Add word "ValidationFn" to the name of validator when you extend child validation functions
+
+                    if (option.childValidator.validatorFunc) {
+                        return  this[option.childValidator.validatorFunc + "ValidationFn"](null, null, option.childValidator.validationErrorId);
+                    }
+
+                    return null;
+
+                } else {
+                    if (option.childValidator.validatorFunc){
+                        return this[option.childValidator.validatorFunc + "ValidationFn"](formGroup, option.childValidator.controls, option.childValidator.validationErrorId);
+                    }
+                }
+            }
+
+            return {
+                [validationIdentifier]: true,
+            };
+
+        };
+
+        return isRadioValidWhenSomeOptionSelected;
     }
 
     /**

@@ -1,12 +1,11 @@
-import * as log4js from 'log4js'
 import { map } from 'p-iteration'
 import { config } from '../../config'
+import * as log4jui from './log4jui'
 import { some } from './util'
 
 import { forwardStack, pushStack, shiftStack, stackEmpty } from '../lib/stack'
 
-const logger = log4js.getLogger('state engine')
-logger.level = config.logging ? config.logging : 'OFF'
+const logger = log4jui.getLogger('state engine')
 
 // does not handle OR yet
 export function handleCondition(conditionNode, variables) {
@@ -73,7 +72,7 @@ export async function process(req, res, mapping, payload, templates, store) {
     if (variables) {
         // get current store
         let stored = await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`)
-        
+
         if (!(stored + '').length) {
             stored = {}
         }
@@ -120,7 +119,14 @@ export async function process(req, res, mapping, payload, templates, store) {
             return false
         })
     } else {
-        console.log('casetype', caseTypeId)
+        // reset for testing
+        if (stateId === 'reset') {
+            logger.warn(`reseting decisions_${jurisdiction}_${caseTypeId}_${caseId}`)
+            await store.set(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`, {})
+
+            return
+        }
+
         meta = templates[caseTypeId][stateId]
         result = true
     }
@@ -133,7 +139,7 @@ export async function process(req, res, mapping, payload, templates, store) {
             meta,
             newRoute,
         }
-        
+
         req.session.save(() => res.send(JSON.stringify(response)))
     }
 }

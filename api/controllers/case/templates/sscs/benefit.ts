@@ -79,11 +79,11 @@ export const template = {
                                 },
                                 {
                                     label: 'Medical member',
-                                    value: '$.case_data.assignedToDisabilityMember',
+                                    value: '$.case_data.assignedToMedicalMember',
                                 },
                                 {
                                     label: 'Disability qualified member',
-                                    value: '$.case_data.assignedToMedicalMember',
+                                    value: '$.case_data.assignedToDisabilityMember',
                                 },
                             ],
                         },
@@ -119,7 +119,7 @@ export const template = {
                                     ],
                                 },
                                 { label: 'Date of birth', value: '$.case_data.appeal.appellant.identity.dob' },
-                                { label: 'National insurances number', value: '$.case_data.appeal.appellant.identity.nino' },
+                                { label: 'National insurance number', value: '$.case_data.appeal.appellant.identity.nino' },
                                 {
                                     label: 'Address',
                                     value: [

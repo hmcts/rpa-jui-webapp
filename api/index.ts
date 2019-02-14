@@ -2,16 +2,14 @@ import * as express from 'express'
 import * as config from '../config'
 import { auth } from './controllers/auth'
 import caseRoutes from './controllers/case'
+import decisionRoutes from './controllers/decisions'
+import { errorStack } from './lib/errorStack'
 import ccdStoreApiRoutes from './services/ccd-store-api/ccd-store'
 import cohCorApiRoutes from './services/coh-cor-api/coh-cor-api'
 import dmStoreApiRoutes from './services/DMStore'
-//import idamApiRoutes from './services/idam-api/idam-api'
+import idamApiRoutes from './services/idam'
 
 const router = express.Router()
-
-import decisionRoutes from './controllers/decisions'
-
-const idamApiRoutes = require('./services/idam-api/idam-api')
 
 const authInterceptor = require('./lib/middleware/auth')
 const serviceTokenMiddleware = require('./lib/middleware/service-token')
@@ -19,8 +17,8 @@ const caseListRoute = require('./controllers/case-list')
 
 const questionsRoutes = require('./controllers/questions')
 const eventsRoutes = require('./controllers/events')
-const documentsRoutes = require('./controllers/documents')
 
+const documentsRoutes = require('./controllers/documents')
 const caseCreationRoute = require('./controllers/case-creation')
 
 const barApiRoutes = require('./services/bar-api/bar-api')
@@ -39,11 +37,14 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 router.use(serviceTokenMiddleware)
 auth(router)
 router.use(authInterceptor)
+
+router.use(errorStack)
+
 caseListRoute(router)
 decisionRoutes(router)
+documentsRoutes(router)
 caseRoutes(router)
 eventsRoutes(router)
-documentsRoutes(router)
 questionsRoutes(router)
 
 if (config.configEnv !== 'prod') {

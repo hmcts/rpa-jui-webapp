@@ -1,13 +1,12 @@
 import * as express from 'express'
 import { map } from 'p-iteration'
-
 import columns from '../../lib/config/refCaselistCols'
 import { filterByCaseTypeAndRole } from '../../lib/filters'
 import * as log4jui from '../../lib/log4jui'
 import { asyncReturnOrError } from '../../lib/util'
 import { getMutiJudCCDCases } from '../../services/ccd-store-api/ccd-store'
 import { getDecision } from '../../services/coh'
-import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
+import { getHearingByCase } from '../../services/cohQA'
 
 const getListTemplate = require('./templates/index')
 const { processCaseState } = require('../../lib/processors/case-state-model')

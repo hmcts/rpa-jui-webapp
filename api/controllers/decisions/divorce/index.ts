@@ -337,7 +337,7 @@ export async function listForHearingFR(caseId, userId, req, store, state) {
     try {
         logger.info('Getting Event Token')
 
-        const event = 'FR_orderRefusal'
+        const event = 'FR_orderRefusal2'
 
         const eventTokenAndCAse = await ccdStore.getEventTokenAndCase(
             userId,

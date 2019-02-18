@@ -333,11 +333,10 @@ export async function listForHearingFR(caseId, userId, req, store, state) {
     let payloadData
     let eventToken = {}
     let caseDetails = {}
+    const event = 'FR_orderRefusal2'
 
     try {
         logger.info('Getting Event Token')
-
-        const event = 'FR_orderRefusal2'
 
         const eventTokenAndCAse = await ccdStore.getEventTokenAndCase(
             userId,
@@ -360,7 +359,7 @@ export async function listForHearingFR(caseId, userId, req, store, state) {
     payloadData = perpareCaseForRefusalFR(
         caseDetails,
         eventToken,
-        'FR_orderRefusal',
+        event,
         req.session.user,
         store
     )

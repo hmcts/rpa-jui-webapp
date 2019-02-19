@@ -127,6 +127,8 @@ function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
         orderRefusalOther = translate(store, 'Reason')
     }
 
+    // TODO: orderRefusalCollection should be rename to orderRefusalCollectionV2
+    // When CCD have the latest Case Definitions file applied in AAT, as per CCD_SK_FinancialRemedy_v2.35_JUI_MVP.xlsx
     const orderRefusalCollection: any = {
         orderRefusalAddComments: store.notesForAdmin,
         orderRefusalDate: moment(new Date()).format('YYYY-MM-DD'),

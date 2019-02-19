@@ -13,8 +13,7 @@ export default (req, res, next) => {
     const expires = new Date(jwtData.exp).getTime()
     const now = new Date().getTime() / 1000
     const expired = expires < now
-
-    if (expired || !req.session.user) {
+    if (expired) {
         logger.warn('Auth token or user expired need to log in again')
         auth.logout(req, res)
 

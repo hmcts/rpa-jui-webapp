@@ -40,7 +40,7 @@ app.use(
     })
 );
 
-//app.use(appInsights);
+app.use(appInsights);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -104,7 +104,7 @@ app.get('/logout', apiRoute);
 app.use('/api', apiRoute);
 
 
-//const logger = log4jui.getLogger('Application')
-//logger.info(`Started up on ${config.enviroment || 'local'} using ${config.protocol}`)
+const logger = log4jui.getLogger('Application')
+logger.info(`Started up on ${config.enviroment || 'local'} using ${config.protocol}`)
 
 module.exports = app;

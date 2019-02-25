@@ -14,6 +14,7 @@ import {BehaviorSubject} from 'rxjs';
 export class RotationComponent implements OnInit {
     rotationButtonStatusSub: BehaviorSubject<boolean>;
     rotationStyle = {};
+    viewerStyle = {};
 
     @Input() pageNumber: number;
 
@@ -25,11 +26,13 @@ export class RotationComponent implements OnInit {
 
     ngOnInit() {
         this.rotationButtonStatusSub = this.rotationService.getShowRotationSub();
+        const height = `${(<HTMLElement>document.getElementById('pageContainer' + this.pageNumber).querySelector('.textLayer')).style.height}`;
         this.rotationStyle = {
-            'margin-top':
-                `-${(<HTMLElement>document.getElementById('pageContainer' + this.pageNumber).querySelector('.textLayer')).style.height}`
+            'margin-top': `-${height}`
         };
-
+        this.viewerStyle = {
+            'top': `${height}`
+        };
     }
 
     calculateRotation(rotateVal): number {

@@ -156,15 +156,15 @@ export async function getMutiJudCaseTransformed(userDetails) {
     caseLists = await asyncReturnOrError(getMutiJudCaseAssignedCases(userDetails), 'Error getting multi' +
         'jurisdictional assigned cases.', null, logger)
     caseLists = await asyncReturnOrError(appendCOR(caseLists), 'Error appending to COR', null, logger)
-    caseLists = await asyncReturnOrError(appendQuestionsRound(caseLists, userDetails.id), 'Error appending questions rounds', null, logger)
+    caseLists = await asyncReturnOrError(appendQuestionsRound(caseLists, userDetails.id),
+        'Error appending questions rounds', null, logger)
 
-    // TODO: Add asyncReturnOrError
-    caseLists = await processCaseListsState(caseLists)
-    caseLists = await applyStateFilter(caseLists)
-    caseLists = await convertCaselistToTemplate(caseLists)
-    caseLists = await combineLists(caseLists)
-    caseLists = await sortTransformedCases(caseLists)
-    caseLists = await aggregatedData(caseLists)
+    caseLists = processCaseListsState(caseLists)
+    caseLists = applyStateFilter(caseLists)
+    caseLists = convertCaselistToTemplate(caseLists)
+    caseLists = combineLists(caseLists)
+    caseLists = sortTransformedCases(caseLists)
+    caseLists = aggregatedData(caseLists)
 
     return caseLists
 }

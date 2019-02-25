@@ -24,7 +24,8 @@ const logger = log4jui.getLogger('case list')
 export async function getCOR(casesData) {
     const caseIds = casesData.map(caseRow => `${caseRow.id}`).join('&case_id=')
 
-    const hearings: any = await getHearingByCase(caseIds)
+    const hearings: any = await asyncReturnOrError(getHearingByCase(caseIds), 'Error getting hearing by case.', null, logger)
+
     if (hearings.online_hearings) {
         const caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]))
 
@@ -144,15 +145,18 @@ export function aggregatedData(results) {
 }
 
 export async function getMutiJudCaseAssignedCases(userDetails) {
+    console.log('getMutiJudCaseAssignedCases')
     return await getMutiJudCCDCases(userDetails.id, filterByCaseTypeAndRole(userDetails))
 }
 
 // Get List of case and transform to correct format
 export async function getMutiJudCaseTransformed(userDetails) {
-    let caseLists
 
-    caseLists = await getMutiJudCaseAssignedCases(userDetails)
-    caseLists = await appendCOR(caseLists)
+    let caseLists
+    caseLists = await asyncReturnOrError(getMutiJudCaseAssignedCases(userDetails), 'Error getting multi' +
+        'jurisdictional assigned cases.', null, logger)
+    caseLists = await asyncReturnOrError(appendCOR(caseLists), 'Error appending to COR', null, logger)
+
     caseLists = await appendQuestionsRound(caseLists, userDetails.id)
     caseLists = await processCaseListsState(caseLists)
     caseLists = await applyStateFilter(caseLists)
@@ -204,6 +208,8 @@ export async function getCases(res) {
         while (tryCCD < config.maxCCDRetries && !results) {
             // need to disable error sending here and catch it later if retrying
             results = await asyncReturnOrError(getMutiJudCaseTransformed(user), ' Error getting case list', res, logger, false)
+            console.log('getCases')
+            console.log(results)
             tryCCD++
             if (!results) {
                 logger.warn('Having to retry CCD')

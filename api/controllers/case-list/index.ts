@@ -207,7 +207,7 @@ export async function getCases(res) {
 
         while (tryCCD < config.maxCCDRetries && !results) {
             // need to disable error sending here and catch it later if retrying
-            results = await asyncReturnOrError(getMutiJudCaseTransformed(user), ' Error getting case list', res, logger, false)
+            results = await asyncReturnOrError(getMutiJudCaseTransformed(user), ' Error getting case list.', res, logger, false)
             console.log('getCases')
             console.log(results)
             tryCCD++

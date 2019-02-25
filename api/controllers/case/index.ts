@@ -1,21 +1,15 @@
-const express = require('express')
-const getCaseTemplate = require('./templates/index')
-const valueProcessor = require('../../lib/processors/value-processor')
-const { processCaseState } = require('../../lib/processors/case-state-model')
-
-const { getAllQuestionsByCase } = require('../questions/index')
-
-let refJudgeLookUp = []
-
-import * as path from 'path'
-import { decrypt } from '../../lib/encryption'
+import * as express from 'express'
 import * as log4jui from '../../lib/log4jui'
 import { CCDCaseWithSchema } from '../../lib/models'
-import { asyncReturnOrError } from '../../lib/util'
+import { processCaseState } from '../../lib/processors/case-state-model'
+import { dataLookup } from '../../lib/processors/value-processor'
+import { asyncReturnOrError, judgeLookUp } from '../../lib/util'
 import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
-import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
+import { getHearingByCase } from '../../services/cohQA'
 import { getDocuments } from '../../services/DMStore'
 import { getEvents } from '../events'
+import { getAllQuestionsByCase } from '../questions/index'
+import * as getCaseTemplate from './templates/index'
 
 const logger = log4jui.getLogger('cases')
 
@@ -23,7 +17,7 @@ function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'
 }
 
-async function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId): Promise<[any, any, any, any]> {
+export async function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId): Promise<[any, any, any, any]> {
     const caseData = await getCCDCase(userId, jurisdiction, caseType, caseId)
     const events = await getEvents(userId, jurisdiction, caseType, caseId)
     let hearing
@@ -37,7 +31,7 @@ async function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, cas
     return [caseData, events, hearing, questions]
 }
 
-async function appendDocuments(caseData, schema) {
+export async function appendDocuments(caseData, schema) {
     let documents = await getDocuments(getDocIdList(caseData.documents))
     documents = appendDocIdToDocument(documents)
     caseData.documents = documents
@@ -45,14 +39,14 @@ async function appendDocuments(caseData, schema) {
     return { caseData, schema }
 }
 
-function replaceSectionValues(section, caseData) {
+export function replaceSectionValues(section, caseData) {
     if (section.sections && section.sections.length) {
         section.sections.forEach(childSection => {
             replaceSectionValues(childSection, caseData)
         })
     } else {
         section.fields.forEach(field => {
-            field.value = valueProcessor(field.value, caseData)
+            field.value = dataLookup(field.value, caseData)
         })
     }
 }
@@ -81,7 +75,7 @@ function appendCollectedData([caseData, events, hearings, questions]) {
 }
 
 function applySchema(caseData): CCDCaseWithSchema {
-    let schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)))
+    let schema = JSON.parse(JSON.stringify(getCaseTemplate.default(caseData.jurisdiction, caseData.case_type_id)))
     if (schema.details) {
         replaceSectionValues(schema.details, caseData)
     }
@@ -95,22 +89,6 @@ function applySchema(caseData): CCDCaseWithSchema {
     }
 
     return { caseData, schema }
-}
-
-function judgeLookUp(judgeEmail) {
-    if (!refJudgeLookUp.length) {
-        logger.info('Decrypting judge data ...')
-        try {
-            logger.info(`Running from__dirname ${__dirname}`)
-            const data = decrypt(path.join(__dirname, '../../lib/config/refJudgeLookUp.crypt'))
-            refJudgeLookUp = JSON.parse(data)
-        } catch (e) {
-            logger.error(e)
-        }
-    }
-
-    const judge = refJudgeLookUp.filter(judge => judge.email === judgeEmail)
-    return judge.length ? judge[0].name : judgeEmail
 }
 
 function normaliseForPanel(caseData) {
@@ -133,19 +111,19 @@ function normaliseForPanel(caseData) {
     }
 }
 
-async function getCaseData(userId, jurisdiction, caseType, caseId) {
+export async function getCaseData(userId, jurisdiction, caseType, caseId) {
     const caseDataArray: [any, any, any, any] = await getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId)
     return appendCollectedData(caseDataArray)
 }
 
-async function getCaseTransformed(userId, jurisdiction, caseType, caseId, req) {
+export async function getCaseTransformed(userId, jurisdiction, caseType, caseId, req) {
     const caseData = await getCaseData(userId, jurisdiction, caseType, caseId)
     let processedData: CCDCaseWithSchema = applySchema(processCaseState(caseData))
     processedData = await appendDocuments(processedData.caseData, processedData.schema)
     return processedData.schema
 }
 
-function getCaseRaw(userId, jurisdiction, caseType, caseId, req) {
+export async function getCaseRaw(userId, jurisdiction, caseType, caseId, req) {
     return getCaseData(userId, jurisdiction, caseType, caseId)
         .then(caseData => appendDocuments(caseData, {}))
         .then(({ caseData, schema }) => caseData)

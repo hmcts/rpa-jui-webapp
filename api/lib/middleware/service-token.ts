@@ -1,13 +1,20 @@
-const { postS2SLease } = require('../../services/service-auth-provider-api/service-auth-provider-api')
-const jwtDecode = require('jwt-decode')
+import * as jwtDecode from 'jwt-decode'
 import { config } from '../../../config'
+import * as log4jui from '../../lib/log4jui'
+import { postS2SLease } from '../../services/serviceAuth'
+import { asyncReturnOrError } from '../util'
+
+const logger = log4jui.getLogger('service-token')
 
 const _cache = {}
 const microservice = config.microservice
 
 function validateCache() {
+    logger.info('validaing s2s cache')
     const currentTime = Math.floor(Date.now() / 1000)
-    if (!_cache[microservice]) return false
+    if (!_cache[microservice]) {
+        return false
+    }
     return currentTime < _cache[microservice].expiresAt
 }
 
@@ -15,45 +22,35 @@ function getToken() {
     return _cache[microservice]
 }
 
-function generateToken() {
-    return new Promise((resolve, reject) => {
-        postS2SLease()
-            .then(body => {
-                const tokenData = jwtDecode(body)
-                _cache[microservice] = {
-                    expiresAt: tokenData.exp,
-                    token: body
-                }
-                resolve()
-            })
-            .catch(e => {
-                reject()
-            })
-    })
-}
+async function generateToken() {
+    logger.info('Getting new s2s token')
+    const token = await postS2SLease()
 
-function serviceTokenGenerator() {
-    return new Promise((resolve, reject) => {
-        if (validateCache()) {
-            resolve(getToken())
-        } else {
-            generateToken()
-                .then(() => {
-                    resolve(getToken())
-                })
-                .catch(e => {
-                    reject()
-                })
-        }
-    })
-}
+    const tokenData: any = jwtDecode(token)
 
-module.exports = async (req, res, next) => {
-    try {
-        const token: any = await serviceTokenGenerator()
-        req.headers.ServiceAuthorization = token.token
-    } catch (e) {
+    _cache[microservice] = {
+        expiresAt: tokenData.exp,
+        token,
     }
 
-    next()
+    return token
+}
+
+async function serviceTokenGenerator() {
+    if (validateCache()) {
+        logger.info('Getting cached s2s token')
+        const tokenData = getToken()
+        return tokenData.token
+    } else {
+        return await generateToken()
+    }
+}
+
+export default async (req, res, next) => {
+    const token = await asyncReturnOrError(serviceTokenGenerator(), 'Error getting s2s token', res, logger)
+    if (token) {
+        logger.info('Attaching s2s token')
+        req.headers.ServiceAuthorization = token
+        next()
+    }
 }

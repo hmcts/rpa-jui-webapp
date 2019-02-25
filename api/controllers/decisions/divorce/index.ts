@@ -383,7 +383,7 @@ export async function listForHearingFR(caseId, userId, req, store, state) {
 
 export const payload: any = []
 
-payload.divorce = async (req, res, store) => {console.log(req.session)
+payload.divorce = async (req, res, store) => {
     //no payload
 }
 

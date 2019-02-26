@@ -145,7 +145,6 @@ export function aggregatedData(results) {
 }
 
 export async function getMutiJudCaseAssignedCases(userDetails) {
-    console.log('getMutiJudCaseAssignedCases')
     return await getMutiJudCCDCases(userDetails.id, filterByCaseTypeAndRole(userDetails))
 }
 
@@ -153,11 +152,11 @@ export async function getMutiJudCaseAssignedCases(userDetails) {
 export async function getMutiJudCaseTransformed(userDetails) {
 
     let caseLists
-    caseLists = await asyncReturnOrError(getMutiJudCaseAssignedCases(userDetails), 'Error getting multi' +
-        'jurisdictional assigned cases.', null, logger)
-    caseLists = await asyncReturnOrError(appendCOR(caseLists), 'Error appending to COR', null, logger)
+    caseLists = await asyncReturnOrError(getMutiJudCaseAssignedCases(userDetails), 'Error getting Multi' +
+        'Jurisdictional assigned cases.', null, logger)
+    caseLists = await asyncReturnOrError(appendCOR(caseLists), 'Error appending to COR.', null, logger)
     caseLists = await asyncReturnOrError(appendQuestionsRound(caseLists, userDetails.id),
-        'Error appending questions rounds', null, logger)
+        'Error appending question rounds.', null, logger)
 
     caseLists = processCaseListsState(caseLists)
     caseLists = applyStateFilter(caseLists)
@@ -209,8 +208,6 @@ export async function getCases(res) {
         while (tryCCD < config.maxCCDRetries && !results) {
             // need to disable error sending here and catch it later if retrying
             results = await asyncReturnOrError(getMutiJudCaseTransformed(user), ' Error getting case list.', res, logger, false)
-            console.log('getCases')
-            console.log(results)
             tryCCD++
             if (!results) {
                 logger.warn('Having to retry CCD')

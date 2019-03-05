@@ -20,8 +20,7 @@ export class CaseFileToolBarComponent {
     @Input() commentViewRedirect: ListView;
     @Input() listViewRedirect: ListView;
 
-    constructor(private router: Router,
-                private rotationService: RotationService) { }
+    constructor(private router: Router) { }
 
     commentView() {
         this.isCommentView = true;
@@ -31,9 +30,5 @@ export class CaseFileToolBarComponent {
     listView() {
         this.isCommentView = false;
         this.router.navigate(this.listViewRedirect.command, this.listViewRedirect.extra);
-    }
-
-    toggleViewRotation() {
-        this.rotationService.toggleRotation();
     }
 }

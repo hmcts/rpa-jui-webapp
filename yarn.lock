@@ -7844,9 +7844,10 @@ socks@~2.2.0:
     ip "^1.1.5"
     smart-buffer "4.0.2"
 
-sonar-scanner@3.1.0:
+sonar-scanner@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/sonar-scanner/-/sonar-scanner-3.1.0.tgz#51c1c1101f54b98abc5d8565209b1d9232979343"
+  integrity sha1-UcHBEB9UuYq8XYVlIJsdkjKXk0M=
 
 source-list-map@^2.0.0:
   version "2.0.1"

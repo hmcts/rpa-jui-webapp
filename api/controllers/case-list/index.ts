@@ -149,17 +149,30 @@ export async function getMutiJudCaseAssignedCases(userDetails) {
 
 // Get List of case and transform to correct format
 export async function getMutiJudCaseTransformed(userDetails) {
+
     let caseLists
 
+    console.time('getCCDCases logic + async')
     caseLists = await getMutiJudCaseAssignedCases(userDetails)
+    console.timeEnd('getCCDCases logic + async')
+
+    console.time('getHearingByCase and getDecision, logic + async')
     caseLists = await appendCOR(caseLists)
+    console.timeEnd('getHearingByCase and getDecision, logic + async')
+
+    console.time('getHearingByCase and getAllRounds, logic + async')
     caseLists = await appendQuestionsRound(caseLists, userDetails.id)
+    console.timeEnd('getHearingByCase and getAllRounds, logic + async')
+
+    console.time('all synchronise code')
+    // Beginning of sync calls
     caseLists = await processCaseListsState(caseLists)
     caseLists = await applyStateFilter(caseLists)
     caseLists = await convertCaselistToTemplate(caseLists)
     caseLists = await combineLists(caseLists)
     caseLists = await sortTransformedCases(caseLists)
     caseLists = await aggregatedData(caseLists)
+    console.timeEnd('all synchronise code')
 
     return caseLists
 }

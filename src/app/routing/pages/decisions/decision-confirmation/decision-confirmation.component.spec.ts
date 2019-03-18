@@ -12,11 +12,12 @@ import {ActivatedRoute} from '@angular/router';
 import {JUIFormsModule} from '../../../../forms/forms.module';
 import {GovukModule} from '../../../../govuk/govuk.module';
 import {HmctsModule} from '../../../../hmcts/hmcts.module';
+import {ExchangeService} from '../../../../domain/services/exchange.service';
+
 
 describe('DecisionConfirmationComponent', () => {
     let component: DecisionConfirmationComponent;
     let fixture: ComponentFixture<DecisionConfirmationComponent>;
-
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [
@@ -33,6 +34,7 @@ describe('DecisionConfirmationComponent', () => {
                 HmctsModule
             ],
             providers: [
+                ExchangeService,
                 DecisionService,
                 {
                     provide: ConfigService, useValue: {
@@ -43,6 +45,13 @@ describe('DecisionConfirmationComponent', () => {
                 },
                 {
                     provide: ActivatedRoute, useValue: {
+                        snapshot: {
+                            url: [
+                                {
+                                    path: 'final-decision'
+                                }
+                            ]
+                        },
                         parent: {
                             params: Observable.of({caseid: '1234'}),
                             snapshot: {
@@ -57,7 +66,18 @@ describe('DecisionConfirmationComponent', () => {
                                         }
                                     }
                                 }
-                            }
+                            },
+                            data: Observable.of({
+                                caseData: {
+                                    sections: [],
+                                    details: {
+                                        fields: [
+                                            { value: '123' },
+                                            { value: 'bob v bob' }
+                                        ]
+                                    }
+                                }
+                            })
                         },
                         params: Observable.of({caseid: '1234'})
                     }
@@ -75,5 +95,25 @@ describe('DecisionConfirmationComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should have empty display object values header and text', () => {
+        expect(JSON.stringify(component.display)).toBe(JSON.stringify({header: '', text: ''}));
+    });
+
+    it('should set "tribunal page" data if "tribunal page" visited', () => {
+        const visitedPages = {
+            'preliminary-advanced': true
+        }
+        component.setPageData(visitedPages);
+        expect(JSON.stringify(component.display)).toBe(JSON.stringify({header: "Tribunal's view submitted", text: "The tribunal's view will be sent to the appelant and DWP."}));
+    });
+
+    it('should set "final decision" page data if "final decision" page visited', () => {
+        const visitedPages = {
+            'final-decision': true
+        }
+        component.setPageData(visitedPages);
+        expect(JSON.stringify(component.display)).toBe(JSON.stringify({header: "Tribunal's decision submitted", text: "The tribunal's decision will be sent to the appelant and DWP."}));
     });
 });

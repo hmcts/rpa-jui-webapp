@@ -3516,7 +3516,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var range = selection.getRangeAt(0);
 	    var rects = range.getClientRects();
 
-			if (rects.length < 1 && rects [0].width < 8) {
+			if (rects.length < 2 && rects [0].width < 8) {
 				return null;
 			}
 	    if (rects.length > 0 && rects[0].width > 0 && rects[0].height > 0) {
@@ -4090,8 +4090,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  svg.setAttribute('height', viewport.height);
 	  svg.style.width = viewport.width + 'px';
 	  svg.style.height = viewport.height + 'px';
-	  page.style.width = viewport.width + 'px';
-	  page.style.height = viewport.height + 'px';
+	  // page.style.width = viewport.width + 'px';
+	  // page.style.height = viewport.height + 'px';
+        page.style.overflow = 'auto';
 	  wrapper.style.width = viewport.width + 'px';
 	  wrapper.style.height = viewport.height + 'px';
 	  textLayer.style.width = viewport.width + 'px';

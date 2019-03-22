@@ -10,7 +10,7 @@ const ERROR400 = 400
 export const mapping = Mapping.mapping
 export const templates = Templates.templates
 
-const ccdStore = require('../../../services/ccd-store-api/ccd-store')
+const ccdStore = require('../../../services/ccdStore')
 
 const logger = log4jui.getLogger('scss engine')
 

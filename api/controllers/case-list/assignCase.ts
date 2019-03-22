@@ -1,4 +1,4 @@
-import { getMutiJudCCDCases, updateCase } from '../../services/ccd-store-api/ccd-store'
+import { getMutiJudCCDCases, updateCase } from '../../services/ccdStore'
 import { getDetails } from '../../services/idam'
 
 const JUI_AUTO_ASSIGN = 'Auto assigned by JUI'

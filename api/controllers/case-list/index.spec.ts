@@ -6,7 +6,7 @@ import * as sinonChai from 'sinon-chai'
 import { mockReq, mockRes } from 'sinon-express-mock'
 import * as filters from '../../lib/filters'
 import * as utils from '../../lib/util'
-import * as ccdStore from '../../services/ccd-store-api/ccd-store'
+import * as ccdStore from '../../services/ccdStore'
 import * as coh from '../../services/coh'
 import * as cohCorApi from '../../services/cohQA'
 import * as idamApi from '../../services/idam'
@@ -172,7 +172,7 @@ describe('index', () => {
             stub.returns(Promise.resolve(stubReturns))
             stub2.returns({})
             const res = mockRes()
-            
+
             const result = await getCOR(res, casesData)
             expect(stub2).to.be.calledWith('2a')
             stub.restore()
@@ -247,7 +247,7 @@ describe('index', () => {
             const stub3 = sinon.stub(utils, 'asyncReturnOrError')
             stub.resolves({ id: 1, roles: [1, 2, 3] })
             stub2.resolves([1, 2, 3])
-            stub3.resolves({results: [1, 2, 3]})
+            stub3.resolves({ results: [1, 2, 3] })
             const result = await getCases(res)
             expect(stub).to.be.called
             // expect(result).to.be.an('array')

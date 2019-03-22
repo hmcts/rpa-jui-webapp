@@ -6,13 +6,6 @@ import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 import { asyncReturnOrError, getHealth, getInfo } from '../lib/util'
 
-import { ERROR_UNABLE_TO_GET_EVENT_TOKEN, ERROR_UNABLE_TO_POST_CASE, ERROR_UNABLE_TO_UPLOAD_DOCUMENT } from '../lib/config/errorConstants'
-import { getEventTokenAndCase, postCaseWithEventToken } from './ccd-store-api/ccd-store'
-
-
-import { DMDocument, DMDocuments } from '../lib/models/documents'
-import { prepareCaseForUploadFR } from './ccd-store-api/ccd-store-payloads'
-
 const url = config.services.dm_store_api
 
 const logger = log4jui.getLogger('dm-store')

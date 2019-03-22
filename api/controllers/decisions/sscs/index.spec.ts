@@ -1,15 +1,15 @@
 import * as chai from 'chai'
-import {expect} from 'chai'
+import { expect } from 'chai'
 import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
-import {mockReq, mockRes} from 'sinon-express-mock'
+import { mockReq, mockRes } from 'sinon-express-mock'
 
 chai.use(sinonChai)
 
-import * as ccdStore from '../../../services/ccd-store-api/ccd-store'
+import * as ccdStore from '../../../services/ccdStore'
 import * as coh from '../../../services/coh'
-import {init, payload} from './index'
+import { init, payload } from './index'
 
 describe('SSCS index', () => {
     describe('init', () => {
@@ -66,14 +66,14 @@ describe('SSCS index', () => {
                 },
             }
             const res = {}
-            const data = {1: 1}
+            const data = { 1: 1 }
             const stub = sinon.stub(coh, 'getOrCreateDecision')
             const stub2 = sinon.stub(coh, 'storeData')
             stub.returns(123)
             stub2.returns(true)
             const result = await payload(req, res, data)
             expect(stub).to.be.calledWith(123, 1)
-            expect(stub2).to.be.calledWith(123, {'decisions_SSCS_sscs_123': {1: 1}}, 'decision_issue_pending')
+            expect(stub2).to.be.calledWith(123, { 'decisions_SSCS_sscs_123': { 1: 1 } }, 'decision_issue_pending')
             expect(result).to.equal('decision-confirmation')
             stub.restore()
             stub2.restore()
@@ -100,7 +100,7 @@ describe('SSCS index', () => {
                 send: () => false,
                 status: () => false,
             }
-            const data = {1: 1}
+            const data = { 1: 1 }
             const stub = sinon.stub(ccdStore, 'getEventTokenAndCase')
             stub.returns(stubReturns)
             const result = await payload(req, res, data)
@@ -127,7 +127,7 @@ describe('SSCS index', () => {
                 send: () => false,
                 status: () => false,
             }
-            const data = {1: 1}
+            const data = { 1: 1 }
             const stub = sinon.stub(ccdStore, 'getEventTokenAndCase')
             stub.resolves(stubReturns)
             const stub2 = sinon.stub(ccdStore, 'postCaseWithEventToken')

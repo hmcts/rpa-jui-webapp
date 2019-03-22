@@ -1,16 +1,17 @@
 import * as express from 'express'
 import { map } from 'p-iteration'
-import { config } from '../../../config'
-import { http } from '../../lib/http'
-import * as log4jui from '../../lib/log4jui'
-import { CCDEventResponse } from '../../lib/models'
-import { asyncReturnOrError, getHealth, getInfo } from '../../lib/util'
+import { config } from '../../config'
+import { http } from '../lib/http'
+import * as log4jui from '../lib/log4jui'
+import { CCDEventResponse } from '../lib/models'
+import { asyncReturnOrError, getHealth, getInfo } from '../lib/util'
 
 const logger = log4jui.getLogger('ccd-store')
 
 const url = config.services.ccd_data_api
 
-export async function getCCDEventToken(userId: string,
+export async function getCCDEventToken(
+    userId: string,
     jurisdiction: string,
     caseType: string,
     caseId: string,
@@ -22,7 +23,8 @@ export async function getCCDEventToken(userId: string,
     return response.data
 }
 
-export async function getEventTokenAndCase(userId: string,
+export async function getEventTokenAndCase(
+    userId: string,
     jurisdiction: string,
     caseType: string,
     caseId: string,
@@ -34,7 +36,8 @@ export async function getEventTokenAndCase(userId: string,
     return { token: response.data.token, caseDetails: response.data.case_details }
 }
 
-export async function getCCDEventTokenWithoutCase(userId: string,
+export async function getCCDEventTokenWithoutCase(
+    userId: string,
     jurisdiction: string,
     caseType: string,
     eventId: string): Promise<any> {
@@ -104,7 +107,8 @@ export async function getMutiJudCCDCases(userId: string, jurisdictions: any[]): 
     return cases
 }
 
-export async function createCase(userId: string,
+export async function createCase(
+    userId: string,
     jurisdiction: string,
     caseType: string,
     eventId: string,
@@ -130,7 +134,8 @@ export async function createCase(userId: string,
         .then(body => postCCDCase(userId, jurisdiction, caseType, body))
 }
 
-export async function updateCase(userId: string,
+export async function updateCase(
+    userId: string,
     jurisdiction: string,
     caseType: string,
     caseId: string,

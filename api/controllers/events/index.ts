@@ -2,7 +2,7 @@ import * as express from 'express'
 const moment = require('moment')
 const getEventTemplate = require('./templates/index')
 
-const { getCCDEvents } = require('../../services/ccd-store-api/ccd-store')
+const { getCCDEvents } = require('../../services/ccdStore')
 import { dataLookup as valueProcessor } from '../../lib/processors/value-processor'
 import { getHearingIdOrCreateHearing, getOnlineHearingConversation } from '../../services/cohQA'
 

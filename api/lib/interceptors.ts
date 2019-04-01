@@ -14,6 +14,7 @@ export function requestInterceptor(request) {
     const logger = log4jui.getLogger('outgoing')
 
     const url = shorten(request.url, config.maxLogLine)
+    console.log(request)
     logger.info(`${request.method.toUpperCase()} to ${url}`)
     //add timings to requests
     request.metadata = { startTime: new Date() }
@@ -22,6 +23,7 @@ export function requestInterceptor(request) {
 }
 
 export function successInterceptor(response) {
+
     response.config.metadata.endTime = new Date()
     response.duration = response.config.metadata.endTime - response.config.metadata.startTime
 

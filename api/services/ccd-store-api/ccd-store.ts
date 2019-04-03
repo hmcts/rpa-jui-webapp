@@ -79,9 +79,11 @@ export async function getCCDEvents(userId: string, jurisdiction: string, caseTyp
     return response.data
 }
 
+//TODO : So what happens if there is an error in here.
+// So let's the error all the way up to the User a proper error
 export async function getCCDCases(userId: string, jurisdiction: string, caseType: string, filter: string): Promise<any> {
     const response = await http.get(
-        `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`
+        `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/casesdds?sortDirection=DESC${filter}`
     )
     return response.data
 }
@@ -92,13 +94,54 @@ export async function postCCDCase(userId: string, jurisdiction: string, caseType
 
 export async function getMutiJudCCDCases(userId: string, jurisdictions: any[]): Promise<any[]> {
     const cases = await map(jurisdictions, async (jurisdiction: any) => {
-        return await asyncReturnOrError(
-            getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter),
-            `Error getting cases for ${jurisdiction.jur}`,
-            null,
-            logger,
-            false
-        )
+
+        // So if there is an error in the below, we get in Erro getting cases for ...
+
+        try {
+            await getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter)
+
+        } catch (error) {
+            console.log('error in ccd store 2')
+            console.log(error)
+
+            // Message on request
+            console.log(error.message)
+            console.log(error.request.path)
+
+            // Message from Api
+            console.log(error.response.data.message)
+            console.log(error.response.status)
+
+            // console.log(error.data.path)
+            // console.log(error.request)
+
+
+            // For debuggin on the UI we should see:
+            // An error message
+            // A 404
+            // the path we're trying to request
+
+            // const error = {
+            //     path: '',
+            //     timestamp: '',
+            //     errorMessage: '',
+            //     statusCodeFromApi: '',
+            //     message: '',
+            //     statusCode: '',
+            // }
+
+            // on the UI we should see 404, with the path
+            // a common error code to place up.
+            // So if this gets a 404 we should surface this,
+        }
+
+        // return await asyncReturnOrError(
+        //     getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter),
+        //     `Error getting cases for ${jurisdiction.jur}`,
+        //     null,
+        //     logger,
+        //     false
+        // )
     })
 
     return cases

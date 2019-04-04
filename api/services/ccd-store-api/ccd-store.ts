@@ -5,6 +5,7 @@ import { http } from '../../lib/http'
 import * as log4jui from '../../lib/log4jui'
 import { CCDEventResponse } from '../../lib/models'
 import { asyncReturnOrError, getHealth, getInfo } from '../../lib/util'
+import { ERROR_UNABLE_TO_GET_CASES_FOR_JURISDICTION } from '../../lib/errors'
 
 const logger = log4jui.getLogger('ccd-store')
 
@@ -81,7 +82,7 @@ export async function getCCDEvents(userId: string, jurisdiction: string, caseTyp
 
 export async function getCCDCases(userId: string, jurisdiction: string, caseType: string, filter: string): Promise<any> {
     const response = await http.get(
-        `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`
+        `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/casddes?sortDirection=DESC${filter}`
     )
     return response.data
 }
@@ -91,10 +92,12 @@ export async function postCCDCase(userId: string, jurisdiction: string, caseType
 }
 
 export async function getMutiJudCCDCases(userId: string, jurisdictions: any[]): Promise<any[]> {
+
     const cases = await map(jurisdictions, async (jurisdiction: any) => {
+
         return await asyncReturnOrError(
             getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter),
-            `Error getting cases for ${jurisdiction.jur}`,
+            ERROR_UNABLE_TO_GET_CASES_FOR_JURISDICTION.humanStatusCode + jurisdiction.jur,
             null,
             logger,
             false

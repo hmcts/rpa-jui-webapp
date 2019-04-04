@@ -16,6 +16,9 @@
         <!-- Error -->
         <div *ngSwitchCase="CASES_LOAD_ERROR">
             <div data-selector="error-text" class="govuk-error-message">There was an error getting your cases.</div>
+
+            <div class="human-readable-error-message">{{humanReadableErrorStack}}</div>
+            <div class="human-readable-error-message">{{browserTime}}</div>
         </div>
     </div>
 </div>

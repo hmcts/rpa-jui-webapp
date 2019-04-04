@@ -86,3 +86,13 @@
     padding: 10px;
     width: 50%;
 }
+
+.human-readable-error-message {
+    -webkit-font-smoothing: antialiased;
+    //border: 1px solid #d06e78;
+    font-family: "nta", Arial, sans-serif;
+    font-size: 0.7rem;
+    line-height: 1;
+    padding: 5px;
+    width: 50%;
+}

@@ -18,6 +18,7 @@ import { getNewCase, unassignAllCaseFromJudge } from './assignCase'
 
 const getListTemplate = require('./templates/index')
 const { caseStateFilter } = require('../../lib/processors/case-state-util')
+import { ERROR_UNABLE_TO_GET_CASES } from '../../lib/errors'
 const logger = log4jui.getLogger('case-list')
 
 export async function getCOR(res, casesData) {
@@ -234,7 +235,10 @@ export async function getCases(res) {
         res.setHeader('content-type', 'application/json')
         res.status(200).send(JSON.stringify(results))
     } else {
-        logger.error('Unable to get any cases.')
+        logger.error(ERROR_UNABLE_TO_GET_CASES.humanStatusCode)
+
+        // Ah so we are sending back the error stack here, with all the errors.ts we have.
+        // so each error we run into should have a timestamp and associated human readable error message.
         res.status(500).send(JSON.stringify(errorStack.get()))
     }
 }

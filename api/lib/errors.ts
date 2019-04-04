@@ -13,8 +13,6 @@
  * @type {string}
  */
 
-//Generic
-    //General can stand for high level.
 export const ERROR_UNABLE_TO_GET_CASES = {
 
         humanStatusCode: 'ER_CASES',
@@ -27,4 +25,38 @@ export const ERROR_UNABLE_TO_GET_CASES = {
 export const ERROR_UNABLE_TO_GET_CASES_FOR_JURISDICTION = {
 
     humanStatusCode: 'ER_CASES_JUR_',
+}
+
+/**
+ * This seems to fail silently, and is not bubbled up to the User.
+ *
+ * As the User is still able to interact with their case. They still see
+ * a Case List, but that Case List is seems to not be filtered by Hearing
+ */
+export const ERROR_UNABLE_TO_GET_HEARING_BY_CASE = {
+
+    humanStatusCode: 'ER_CASES_HEARING',
+}
+
+export const ERROR_UNABLE_TO_APPEND_TO_COR = {
+
+    humanStatusCode: 'ER_CASES_APPEND_COR',
+}
+
+/**
+ * Question Round Error Codes
+ */
+export const ERROR_UNABLE_TO_APPEND_QRS = {
+
+    humanStatusCode: 'ER_CASES_APPEND_QRS',
+}
+
+export const ERROR_UNABLE_TO_APPEND_QRS_HEARING = {
+
+    humanStatusCode: 'ER_CASES_APPEND_QRS_HEARING',
+}
+
+export const ERROR_UNABLE_TO_APPEND_QRS_ROUNDS = {
+
+    humanStatusCode: 'ER_CASES_APPEND_QRS_ROUNDS',
 }

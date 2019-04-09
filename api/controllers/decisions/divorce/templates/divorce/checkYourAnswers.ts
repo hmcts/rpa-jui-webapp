@@ -1,8 +1,8 @@
-module.exports = {
-    idPrefix: 'check',
-    header: 'Check your decision',
-    name: 'check',
-    formGroupValidators: [],
-    validationHeaderErrorMessages: [],
-    groups: []
-}
+// module.exports = {
+//     idPrefix: 'check',
+//     header: 'Check your decision',
+//     name: 'check',
+//     formGroupValidators: [],
+//     validationHeaderErrorMessages: [],
+//     groups: []
+// }

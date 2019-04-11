@@ -60,7 +60,7 @@ export class SearchResultComponent implements OnInit {
         this.minimalErrorStack = this.errorFormattingService.createMinimalErrorStack(errorStack.error);
         this.humanReadableErrorStack = this.errorFormattingService.createHumanReadableStack(this.minimalErrorStack);
 
-        this.browserTime = moment().format(`MMMM Do YYYY, h:mm:ss a`);
+        this.browserTime = moment().format(`D MMMM YYYY, h:mm:ss a`);
 
         console.log('HttpErrorResponse Error:');
         console.log(errorStack);

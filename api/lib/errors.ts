@@ -7,7 +7,7 @@
  * Error's, and bubble these up to the UI, but due to where we are in the project timescales, it's too large a change
  * to now place this in. Therefore leveraging the errorStack to pass these messages through to the UI.
  *
- * The User will take a snapshot the the human status code, along with an associated timestamp, we will
+ * The User will take a snapshot of the human status code, along with an associated timestamp, we will
  * then be able to go into the logs, and see the error status code.
  *
  * @type {string}

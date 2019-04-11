@@ -33,10 +33,7 @@ export function asyncReturnOrError(
                 } else {
                     status = err.statusCode || 500
                 }
-                res.status(status).send({
-                    errorStack: JSON.stringify(errorStack.get()),
-                    timeStamp: '',
-                })
+                res.status(status).send(JSON.stringify(errorStack.get()))
             }
 
             return null

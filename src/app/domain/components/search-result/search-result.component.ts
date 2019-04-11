@@ -49,18 +49,9 @@ export class SearchResultComponent implements OnInit {
     }
 
     getCasesError(errorStack) {
-
-        this.componentState = this.CASES_LOAD_ERROR;
-
+        this.componentState = this.USER_HAS_NO_CASES;
         this.errorStackResponse = errorStack.error.response.data;
-
         this.minimalErrorStack = this.errorFormattingService.createMinimalErrorStack(errorStack.error);
-
-        console.log('HttpErrorResponse Error:');
-        console.log(errorStack);
-
-        console.log('Minimal Error Stack:');
-        console.log(this.minimalErrorStack);
     }
 
     /**

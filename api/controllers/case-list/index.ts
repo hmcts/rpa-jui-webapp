@@ -164,11 +164,8 @@ function hasCases(caseList) {
 export async function getMutiJudCaseTransformed(res, userDetails) {
     let caseLists
 
-    // TODO: This should throw an error and we should handle it.
     const jurisdictions = filterByCaseTypeAndRole(userDetails)
 
-    // TODO: We may not need an asyncReturnOrError here. as within the function there is
-    // just a map and another asyncReturnOrError with an error message on it.
     caseLists = await asyncReturnOrError(getMutiJudCCDCases(userDetails.id, jurisdictions), 'Error getting Multi' +
         'Jurisdictional assigned cases.', null, logger, false)
 
@@ -246,8 +243,6 @@ export async function getCases(res) {
     } else {
         logger.error(ERROR_UNABLE_TO_GET_CASES.humanStatusCode)
 
-        // Ah so we are sending back the error stack here, with all the errors.ts we have.
-        // so each error we run into should have a timestamp and associated human readable error message.
         res.status(500).send(JSON.stringify(errorStack.get()))
     }
 }

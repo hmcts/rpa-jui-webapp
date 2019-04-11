@@ -24,15 +24,8 @@ export function asyncReturnOrError(
         .catch(err => {
             const msg = `${message}`
 
-            console.log('Catch error in ccd-store.')
-            console.log(msg)
-
-            // so if there is a error we need to surface the human readable error here.
-
             logger.error(msg)
-            logger.info('hello')
 
-            // So on the case list we are not passing this back, as we are passing back null.
             if (setResponse) {
                 let status
                 if (exists(err, 'response.status')) {

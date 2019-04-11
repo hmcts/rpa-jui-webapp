@@ -62,6 +62,10 @@ export class SearchResultComponent implements OnInit {
 
         this.browserTime = moment().format(`D MMMM YYYY, h:mm:ss a`);
 
+        /**
+         * Please keep the following console logs in here, as then
+         * we are able to debug while with Clients / Judges.
+         */
         console.log('HttpErrorResponse Error:');
         console.log(errorStack);
 

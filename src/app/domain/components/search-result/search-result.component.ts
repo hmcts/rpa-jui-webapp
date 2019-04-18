@@ -36,13 +36,13 @@ export class SearchResultComponent implements OnInit {
      *
      * @param cases
      */
-    userHasCases(cases) {
-        return cases.results.length > 0;
+    userHasNoCases(cases) {
+        return cases.message === 'JUDGE_HAS_NO_VIEWABLE_CASES';
     }
 
     getCasesSuccess(cases) {
 
-        if (!this.userHasCases(cases)) {
+        if (this.userHasNoCases(cases)) {
             this.componentState = this.USER_HAS_NO_CASES;
             return;
         }

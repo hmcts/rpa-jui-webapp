@@ -15,15 +15,18 @@ import { getHearingByCase } from '../../services/cohQA'
 import { getUser } from '../../services/idam'
 import { getAllQuestionsByCase } from '../questions/index'
 import { getNewCase, unassignAllCaseFromJudge } from './assignCase'
+import { isCaseListPopulated, isAnyCaseViewableByAJudge } from '../../lib/case-list/case-list-helper'
 
 const getListTemplate = require('./templates/index')
 const { caseStateFilter } = require('../../lib/processors/case-state-util')
+import { ERROR_UNABLE_TO_APPEND_TO_COR, ERROR_UNABLE_TO_APPEND_QRS, ERROR_UNABLE_TO_GET_CASES, ERROR_UNABLE_TO_GET_HEARING_BY_CASE } from '../../lib/errors'
 const logger = log4jui.getLogger('case-list')
 
 export async function getCOR(res, casesData) {
     const caseIds = casesData.map(caseRow => `${caseRow.id}`).join('&case_id=')
 
-    const hearings = await asyncReturnOrError(getHearingByCase(caseIds), ' Error getting COR', res, logger, false)
+    const hearings = await asyncReturnOrError(getHearingByCase(caseIds), ERROR_UNABLE_TO_GET_HEARING_BY_CASE.humanStatusCode,
+        res, logger, false)
     if (hearings && hearings.online_hearings) {
 
         const caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]))
@@ -92,6 +95,29 @@ export function processCaseListsState(caseLists) {
     return caseLists.map(caseList => caseList.map(processCaseState))
 }
 
+/**
+ * caseLists looks like the following at this point.
+ *
+ * @param caseLists - [ [ { id: 1554974408669103,
+ *     jurisdiction: 'SSCS',
+ *     state: [Object],
+ *     case_type_id: 'Benefit',
+ *     created_date: '2019-04-11T09:20:08.602',
+ *     last_modified: '2019-04-11T09:20:17Z',
+ *     security_classification: 'PUBLIC',
+ *     case_data: [Object],
+ *     data_classification: [Object],
+ *     after_submit_callback_response: null,
+ *     callback_response_status_code: null,
+ *     callback_response_status: null,
+ *     delete_draft_response_status_code: null,
+ *     delete_draft_response_status: null,
+ *     security_classifications: [Object],
+ *     hearing_data: [Object],
+ *     question_data: [Array] } ] ]
+ *
+ * @return [ [] ]
+ */
 export function applyStateFilter(caseLists) {
     return caseLists.map(caseList => caseList.filter(caseStateFilter))
 }
@@ -158,27 +184,89 @@ function hasCases(caseList) {
     return caseList && caseList.results.length > 0
 }
 
-// Get List of case and transform to correct format
+const ERROR_RETRIEVING_CASES = 'ERROR_RETRIEVING_CASES'
+const JUDGE_HAS_NO_VIEWABLE_CASES = 'JUDGE_HAS_NO_VIEWABLE_CASES'
+const ERROR_TRANSFORMING_CASES = 'ERROR_TRANSFORMING_CASES'
+const JUDGE_HAS_VIEWABLE_CASES = 'JUDGE_HAS_VIEWABLE_CASES'
+
+/**
+ * Get List of cases and transform them to the correct format.
+ *
+ * The following was a legacy function that returned null for every error it encountered, and for no cases.
+ * This has now been changed as we needed to make a disparity between errors and the judge having no
+ * viewable cases.
+ *
+ * At: <code>appendCOR</code> func appends a hearing_data object onto each case, in the caseList. The hearing_data object is
+ * always attached to each case.
+ *
+ *
+ * At: <code>appendQuestionRound</code> func appends question_data onto each case, within the caseList.
+ *
+ *
+ * At: <code>!isCaseListPopulated(caseList)</code>
+ *
+ * If we get to is <code>!isCaseListPopulated(caseList)</code> and caseList is not populated then
+ * there has been an issue in getting the cases from CCD therefore we should throw an error with an
+ * appropriate error message, in this case: 'ERROR_RETRIEVING_CASES'
+ *
+ * The error stack should have been set already at this point.
+ *
+ * @see unit test around isCaseListPopulated the shape of caseLists object
+ * at this point.
+ *
+ *
+ * At code: <code>applyStateFilter(caseList)</code>
+ *
+ * If the state of the case, retrieved from caseData.state.stateName does not match
+ * with the cases the Judges should see, then we do not show the Case to a Judge.
+ *
+ *
+ * At code: <code>!isAnyCaseViewableByAJudge(caseList)</code>
+ *
+ * If the Judge has no viewable cases we should pass back a message stating this. So that we
+ * can hook into this to display 'User has no cases' on the front end.
+ */
 export async function getMutiJudCaseTransformed(res, userDetails) {
-    let caseLists
 
-    caseLists = await asyncReturnOrError(getMutiJudCaseAssignedCases(userDetails), 'Error getting Multi' +
+    let caseList
+
+    const jurisdictions = filterByCaseTypeAndRole(userDetails)
+
+    caseList = await asyncReturnOrError(getMutiJudCCDCases(userDetails.id, jurisdictions), 'Error getting Multi' +
         'Jurisdictional assigned cases.', null, logger, false)
-    caseLists = await asyncReturnOrError(appendCOR(res, caseLists), 'Error appending to COR.', null, logger, false)
-    caseLists = await asyncReturnOrError(appendQuestionsRound(caseLists, userDetails.id),
-        'Error appending question rounds.', null, logger, false)
 
-    caseLists = processCaseListsState(caseLists)
-    caseLists = applyStateFilter(caseLists)
-    caseLists = convertCaselistToTemplate(caseLists)
-    caseLists = combineLists(caseLists)
-    caseLists = sortTransformedCases(caseLists)
-    caseLists = aggregatedData(caseLists)
+    caseList = await asyncReturnOrError(appendCOR(res, caseList), ERROR_UNABLE_TO_APPEND_TO_COR.humanStatusCode,
+        null, logger, false)
 
-    if (!hasCases(caseLists)) {
-        return null
+    caseList = await asyncReturnOrError(appendQuestionsRound(caseList, userDetails.id),
+        ERROR_UNABLE_TO_APPEND_QRS.humanStatusCode, null, logger, false)
+
+    caseList = processCaseListsState(caseList)
+
+    if (!isCaseListPopulated(caseList)) {
+
+        return { message: ERROR_RETRIEVING_CASES }
     }
-    return caseLists
+
+    caseList = applyStateFilter(caseList)
+
+    if (!isAnyCaseViewableByAJudge(caseList)) {
+
+        return { message: JUDGE_HAS_NO_VIEWABLE_CASES }
+    }
+
+    caseList = convertCaselistToTemplate(caseList)
+    caseList = combineLists(caseList)
+    caseList = sortTransformedCases(caseList)
+    caseList = aggregatedData(caseList)
+
+    if (!hasCases(caseList)) {
+        return { message: ERROR_TRANSFORMING_CASES }
+    }
+    return {
+        message: JUDGE_HAS_VIEWABLE_CASES,
+        result: caseList,
+    }
 }
 
 // Get List of case and return raw output
@@ -212,6 +300,7 @@ export async function unassignAll(req, res) {
 }
 
 export async function getCases(res) {
+
     let results = null
     const user = await getUser()
 
@@ -223,18 +312,37 @@ export async function getCases(res) {
             res, logger, false)
 
         tryCCD++
-
-        if (!results) {
-            logger.warn('Having to retry CCD')
-        }
     }
 
-    if (hasCases(results)) {
-        res.setHeader('Access-Control-Allow-Origin', '*')
-        res.setHeader('content-type', 'application/json')
-        res.status(200).send(JSON.stringify(results))
+    let responseStatusCode
+    let responseResult
+
+    if (results) {
+        switch (results.message) {
+
+            case ERROR_RETRIEVING_CASES:
+            case ERROR_TRANSFORMING_CASES:
+
+                logger.error(ERROR_UNABLE_TO_GET_CASES.humanStatusCode)
+                responseStatusCode = 500
+                responseResult = JSON.stringify(errorStack.get())
+                break
+
+            case JUDGE_HAS_NO_VIEWABLE_CASES:
+
+                responseStatusCode = 200
+                responseResult = { message: JUDGE_HAS_NO_VIEWABLE_CASES }
+                break
+
+            case JUDGE_HAS_VIEWABLE_CASES:
+
+                responseStatusCode = 200
+                responseResult = JSON.stringify(results.result)
+                break
+        }
+
+        res.status(responseStatusCode).send(responseResult)
     } else {
-        logger.error('Unable to get any cases.')
         res.status(500).send(JSON.stringify(errorStack.get()))
     }
 }

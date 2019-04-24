@@ -65,8 +65,10 @@ export const GO_TO = {
     DECISION_GO_TO: 'decision',
 }
 
-// these are state a judge should be able to see.
-export const stateToBeShown = [
+/**
+ * The case states which a Judge should be able to see.
+ */
+export const caseShownToJudge = [
     STATE.FR_CCD_REFER_TO_JUDGE_STATE,
     STATE.COH_STARTED_STATE,
     STATE.COH_Q_QUESTION_DRAFTED_STATE,
@@ -82,8 +84,20 @@ export const stateToBeShown = [
     ...[...STATE.PRO],
 ]
 
+/**
+ * caseStateFilter
+ *
+ * If the state of the case, retrieved from caseData.state.stateName does not align
+ * with the cases the Judges should see, then we do not show the Case to a Judge.
+ *
+ * @param caseData
+ */
 export function caseStateFilter(caseData) {
-    return stateToBeShown.find(toBeFiltered => caseData.state.stateName === toBeFiltered)
+
+    return caseShownToJudge.find(caseState => {
+
+        return caseData.state.stateName === caseState
+    })
 }
 
 export function createCaseState(state, date, actionUrl, id = null) {

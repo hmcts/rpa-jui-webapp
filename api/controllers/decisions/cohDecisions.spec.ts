@@ -20,9 +20,6 @@ describe('Decisions - cohDecisions', () => {
         },
         params: {
             caseId: 1,
-            caseTypeId: 1,
-            jurId: 1,
-            stateId: 1,
         },
     }
     const req = mockReq(reqParams)
@@ -37,113 +34,124 @@ describe('Decisions - cohDecisions', () => {
         sandbox.restore()
     })
 
-    it('should get decisions for a case', async () => {
-        const expected = {
-            data: true,
-        }
-        sandbox.stub(cohQA, 'getDecision').resolves(expected)
-        await cohDecisions.getDecisionForCase(req, res)
-        expect(res.status).to.be.calledWith(201)
-        expect(res.send).to.be.calledWith(expected)
+    describe('getDecisionForCase', () => {
+        it('success', async () => {
+            const expected = {
+                data: true,
+            }
+            sandbox.stub(cohQA, 'getDecision').resolves(expected)
+            await cohDecisions.getDecisionForCase(req, res)
+            expect(res.status).to.be.calledWith(201)
+            expect(res.send).to.be.calledWith(expected)
+        })
+
+        it('error', async () => {
+            const error = {
+                message: 'not found',
+                statusCode: 404,
+            }
+            sandbox.stub(cohQA, 'getDecision').throws(error)
+            await cohDecisions.getDecisionForCase(req, res)
+            expect(res.status).to.be.calledWith(error.statusCode)
+            expect(res.send).to.be.calledWith(error.message)
+        })
     })
 
-    it('should send the correct status and response upon throwing an error', async () => {
-        const error = { statusCode: 404, message: 'not found' }
-        sandbox.stub(cohQA, 'getDecision').throws(error)
-        await cohDecisions.getDecisionForCase(req, res)
-        expect(res.status).to.be.calledWith(error.statusCode)
-        expect(res.send).to.be.calledWith(error.message)
+    describe('postDecisionForCase', () => {
+
+        it('success', async () => {
+            const expected = {
+                data: true,
+            }
+            sandbox.stub(cohQA, 'postDecision').resolves(expected)
+            await cohDecisions.postDecisionForCase(req, res)
+            expect(res.status).to.be.calledWith(201)
+            expect(res.send).to.be.calledWith(expected)
+        })
+
+        it('error', async () => {
+            const error = { statusCode: 404, message: 'not found' }
+            sandbox.stub(cohQA, 'postDecision').throws(error)
+            await cohDecisions.postDecisionForCase(req, res)
+            expect(res.status).to.be.calledWith(error.statusCode)
+            expect(res.send).to.be.calledWith(error.message)
+        })
+
     })
 
+    describe('putDecisionForCase', () => {
 
+        it('success', async () => {
+            const expected = {
+                data: true,
+            }
+            sandbox.stub(cohQA, 'putDecision').resolves(expected)
+            await cohDecisions.putDecisionForCase(req, res)
+            expect(res.status).to.be.calledWith(200)
+            expect(res.send).to.be.calledWith(expected)
+        })
 
-
-    it('should post decision for a case', async () => {
-        const expected = {
-            data: true,
-        }
-        sandbox.stub(cohQA, 'postDecision').resolves(expected)
-        await cohDecisions.postDecisionForCase(req, res)
-        expect(res.status).to.be.calledWith(201)
-        expect(res.send).to.be.calledWith(expected)
-    })
-
-    it('should send the correct status and response upon throwing an error', async () => {
-        const error = { statusCode: 404, message: 'not found' }
-        sandbox.stub(cohQA, 'postDecision').throws(error)
-        await cohDecisions.postDecisionForCase(req, res)
-        expect(res.status).to.be.calledWith(error.statusCode)
-        expect(res.send).to.be.calledWith(error.message)
-    })
-
-
-
-
-    it('should put decision for a case', async () => {
-        const expected = {
-            data: true,
-        }
-        sandbox.stub(cohQA, 'putDecision').resolves(expected)
-        await cohDecisions.putDecisionForCase(req, res)
-        expect(res.status).to.be.calledWith(200)
-        expect(res.send).to.be.calledWith(expected)
-    })
-
-    it('should send the correct status and response upon throwing an error', async () => {
-        const error = { statusCode: 404, message: 'not found' }
-        sandbox.stub(cohQA, 'putDecision').throws(error)
-        await cohDecisions.putDecisionForCase(req, res)
-        expect(res.status).to.be.calledWith(error.statusCode)
-        expect(res.send).to.be.calledWith(error.message)
-    })
-
-
-
-
-    it('should get hearings for a case', async () => {
-        const expected = {
-            data: true,
-        }
-        sandbox.stub(coh, 'getHearingByCase').resolves(expected)
-        await cohDecisions.getCaseHearings(req, res)
-        expect(res.status).to.be.calledWith(200)
-        expect(res.send).to.be.calledWith(expected)
-    })
-
-    it('should send the correct status and response upon throwing an error', async () => {
-        const error = { status: 400, message: 'error' }
-        sandbox.stub(coh, 'getHearingByCase').throws(error)
-        await cohDecisions.getCaseHearings(req, res)
-        expect(res.status).to.be.calledWith(error.status)
-        expect(res.send).to.be.calledWith(error)
+        it('error', async () => {
+            const error = { statusCode: 404, message: 'not found' }
+            sandbox.stub(cohQA, 'putDecision').throws(error)
+            await cohDecisions.putDecisionForCase(req, res)
+            expect(res.status).to.be.calledWith(error.statusCode)
+            expect(res.send).to.be.calledWith(error.message)
+        })
     })
 
 
-    it('should get relist hearing for a case', async () => {
-        const expected = {
-            data: true,
-            status: 200,
-        }
-        sandbox.stub(coh, 'relistHearing').resolves(expected)
-        await cohDecisions.relistHearingForCase(req, res)
-        expect(res.status).to.be.calledWith(200)
-        expect(res.send).to.be.calledWith(expected.data)
+    describe('getCaseHearings', () => {
+
+        it('success', async () => {
+            const expected = {
+                data: true,
+            }
+            sandbox.stub(coh, 'getHearingByCase').resolves(expected)
+            await cohDecisions.getCaseHearings(req, res)
+            expect(res.status).to.be.calledWith(200)
+            expect(res.send).to.be.calledWith(expected)
+        })
+
+        it('error', async () => {
+            const error = { status: 400, message: 'error' }
+            sandbox.stub(coh, 'getHearingByCase').throws(error)
+            await cohDecisions.getCaseHearings(req, res)
+            expect(res.status).to.be.calledWith(error.status)
+            expect(res.send).to.be.calledWith(error)
+        })
+
     })
 
-    it('should send the correct status and response upon throwing an error from service', async () => {
-        const error = { serviceError: { status: 400, message: 'error' } }
-        sandbox.stub(coh, 'relistHearing').throws(error)
-        await cohDecisions.relistHearingForCase(req, res)
-        expect(res.status).to.be.calledWith(error.serviceError.status)
-        expect(res.send).to.be.calledWith(error.serviceError.message)
-    })
+    describe('relistHearingForCase', () => {
 
-    it('should send the correct status and response upon throwing an error', async () => {
-        const error = { status: 400, message: 'error' }
-        sandbox.stub(coh, 'relistHearing').throws(error)
-        await cohDecisions.relistHearingForCase(req, res)
-        expect(res.status).to.be.calledWith(error.status)
-        expect(res.send).to.be.calledWith(error)
+        it('success', async () => {
+            const expected = {
+                data: true,
+                status: 200,
+            }
+            sandbox.stub(coh, 'relistHearing').resolves(expected)
+            await cohDecisions.relistHearingForCase(req, res)
+            expect(res.status).to.be.calledWith(200)
+            expect(res.send).to.be.calledWith(expected.data)
+        })
+
+        it('error from service', async () => {
+            const error = { serviceError: { status: 400, message: 'error' } }
+            sandbox.stub(coh, 'relistHearing').throws(error)
+            await cohDecisions.relistHearingForCase(req, res)
+            expect(res.status).to.be.calledWith(error.serviceError.status)
+            expect(res.send).to.be.calledWith(error.serviceError.message)
+        })
+
+        it('error', async () => {
+            const error = { status: 400, message: 'error' }
+            sandbox.stub(coh, 'relistHearing').throws(error)
+            await cohDecisions.relistHearingForCase(req, res)
+            expect(res.status).to.be.calledWith(error.status)
+            expect(res.send).to.be.calledWith(error)
+        })
+
     })
 
     it('should create the appropriate routes', () => {

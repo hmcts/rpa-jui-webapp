@@ -1,86 +1,66 @@
-import * as express from 'express'
-import * as headerUtilities from '../../lib/utilities/headerUtilities'
+import { Request, Response, Router } from 'express'
+import { accessControlAllowOriginHeaders } from '../../lib/middleware/accessControlAllowOriginHeaders'
 import { getHearingByCase, relistHearing } from '../../services/coh'
 import { getDecision, getHearingIdOrCreateHearing, postDecision, putDecision } from '../../services/cohQA'
 
-export function getOptions(req) {
-    return headerUtilities.getAuthHeaders(req)
-}
+export async function getDecisionForCase(req: Request, res: Response) {
+    const caseId: string = req.params.case_id
 
-export async function getDecisionForCase(req: any, res) {
-    const caseId = req.params.case_id
     try {
         const hearingId = await getHearingIdOrCreateHearing(caseId)
         const response = await getDecision(hearingId)
-
-        res.setHeader('Access-Control-Allow-Origin', '*')
         res.status(201).send(response)
     } catch (error) {
         res.status(error.statusCode).send(error.message)
     }
 }
 
-export async function postDecisionForCase(req: any, res) {
-    const caseId = req.params.case_id
+export async function postDecisionForCase(req: Request, res: Response) {
+    const caseId: string = req.params.case_id
 
     try {
-
         const hearingId = await getHearingIdOrCreateHearing(caseId)
         const response = await postDecision(hearingId, req.body)
-
-        res.setHeader('Access-Control-Allow-Origin', '*')
         res.status(201).send(response)
-
     } catch (error) {
         res.status(error.status).send(error.message)
     }
 }
 
-export async function putDecisionForCase(req: any, res) {
-    const caseId = req.params.case_id
+export async function putDecisionForCase(req: Request, res: Response) {
+    const caseId: string = req.params.case_id
 
     try {
         const hearingId = await getHearingIdOrCreateHearing(caseId)
-        const response = putDecision(hearingId, req.body)
-        res.setHeader('Access-Control-Allow-Origin', '*')
+        const response = await putDecision(hearingId, req.body)
         res.status(200).send(response)
     } catch (error) {
-
-        if (error.hasOwnProperty('serviceError')) {
-            return res.status(error.serviceError.status).send(error.serviceError.message)
-        } else {
-            return res.status(error.status).send(error.message)
-        }
+        return res.status(error.status).send(error.message)
     }
 }
 
 /**
  * Returns a list of online hearings
  */
-export async function getCaseHearings(req: any, res) {
-    const caseId = req.params.case_id
+export async function getCaseHearings(req: Request, res: Response) {
+    const caseId: string = req.params.case_id
 
     try {
         const response = await getHearingByCase(caseId)
-        res.setHeader('Access-Control-Allow-Origin', '*')
         res.status(200).send(response)
     } catch (error) {
         res.status(400).send(error)
     }
 }
 
-export async function relistHearingForCase(req: any, res) {
+export async function relistHearingForCase(req: any | Request, res: Response) {
     const userId = req.auth.userId
     const caseId = req.params.case_id
-
     const state = req.body.state
     const reason = req.body.reason
 
     try {
         const response = await relistHearing(caseId, userId, state, reason)
-
-        res.setHeader('Access-Control-Allow-Origin', '*')
-
         res.status(response.status).send(response.data)
     } catch (error) {
 
@@ -89,12 +69,14 @@ export async function relistHearingForCase(req: any, res) {
         } else {
             return res.status(error.status).send(error.message)
         }
+
     }
 }
 
 export default app => {
-    const router = express.Router({ mergeParams: true })
-    app.use('/decisions', router)
+    const router = Router({ mergeParams: true })
+
+    app.use('/decisions', accessControlAllowOriginHeaders, router)
 
     router.get('/:case_id', getDecisionForCase)
 

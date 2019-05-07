@@ -17,8 +17,8 @@
 [![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
 
 
-# Judaical UI Webapp
-This is the Web Application to allow Judaical staff (Judges & Panel Members) to access and work on cases.
+# Judicial UI Webapp
+This is the Web Application to allow Judicial staff (Judges & Panel Members) to access and work on cases.
 
 ## Cloning repo
 ```bash

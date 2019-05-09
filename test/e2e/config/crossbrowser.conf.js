@@ -12,6 +12,7 @@ const config = {
     frameworkPath: require.resolve('protractor-cucumber-framework'),
 
     sauceSeleniumAddress: 'ondemand.eu-central-1.saucelabs.com:443/wd/hub',
+    // host: 'ondemand.eu-central-1.saucelabs.com',
     region: 'eu',
     allScriptsTimeout: 111000,
     specs: ['../features/**/*.feature'],
@@ -29,6 +30,8 @@ const config = {
     },
 
 
+    //webDriverProxy: 'ondemand.eu-central-1.saucelabs.com:443',  // Proxy for Commands (e.g. ondemand.saucelabs.com)
+    sauceProxy: 'https://proxyout.reform.hmcts.net:8080',  // Proxy for the REST API
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
     allScriptsTimeout: 111000,
@@ -43,7 +46,7 @@ const config = {
             name: 'chrome-tests',
             'tunnel-identifier': 'reformtunnel',
             extendedDebugging: true,
-            shardTestFiles: true,
+            shardTestFiles: false,
             maxInstances: 1
 
         }

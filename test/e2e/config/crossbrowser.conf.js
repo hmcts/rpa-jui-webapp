@@ -30,8 +30,8 @@ const config = {
     },
 
 
-    //webDriverProxy: 'ondemand.eu-central-1.saucelabs.com:443',  // Proxy for Commands (e.g. ondemand.saucelabs.com)
-    sauceProxy: 'https://proxyout.reform.hmcts.net:8080',  // Proxy for the REST API
+    // webDriverProxy: 'ondemand.eu-central-1.saucelabs.com:443',  // Proxy for Commands (e.g. ondemand.saucelabs.com)
+    // sauceProxy: 'https://proxyout.reform.hmcts.net:8080',  // Proxy for the REST API
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
     allScriptsTimeout: 111000,
@@ -49,7 +49,7 @@ const config = {
             shardTestFiles: false,
             maxInstances: 1
 
-        }
+        },
 
         // {
         //     browserName: 'chrome',
@@ -63,16 +63,16 @@ const config = {
         // },
 
 
-        // {
-        //     browserName: 'firefox',
-        //     name: 'WIN_FIREFOX_LATEST',
-        //     platform: 'Windows 10',
-        //     version: 'latest',
-        //     'tunnel-identifier': 'reformtunne',
-        //     shardTestFiles: true,
-        //     maxInstances: 1
-        //
-        // },
+        {
+            browserName: 'firefox',
+            name: 'WIN_FIREFOX_LATEST',
+            platform: 'Windows 10',
+            version: 'latest',
+            'tunnel-identifier': 'reformtunnel',
+            shardTestFiles: false,
+            maxInstances: 1
+
+         }
         //
         // {
         //     browserName: 'firefox',
@@ -107,7 +107,7 @@ const config = {
 
     cucumberOpts: {
         strict: true,
-        format: ['json:cb_reports/saucelab_results.json','node_modules/cucumber-pretty'],
+        format: ['json:cb_reports/saucelab_results.json', 'node_modules/cucumber-pretty'],
         require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
         tags: ['@crossbrowser']
     },
@@ -132,7 +132,6 @@ const config = {
                 reportName: 'JUI CrossBrowser Tests',
                 jsonDir: '/reports/crossbrowser/reports',
                 reportPath: './functional-output/crossbrowser/reports'
-
 
             }
         }

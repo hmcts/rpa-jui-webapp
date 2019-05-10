@@ -85,7 +85,7 @@ withNightlyPipeline(type, product, component) {
          allowMissing         : true,
          alwaysLinkToLastBuild: true,
          keepAll              : true,
-         reportDir            : "functional-output/crossbrowser/reports/",
+         reportDir            : "reports/tests/crossbrowser/",
          reportFiles          : 'index.html',
          reportName           : 'JUI Cross Browser Test Report'
      ])

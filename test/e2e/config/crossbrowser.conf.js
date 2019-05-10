@@ -107,7 +107,7 @@ const config = {
 
     cucumberOpts: {
         strict: true,
-        format: ['json:cb_reports/saucelab_results.json', 'node_modules/cucumber-pretty'],
+        format: ['node_modules/cucumber-pretty', 'json:cb_reports/saucelab_results.json' ],
         require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
         tags: ['@crossbrowser']
     },
@@ -130,14 +130,12 @@ const config = {
                 automaticallyGenerateReport: true,
                 removeExistingJsonReportFile: true,
                 reportName: 'JUI CrossBrowser Tests',
-                jsonDir: '/reports/crossbrowser/reports',
-                reportPath: './functional-output/crossbrowser/reports'
+                jsonDir: 'reports/tests/crossbrowser',
+                reportPath: 'reports/tests/crossbrowser'
 
             }
         }
     ],
-
-
     onPrepare() {
         const caps = browser.getCapabilities();
         browser.manage()

@@ -96,7 +96,7 @@ withNightlyPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/fullFunctional/",
+            reportDir            : "reports/tests/functional/",
             reportFiles          : 'index.html',
             reportName           : 'JUI Full Functional Test Report'
         ])

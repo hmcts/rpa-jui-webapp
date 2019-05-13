@@ -36,7 +36,7 @@ const config = {
     sauceKey: process.env.SAUCE_ACCESS_KEY,
     allScriptsTimeout: 111000,
 
-
+    webDriverProxy: 'proxyout.reform.hmcts.net:8080',
     useAllAngular2AppRoots: true,
     multiCapabilities: [
         {

@@ -13,7 +13,7 @@ const config = {
 
     sauceSeleniumAddress: 'ondemand.eu-central-1.saucelabs.com:443/wd/hub',
     // host: 'ondemand.eu-central-1.saucelabs.com',
-    region: 'eu',
+    sauceregion: 'eu',
     allScriptsTimeout: 111000,
     specs: ['../features/**/*.feature'],
 
@@ -36,7 +36,7 @@ const config = {
     sauceKey: process.env.SAUCE_ACCESS_KEY,
     allScriptsTimeout: 111000,
 
-    webDriverProxy: 'proxyout.reform.hmcts.net:8080',
+    // webDriverProxy: 'proxyout.reform.hmcts.net:8080',
     useAllAngular2AppRoots: true,
     multiCapabilities: [
         {

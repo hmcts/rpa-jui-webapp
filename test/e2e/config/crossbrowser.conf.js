@@ -26,7 +26,6 @@ const config = {
         password: process.env.TEST_PASSWORD,
         fr_judge_username: process.env.FR_EMAIL,
         fr_judge_password: process.env.FR_PASSWORD
-
     },
 
 
@@ -112,15 +111,16 @@ const config = {
         tags: ['@crossbrowser']
     },
 
+    //
+    // onComplete() {
+    //     const printSessionId = function(jobName) {
+    //         browser.getSession()
+    //             .then(session => {
+    //             });
+    //     };
+    //     printSessionId('JUI CB Tests');
+    // },
 
-    onComplete() {
-        const printSessionId = function(jobName) {
-            browser.getSession()
-                .then(session => {
-                });
-        };
-        printSessionId('JUI CB Tests');
-    },
 
 
     plugins: [

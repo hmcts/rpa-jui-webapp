@@ -12,9 +12,9 @@ const config = {
     frameworkPath: require.resolve('protractor-cucumber-framework'),
 
     sauceSeleniumAddress: 'ondemand.eu-central-1.saucelabs.com:443/wd/hub',
+
     host: 'ondemand.eu-central-1.saucelabs.com',
     sauceregion: 'eu',
-    allScriptsTimeout: 111000,
     specs: ['../features/**/*.feature'],
 
     baseUrl: (process.env.TEST_URL || 'http://localhost:3000/').replace('https', 'http'),
@@ -33,6 +33,7 @@ const config = {
     // sauceProxy: 'https://proxyout.reform.hmcts.net:8080',  // Proxy for the REST API
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
+    SAUCE_REST_ENDPOINT: 'https://eu-central-1.saucelabs.com/',
     allScriptsTimeout: 111000,
 
     // webDriverProxy: 'proxyout.reform.hmcts.net:8080',

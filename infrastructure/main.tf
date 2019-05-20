@@ -9,6 +9,16 @@ locals {
 # "${local.app_full_name}"
 # "${local.local_env}"
 
+
+module "redis-cache" {
+  source      = "git@github.com:contino/moj-module-redis?ref=master"
+  product     = "${var.product}-redis"
+  location    = "${var.location}"
+  env         = "${var.env}"
+  subnetid    = "${data.terraform_remote_state.core_apps_infrastructure.subnet_ids[1]}"
+  common_tags = "${var.common_tags}"
+}
+
 module "app" {
     source = "git@github.com:hmcts/cnp-module-webapp?ref=master"
     product = "${local.app_full_name}"
@@ -26,10 +36,9 @@ module "app" {
     asp_name = "${var.env == "prod" ? "rpa-rd-prod" : "${var.shared_product_name}-${var.env}"}"
 
     app_settings = {
-        # REDIS_HOST = "${module.redis-cache.host_name}"
-        # REDIS_PORT = "${module.redis-cache.redis_port}"
-        # REDIS_PASSWORD = "${module.redis-cache.access_key}"
-        # RECIPE_BACKEND_URL = "http://rhubarb-recipe-backend-${var.env}.service.${data.terraform_remote_state.core_apps_compute.ase_name[0]}.internal"
+        REDIS_HOST = "${module.redis-cache.host_name}"
+        REDIS_PORT = "${module.redis-cache.redis_port}"
+        REDIS_PASSWORD = "${module.redis-cache.access_key}"
         WEBSITE_NODE_DEFAULT_VERSION = "8.10.0"
 
         # NODE_ENV = "${var.env}"
@@ -51,14 +60,7 @@ module "app" {
         DECRYPT_KEY = "${data.azurerm_key_vault_secret.decrypt_key.value}"
     }
 }
-module "redis-cache" {
-  source      = "git@github.com:contino/moj-module-redis?ref=master"
-  product     = "${var.product}-redis"
-  location    = "${var.location}"
-  env         = "${var.env}"
-  subnetid    = "${data.terraform_remote_state.core_apps_infrastructure.subnet_ids[1]}"
-  common_tags = "${var.common_tags}"
-}
+
 
 data "azurerm_key_vault" "key_vault" {
     name = "${local.shared_vault_name}"

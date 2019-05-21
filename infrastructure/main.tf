@@ -10,14 +10,14 @@ locals {
 # "${local.local_env}"
 
 
-module "redis-cache" {
-  source      = "git@github.com:contino/moj-module-redis?ref=master"
-  product     = "${var.product}-redis"
-  location    = "${var.location}"
-  env         = "${var.env}"
-  subnetid    = "${data.terraform_remote_state.core_apps_infrastructure.subnet_ids[1]}"
-  common_tags = "${var.common_tags}"
-}
+# module "redis-cache" {
+#   source      = "git@github.com:contino/moj-module-redis?ref=master"
+#   product     = "${var.product}-redis"
+#   location    = "${var.location}"
+#   env         = "${var.env}"
+#   subnetid    = "${data.terraform_remote_state.core_apps_infrastructure.subnet_ids[1]}"
+#   common_tags = "${var.common_tags}"
+# }
 
 module "app" {
     source = "git@github.com:hmcts/cnp-module-webapp?ref=master"

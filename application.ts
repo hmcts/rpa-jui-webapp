@@ -1,37 +1,40 @@
-const healthcheck = require("@hmcts/nodejs-healthcheck");
+const healthcheck = require('@hmcts/nodejs-healthcheck');
 /*const { InfoContributor, infoRequestHandler } = require('@hmcts/info-provider');*/
 
-import * as express from "express";
-import { config } from "./config";
-import { appInsights } from "./api/lib/appInsights";
-import { securityHeaders } from "./api/lib/middleware/securityHeaders";
-import * as log4jui from "./api/lib/log4jui";
-import * as globalTunnel from "global-tunnel-ng";
+import * as express from 'express';
+import { config } from './config';
+import { appInsights } from './api/lib/appInsights';
+import { securityHeaders } from './api/lib/middleware/securityHeaders';
+import * as log4jui from './api/lib/log4jui';
+import * as globalTunnel from 'global-tunnel-ng';
 
-const apiRoute = require("./api");
-config.environment = process.env.JUI_ENV || "local";
+const apiRoute = require('./api');
+config.environment = process.env.JUI_ENV || 'local';
 
 const app = express();
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
-const session = require("express-session");
-var redis = require("redis");
-const redisClient = redis.createClient({
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD
-});
+const session = require('express-session');
+const redis = require('redis');
+const redisStore = require('connect-redis')(session);
 
-var redisStore = require("connect-redis")(session);
+const redisClient = redis.createClient(
+    process.env.REDIS_PORT,
+    process.env.REDIS_HOST
+);
 
-redisClient.on("error", err => {
-    console.log("Redis error: ", err);
+if (process.env.REDIS_HOST) {
+    redisClient.auth(process.env.REDIS_PASSWORD);
+}
+
+redisClient.on('error', err => {
+    console.log('Redis error: ', err);
 });
 
 app.use(securityHeaders);
 
-app.set("trust proxy", 1);
+app.set('trust proxy', 1);
 
 app.use(
     session({
@@ -40,7 +43,7 @@ app.use(
             maxAge: 1800000,
             secure: config.secureCookie !== false
         },
-        name: "jui-webapp",
+        name: 'jui-webapp',
         resave: true,
         saveUninitialized: true,
         secret: config.sessionSecret,
@@ -62,8 +65,8 @@ app.use(cookieParser());
 
 app.use((req, res, next) => {
     // Set cookie for angular to know which config to use
-    const platform = process.env.JUI_ENV || "local";
-    res.cookie("platform", platform);
+    const platform = process.env.JUI_ENV || 'local';
+    res.cookie('platform', platform);
     next();
 });
 
@@ -97,13 +100,13 @@ let healthchecks = {
 
 healthcheck.addTo(app, healthchecks);
 
-app.get("/oauth2/callback", apiRoute);
-app.get("/logout", apiRoute);
-app.use("/api", apiRoute);
+app.get('/oauth2/callback', apiRoute);
+app.get('/logout', apiRoute);
+app.use('/api', apiRoute);
 
-const logger = log4jui.getLogger("Application");
+const logger = log4jui.getLogger('Application');
 logger.info(
-    `Started up on ${config.environment || "local"} using ${config.protocol}`
+    `Started up on ${config.environment || 'local'} using ${config.protocol}`
 );
 
 module.exports = app;

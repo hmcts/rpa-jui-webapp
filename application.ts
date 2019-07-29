@@ -40,6 +40,25 @@ app.use(securityHeaders);
 
 app.set('trust proxy', 1);
 
+/**
+ * Redis does not currently work locally, when a Developer is running Redis and has installed it via home brew.
+ *
+ * What happens?
+ *
+ * The User clicks to make a call to Idam. Idam successfully returns the OAuthToken, but the callback URL
+ * is unable to be hit when Redis is running locally.
+ *
+ * Original code:
+ * <code>
+ * const sessionFileStore = require('session-file-store');
+ * const FileStore = sessionFileStore(session);
+ *
+ * store: new FileStore({
+ *   path: process.env.NOW ? '/tmp/sessions' : '.sessions'
+ * })
+ * </code>
+ *
+ */
 app.use(
     session({
         cookie: {

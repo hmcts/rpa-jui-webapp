@@ -28,6 +28,8 @@ export class SearchResultComponent implements OnInit {
 
     componentState = this.LOADING;
 
+    ccdPageIndex = 0;
+
     constructor(private caseService: CaseService, private errorFormattingService: ErrorFormattingService) {
     }
 
@@ -48,7 +50,13 @@ export class SearchResultComponent implements OnInit {
         }
 
         this.componentState = this.CASES_LOAD_SUCCESSFULLY;
+
+
+
         this.cases = cases;
+
+        console.log('set cases');
+        console.log(this.cases);
     }
 
     getCasesError(errorStack) {
@@ -82,9 +90,9 @@ export class SearchResultComponent implements OnInit {
      * Note that the minimal error stack, does not include the request, response or return objects, as this is
      * too much information to place into the view.
      */
-    getCases() {
+    getCases(requestCcdPage) {
 
-        const casesObservable = this.caseService.getCases();
+        const casesObservable = this.caseService.getCases(requestCcdPage);
 
         casesObservable.subscribe(
             cases => {
@@ -96,12 +104,26 @@ export class SearchResultComponent implements OnInit {
         );
     }
 
+    getNextPage() {
+
+        ++this.ccdPageIndex;
+        this.getCases(this.ccdPageIndex);
+    }
+
+    getPreviousPage() {
+
+        --this.ccdPageIndex;
+        this.getCases(this.ccdPageIndex);
+    }
+
     /**
      * When we move out logic into seperate functions they become easier to test in Angular, otherwise we
      * have to mock.
      */
     ngOnInit() {
 
-        this.getCases();
+        const initCcdPageIndex = 0;
+
+        this.getCases(initCcdPageIndex);
     }
 }

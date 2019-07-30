@@ -9,6 +9,9 @@
         <h1 *ngSwitchCase="CASES_LOAD_SUCCESSFULLY" class="govuk-heading-xl">Your cases</h1>
         <app-table *ngSwitchCase="CASES_LOAD_SUCCESSFULLY" [data]="cases"></app-table>
 
+        <button (click)="getPreviousPage()">Request previous page from CCD</button>
+        <button (click)="getNextPage()">Request next page from CCD</button>
+
         <!-- User has no cases to work on -->
         <span *ngSwitchCase="USER_HAS_NO_CASES" data-selector="no-results-text">
             <h1 class="govuk-heading-xl">Your cases</h1>

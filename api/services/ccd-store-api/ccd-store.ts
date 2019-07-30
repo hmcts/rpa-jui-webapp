@@ -80,9 +80,24 @@ export async function getCCDEvents(userId: string, jurisdiction: string, caseTyp
     return response.data
 }
 
-export async function getCCDCases(userId: string, jurisdiction: string, caseType: string, filter: string): Promise<any> {
+/**
+ * getCCDCases
+ *
+ * @param {string} userId
+ * @param {string} jurisdiction
+ * @param {string} caseType
+ * @param {string} filter
+ * @param requestCcdPage - We request the page number from Ccd, as Ccd paginate all Case requests, to a maximum of 25, if we
+ * want to more Cases than 25 we must request the next page for the User.
+ * @returns {Promise<any>}
+ */
+export async function getCCDCases(userId: string, jurisdiction: string, caseType: string, filter: string, requestCcdPage): Promise<any> {
+
+    console.log('getCCDCases');
+    console.log(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`);
+
     const response = await http.get(
-        `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`
+        `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}&page=${requestCcdPage}`
     )
     return response.data
 }
@@ -91,12 +106,20 @@ export async function postCCDCase(userId: string, jurisdiction: string, caseType
     const response = await http.post(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases`, body)
 }
 
-export async function getMutiJudCCDCases(userId: string, jurisdictions: any[]): Promise<any[]> {
+/**
+ * getMutiJudCCDCases
+ *
+ * @param {string} userId
+ * @param {any[]} jurisdictions
+ * @param {number} requestCcdPage - is set as 0 as default as it's currently being called in multiply places.
+ * @returns {Promise<any[]>}
+ */
+export async function getMutiJudCCDCases(userId: string, jurisdictions: any[], requestCcdPage = 0): Promise<any[]> {
 
     const cases = await map(jurisdictions, async (jurisdiction: any) => {
 
         return await asyncReturnOrError(
-            getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter),
+            getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter, requestCcdPage),
             ERROR_UNABLE_TO_GET_CASES_FOR_JURISDICTION.humanStatusCode + jurisdiction.jur,
             null,
             logger,

@@ -28,7 +28,7 @@ export class SearchResultComponent implements OnInit {
 
     componentState = this.LOADING;
 
-    ccdPageIndex = 0;
+    ccdPageIndex = 1;
 
     constructor(private caseService: CaseService, private errorFormattingService: ErrorFormattingService) {
     }
@@ -122,8 +122,6 @@ export class SearchResultComponent implements OnInit {
      */
     ngOnInit() {
 
-        const initCcdPageIndex = 0;
-
-        this.getCases(initCcdPageIndex);
+        this.getCases(this.ccdPageIndex);
     }
 }

@@ -20,6 +20,13 @@ export class SearchResultComponent implements OnInit {
     CASES_LOAD_ERROR = 'CASES_LOAD_ERROR';
     USER_HAS_NO_CASES = 'USER_HAS_NO_CASES';
 
+    /**
+     * TODO: Is CCD zero indexed or not? This would mean we start requesting the first page being 0 or 1.
+     * @type {number}
+     */
+    FIRST_CCD_PAGE = 1;
+    PAGINATION_INCREMENT = 1;
+
     cases: Object;
     errorStackResponse: Object;
     minimalErrorStack: Object;
@@ -28,7 +35,7 @@ export class SearchResultComponent implements OnInit {
 
     componentState = this.LOADING;
 
-    ccdPageIndex = 1;
+    ccdPageIndex = this.FIRST_CCD_PAGE;
 
     constructor(private caseService: CaseService, private errorFormattingService: ErrorFormattingService) {
     }
@@ -104,21 +111,71 @@ export class SearchResultComponent implements OnInit {
         );
     }
 
-    getNextPage() {
-
-        ++this.ccdPageIndex;
-        this.getCases(this.ccdPageIndex);
-    }
-
-    getPreviousPage() {
-
-        --this.ccdPageIndex;
-        this.getCases(this.ccdPageIndex);
+    /**
+     * TODO: We do not know if we should show the next page button as yet, as not sure if we can get the total
+     * number of cases a User has from Ccd.
+     */
+    hasNextPage() {
     }
 
     /**
-     * When we move out logic into seperate functions they become easier to test in Angular, otherwise we
-     * have to mock.
+     * We should check if there is a previous page of Cases, if yes then we should show the previous page button.
+     *
+     * @param ccdPageIndex
+     * @returns {boolean}
+     */
+    hasPreviousPage = ccdPageIndex => ccdPageIndex > this.FIRST_CCD_PAGE;
+
+    /**
+     * Retrieves the next page of CCD cases.
+     *
+     * @param currentCcdPageIndex
+     */
+    getNextPage = currentCcdPageIndex => {
+
+        const nextCcdPageIndex = currentCcdPageIndex + this.PAGINATION_INCREMENT;
+
+        this.getCasesAndSetCcdPageIndex(nextCcdPageIndex);
+    }
+
+    /**
+     * Retrieves the previous page of CCD cases.
+     *
+     * @param currentCcdPageIndex
+     */
+    getPreviousPage = currentCcdPageIndex => {
+
+        const prevCcdPageIndex = currentCcdPageIndex - this.PAGINATION_INCREMENT;
+
+        this.getCasesAndSetCcdPageIndex(prevCcdPageIndex);
+    }
+
+    /**
+     * getCasesAndSetCcdPageIndex
+     *
+     * Get the Ccd cases and maintain the Ccd Page Index.
+     *
+     * @param ccdPageIndex - 1
+     */
+    getCasesAndSetCcdPageIndex = ccdPageIndex => {
+
+        this.setCcdPageIndex(ccdPageIndex);
+        this.getCases(ccdPageIndex);
+    }
+
+    /**
+     * setCcdPageIndex
+     *
+     * We maintain the state of the Ccd Page Index within the UI, so that we can request the correct previous or next Ccd page.
+     *
+     * @param newPageIndex
+     */
+    setCcdPageIndex = newPageIndex => {
+        this.ccdPageIndex = newPageIndex;
+    }
+
+    /**
+     * Initialise the page with the first page of Ccd Cases.
      */
     ngOnInit() {
 

@@ -27,7 +27,10 @@ export class SearchResultComponent implements OnInit {
     FIRST_CCD_PAGE = 1;
     PAGINATION_INCREMENT = 1;
 
-    cases: Object;
+    /**
+     * Initialise as no value, enabling us to check that it has been assigned a value later on.
+     */
+    columnsAndCases: Object = null;
     errorStackResponse: Object;
     minimalErrorStack: Object;
     humanReadableErrorStack: String;
@@ -49,24 +52,81 @@ export class SearchResultComponent implements OnInit {
         return cases.message === 'JUDGE_HAS_NO_VIEWABLE_CASES';
     }
 
-    getCasesSuccess(cases) {
+    getColumnsAndCasesSuccess(columnsAndCases) {
 
-        if (this.userHasNoCases(cases)) {
+        if (this.userHasNoCases(columnsAndCases)) {
             this.componentState = this.USER_HAS_NO_CASES;
             return;
         }
 
         this.componentState = this.CASES_LOAD_SUCCESSFULLY;
 
-
-
-        this.cases = cases;
-
-        console.log('set cases');
-        console.log(this.cases);
+        this.populateSearchResults(this.columnsAndCases, columnsAndCases);
     }
 
-    getCasesError(errorStack) {
+    /**
+     * Populate Search Results
+     *
+     * If the Search Results are not populated then let's initially set the search results to be the Cases and Columns sent through.
+     *
+     * If the Search Results are populated then let's append the new cases to the initial cases.
+     */
+    populateSearchResults(prevColumnsAndCases, columnsAndCases) {
+
+        const cases = columnsAndCases.results;
+        const columns = columnsAndCases.columns;
+
+        if (!this.searchResultsPopulated(prevColumnsAndCases)) {
+
+            this.setSearchResult(cases, columns);
+        } else {
+
+            const prevColumns = prevColumnsAndCases.columns;
+            const prevCases = prevColumnsAndCases.results;
+
+            this.appendSearchResults(prevColumns, prevCases, cases);
+        }
+    }
+
+    setSearchResult(cases, columns) {
+
+        this.columnsAndCases = {
+            results: cases,
+            columns: columns,
+        };
+    }
+
+    /**
+     * appendSearchResults
+     *
+     * Note that the columns should always be the same, why they are being passed through from the backend, I'm unsure. They should
+     * be available on a seperate endpoint.
+     *
+     * @param prevColumns
+     * @param prevCases
+     * @param nextCases
+     */
+    appendSearchResults(prevColumns, prevCases, nextCases) {
+
+        this.setSearchResult(prevCases.concat(nextCases), prevColumns);
+    }
+
+    /**
+     * Check if the search results on the page have already been populated, if they have then we're going to need to appended
+     * each new cases retrieved to the cases already on the page.
+     *
+     * If there are no search results on the page we need to populate the page, with both columns and cases.
+     *
+     * It's not great that Columns are being sent through as well as cases in the same call.
+     *
+     * @param columnsAndCases
+     * @returns {boolean}
+     */
+    searchResultsPopulated(columnsAndCases) {
+        return Boolean(columnsAndCases);
+    }
+
+    getColumnsAndCasesError(errorStack) {
 
         this.componentState = this.CASES_LOAD_ERROR;
 
@@ -97,16 +157,16 @@ export class SearchResultComponent implements OnInit {
      * Note that the minimal error stack, does not include the request, response or return objects, as this is
      * too much information to place into the view.
      */
-    getCases(requestCcdPage) {
+    getColumnsAndCases(requestCcdPage) {
 
-        const casesObservable = this.caseService.getCases(requestCcdPage);
+        const casesObservable = this.caseService.getColumnsAndCases(requestCcdPage);
 
         casesObservable.subscribe(
             cases => {
-                this.getCasesSuccess(cases);
+                this.getColumnsAndCasesSuccess(cases);
             },
             errorStack => {
-                this.getCasesError(errorStack);
+                this.getColumnsAndCasesError(errorStack);
             }
         );
     }
@@ -136,7 +196,7 @@ export class SearchResultComponent implements OnInit {
         const nextCcdPageIndex = currentCcdPageIndex + this.PAGINATION_INCREMENT;
 
         this.getCasesAndSetCcdPageIndex(nextCcdPageIndex);
-    }
+    };
 
     /**
      * Retrieves the previous page of CCD cases.
@@ -148,7 +208,7 @@ export class SearchResultComponent implements OnInit {
         const prevCcdPageIndex = currentCcdPageIndex - this.PAGINATION_INCREMENT;
 
         this.getCasesAndSetCcdPageIndex(prevCcdPageIndex);
-    }
+    };
 
     /**
      * getCasesAndSetCcdPageIndex
@@ -160,8 +220,8 @@ export class SearchResultComponent implements OnInit {
     getCasesAndSetCcdPageIndex = ccdPageIndex => {
 
         this.setCcdPageIndex(ccdPageIndex);
-        this.getCases(ccdPageIndex);
-    }
+        this.getColumnsAndCases(ccdPageIndex);
+    };
 
     /**
      * setCcdPageIndex
@@ -172,13 +232,13 @@ export class SearchResultComponent implements OnInit {
      */
     setCcdPageIndex = newPageIndex => {
         this.ccdPageIndex = newPageIndex;
-    }
+    };
 
     /**
      * Initialise the page with the first page of Ccd Cases.
      */
     ngOnInit() {
 
-        this.getCases(this.ccdPageIndex);
+        this.getColumnsAndCases(this.ccdPageIndex);
     }
 }

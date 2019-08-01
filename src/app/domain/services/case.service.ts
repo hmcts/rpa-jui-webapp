@@ -38,12 +38,12 @@ export class CaseService {
     /**
      * getCases
      *
+     * This actually gets the Columns and Cases.
+     *
      * @param requestCcdPage - page number 0
      * @returns {Observable<Object>}
      */
-    getCases(requestCcdPage): Observable<Object> {
-        console.log('requestCcdPage')
-        console.log(requestCcdPage)
+    getColumnsAndCases(requestCcdPage): Observable<Object> {
         const url = `${this.configService.config.api_base_url}/api/cases`;
         return this.httpClient
             .get(url,
@@ -53,6 +53,8 @@ export class CaseService {
                     },
                 })
             .pipe(map(data => {
+                console.log('data');
+                console.log(data);
                 return data;
             }))
             .pipe(catchError(error => throwError(error)));

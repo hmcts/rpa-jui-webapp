@@ -227,15 +227,23 @@ const JUDGE_HAS_VIEWABLE_CASES = 'JUDGE_HAS_VIEWABLE_CASES'
  * If the Judge has no viewable cases we should pass back a message stating this. So that we
  * can hook into this to display 'User has no cases' on the front end.
  */
-export async function getMutiJudCaseTransformed(res, userDetails) {
+export async function getMutiJudCaseTransformed(res, userDetails, requestCcdPage) {
 
     let caseList
 
     const jurisdictions = filterByCaseTypeAndRole(userDetails)
 
-    caseList = await asyncReturnOrError(getMutiJudCCDCases(userDetails.id, jurisdictions), 'Error getting Multi' +
+    console.log('jurisdictions')
+    console.log(jurisdictions)
+    // if we're retrieve 30 cases here
+    caseList = await asyncReturnOrError(getMutiJudCCDCases(userDetails.id, jurisdictions, requestCcdPage), 'Error getting Multi' +
         'Jurisdictional assigned cases.', null, logger, false)
 
+    // so this is only return 25 cases here from CCD
+    // console.log('caseList')
+    // console.log(caseList)
+
+    // then somewhere along the way before the cases are returned to the UI we are taking off the incorrect case
     if (!isAnyCaseViewableByAJudge(caseList)) {
 
         return { message: JUDGE_HAS_NO_VIEWABLE_CASES }
@@ -261,6 +269,7 @@ export async function getMutiJudCaseTransformed(res, userDetails) {
         return { message: JUDGE_HAS_NO_VIEWABLE_CASES }
     }
 
+    // These are just syncronise
     caseList = convertCaselistToTemplate(caseList)
     caseList = combineLists(caseList)
     caseList = sortTransformedCases(caseList)
@@ -295,26 +304,44 @@ export async function getMutiJudCaseRawCoh(res, userDetails) {
     return caseLists
 }
 
-export async function unassignAll(req, res) {
-    const filters = filterByCaseTypeAndRole(req.auth)
+// export async function unassignAll(req, res) {
+//     const filters = filterByCaseTypeAndRole(req.auth)
+//
+//     let caseLists = await getMutiJudCCDCases(req.auth.id, filters)
+//     caseLists = combineLists(caseLists)
+//     caseLists = unassignAllCaseFromJudge(req.auth.id, caseLists)
+//
+//     return caseLists
+// }
 
-    let caseLists = await getMutiJudCCDCases(req.auth.id, filters)
-    caseLists = combineLists(caseLists)
-    caseLists = unassignAllCaseFromJudge(req.auth.id, caseLists)
+/**
+ * Get Cases
+ *
+ * <code>req.query.requestCcdPage</code>
+ * requestCcdPage is taken from the requests query params. We use 'requestCcdPage' to request a different page of results from CCD.
+ *
+ * Yes it could of been called 'page' but it would throw another develop off, as page would refer to the UI next page, where
+ * this refers to the request that is page for the next CCD page, and we run the CCD results through more filters, to supply
+ * the UI with all the Cases or a filtered set of Cases.
+ *
+ * Note that we still have logic after the request to CCD is made that may remove Cases.
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
+export async function getCases(req, res) {
 
-    return caseLists
-}
-
-export async function getCases(res) {
+    const requestCcdPage = req.query.requestCcdPage
+    const user = await getUser()
 
     let results = null
-    const user = await getUser()
 
     let tryCCD = 0
 
     while (tryCCD < config.maxCCDRetries && !results) {
         // need to disable error sending here and catch it later if retrying
-        results = await asyncReturnOrError(that.getMutiJudCaseTransformed(res, user), ' Error getting case list',
+        results = await asyncReturnOrError(that.getMutiJudCaseTransformed(res, user, requestCcdPage), ' Error getting case list',
             res, logger, false)
 
         tryCCD++
@@ -353,20 +380,21 @@ export async function getCases(res) {
     }
 }
 
-export async function unassign(res) {
-    {
-        const user = await getUser()
-
-        const results = await asyncReturnOrError(getMutiJudCaseTransformed(res, user),
-            ' Error unassigning all', res, logger)
-
-        if (results) {
-            res.setHeader('Access-Control-Allow-Origin', '*')
-            res.setHeader('content-type', 'application/json')
-            res.status(200).send(JSON.stringify(results))
-        }
-    }
-}
+// So this might be used.
+// export async function unassign(res) {
+//     {
+//         const user = await getUser()
+//
+//         const results = await asyncReturnOrError(getMutiJudCaseTransformed(res, user),
+//             ' Error unassigning all', res, logger)
+//
+//         if (results) {
+//             res.setHeader('Access-Control-Allow-Origin', '*')
+//             res.setHeader('content-type', 'application/json')
+//             res.status(200).send(JSON.stringify(results))
+//         }
+//     }
+// }
 
 export async function assign(req, res) {
     {
@@ -408,8 +436,8 @@ export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/cases', router)
 
-    router.get('/', async (req: any, res, next) => getCases(res))
-    router.get('/unassign/all', async (req: any, res, next) => unassign(res))
+    router.get('/', async (req: any, res, next) => getCases(req, res))
+    // router.get('/unassign/all', async (req: any, res, next) => unassign(res))
     router.post('/assign/new', async (req: any, res, next) => assign(req, res))
     router.get('/raw', async (req: any, res, next) => raw(res))
     router.get('/raw/coh', async (req: any, res, next) => rawCOH(res))

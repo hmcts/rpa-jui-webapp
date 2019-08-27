@@ -35,10 +35,23 @@ export class CaseService {
         }));
     }
 
-    getCases(): Observable<Object> {
+    /**
+     * getCases
+     *
+     * @param requestCcdPage - page number 0
+     * @returns {Observable<Object>}
+     */
+    getCases(requestCcdPage): Observable<Object> {
+        console.log('requestCcdPage')
+        console.log(requestCcdPage)
         const url = `${this.configService.config.api_base_url}/api/cases`;
         return this.httpClient
-            .get(url)
+            .get(url,
+                {
+                    params: {
+                        requestCcdPage: requestCcdPage,
+                    },
+                })
             .pipe(map(data => {
                 return data;
             }))

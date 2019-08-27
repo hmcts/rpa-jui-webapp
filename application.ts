@@ -19,6 +19,8 @@ const session = require('express-session');
 const redis = require('redis');
 const redisStore = require('connect-redis')(session);
 
+const sessionFileStore = require('session-file-store');
+const FileStore = sessionFileStore(session);
 
 const tlsOptions = {
     password: process.env.REDIS_PASSWORD
@@ -39,6 +41,25 @@ app.use(securityHeaders);
 
 app.set('trust proxy', 1);
 
+/**
+ * Redis does not currently work locally, when a Developer is running Redis and has installed it via home brew.
+ *
+ * What happens?
+ *
+ * The User clicks to make a call to Idam. Idam successfully returns the OAuthToken, but the callback URL
+ * is unable to be hit when Redis is running locally.
+ *
+ * Original code:
+ * <code>
+ * const sessionFileStore = require('session-file-store');
+ * const FileStore = sessionFileStore(session);
+ *
+ * store: new FileStore({
+ *   path: process.env.NOW ? '/tmp/sessions' : '.sessions'
+ * })
+ * </code>
+ *
+ */
 app.use(
     session({
         cookie: {
@@ -50,12 +71,8 @@ app.use(
         resave: true,
         saveUninitialized: true,
         secret: config.sessionSecret,
-        store: new redisStore({
-            host: process.env.REDIS_HOST,
-            port: process.env.REDIS_PORT,
-            pass: process.env.REDIS_PASSWORD,
-            client: redisClient,
-            ttl: 86400
+        store: new FileStore({
+            path: process.env.NOW ? '/tmp/sessions' : '.sessions'
         })
     })
 );

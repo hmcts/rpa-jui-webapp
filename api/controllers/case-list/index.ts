@@ -9,7 +9,7 @@ import * as log4jui from '../../lib/log4jui'
 import { processCaseState } from '../../lib/processors/case-state-model'
 import { dataLookup as valueProcessor } from '../../lib/processors/value-processor'
 import { asyncReturnOrError } from '../../lib/util'
-import { getMutiJudCCDCases } from '../../services/ccd-store-api/ccd-store'
+import { getMutiJudCCDCases, getCCDCasesPaginationMetadata } from '../../services/ccd-store-api/ccd-store'
 import { getDecision } from '../../services/coh'
 import { getHearingByCase } from '../../services/cohQA'
 import { getUser } from '../../services/idam'
@@ -380,6 +380,24 @@ export async function getCases(req, res) {
     }
 }
 
+export async function getCasesPaginationMetadata(req, res) {
+
+    try {
+        const userDetails = await getUser()
+        const userId = user.id
+
+        const jurisdictions = filterByCaseTypeAndRole(userDetails)
+        const paginationMetadata = await getCCDCasesPaginationMetadata(userId, jurisdiction, caseType)
+
+        console.log('paginationMetadata')
+        console.log(paginationMetadata)
+        res.status(200).send(paginationMetadata)
+    } catch (error) {
+        // TODO: Send a proper error.
+        res.status(500).send(error)
+    }
+}
+
 // So this might be used.
 // export async function unassign(res) {
 //     {
@@ -432,11 +450,22 @@ export async function rawCOH(res) {
     }
 }
 
+/**
+ * Routes:
+ * /cases/
+ * /cases/paginationMetadata
+ *
+ * It looks like routes /cases/assign /cases/raw are not used.
+ *
+ * @param app
+ */
 export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/cases', router)
 
     router.get('/', async (req: any, res, next) => getCases(req, res))
+    router.get('/paginationMetadata', async (req: any, res, next) => getCasesPaginationMetadata(req, res))
+
     // router.get('/unassign/all', async (req: any, res, next) => unassign(res))
     router.post('/assign/new', async (req: any, res, next) => assign(req, res))
     router.get('/raw', async (req: any, res, next) => raw(res))

@@ -58,6 +58,18 @@ export class CaseService {
             .pipe(catchError(error => throwError(error)));
     }
 
+    // So over here we want to hit the pagination endpoint and be returned the total pages or total result.
+    getPaginationMetadata(): Observable<Object> {
+        const url = `${this.configService.config.api_base_url}/api/cases/paginationMetadata`;
+        return this.httpClient
+            .get(url)
+            .pipe(map(data => {
+                return data;
+            }))
+            .pipe(catchError(error => throwError(error)));
+    }
+
+    // TODO: I don't think this is being used.
     getNewCase(): Observable<Object> {
         const url = `${this.configService.config.api_base_url}/api/cases/assign/new`;
         this.checkCache(url);

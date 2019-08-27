@@ -111,6 +111,21 @@ export class SearchResultComponent implements OnInit {
         );
     }
 
+    getPaginationMetadata() {
+
+        const paginationMetadataObservable = this.caseService.getPaginationMetadata();
+
+        paginationMetadataObservable.subscribe(
+            paginationMetadata => {
+                console.log('paginationMetadata');
+                console.log(paginationMetadata);
+            },
+            errorStack => {
+                console.log(errorStack);
+            }
+        );
+    }
+
     /**
      * TODO: We do not know if we should show the next page button as yet, as not sure if we can get the total
      * number of cases a User has from Ccd.
@@ -179,6 +194,7 @@ export class SearchResultComponent implements OnInit {
      */
     ngOnInit() {
 
-        this.getCases(this.ccdPageIndex);
+        // this.getCases(this.ccdPageIndex);
+        this.getPaginationMetadata();
     }
 }

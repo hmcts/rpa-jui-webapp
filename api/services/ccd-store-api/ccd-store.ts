@@ -6,6 +6,7 @@ import * as log4jui from '../../lib/log4jui'
 import { CCDEventResponse } from '../../lib/models'
 import { asyncReturnOrError, getHealth, getInfo } from '../../lib/util'
 import { ERROR_UNABLE_TO_GET_CASES_FOR_JURISDICTION } from '../../lib/errors'
+import {ERROR_UNABLE_TO_RELIST_HEARING} from '../../lib/config/cohConstants';
 
 const logger = log4jui.getLogger('ccd-store')
 
@@ -93,13 +94,37 @@ export async function getCCDEvents(userId: string, jurisdiction: string, caseTyp
  */
 export async function getCCDCases(userId: string, jurisdiction: string, caseType: string, filter: string, requestCcdPage): Promise<any> {
 
-    console.log('getCCDCases');
-    console.log(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`);
+    console.log('getCCDCases')
+    console.log(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`)
 
     const response = await http.get(
         `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}&page=${requestCcdPage}`
     )
     return response.data
+}
+
+export async function getCCDCasesPaginationMetadata(userId: string, jurisdiction: string, caseType: string): Promise<any> {
+
+    try {
+        const paginationMetadata = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/pagination_metadata`)
+        return paginationMetadata
+    } catch (error) {
+        return Promise.reject({
+            message: 'Error unable to return pagination metadata',
+            serviceError: {
+                message: error.response.data,
+                status: error.response.status,
+            },
+        })
+    }
+
+    // console.log('getCCDCasesPaginationMetadata')
+    // console.log(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/pagination_metadata`)
+    //
+    // const response = await http.get(
+    //     `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/pagination_metadata`
+    // )
+    // return response.data
 }
 
 export async function postCCDCase(userId: string, jurisdiction: string, caseType: string, body: any): Promise<any> {

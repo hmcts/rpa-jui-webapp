@@ -18,6 +18,19 @@ export function filterCaseListsByRoles(caseListFilters, roles) {
     })
 }
 
+/**
+ * filterByCaseTypeAndRole
+ *
+ * TODO: Does this always return one object as part of an array?
+ *
+ * @param userDetails
+ * @returns [
+ *  {"accessRoles":["caseworker-sscs-judge","caseworker-sscs-panelmember"],
+ *  "caseType":"Benefit",
+ *  "filter":"&case.appeal.benefitType.code=PIP&case.assignedToJudge=juitestjudgesscs@mailnesia.com",
+ *  "jur":"SSCS"}
+ *  ]
+ */
 export function filterByCaseTypeAndRole(userDetails) {
     const filters = []
     const roles = userDetails.roles

@@ -35,7 +35,9 @@ export class SearchResultComponent implements OnInit {
 
     componentState = this.LOADING;
 
-    ccdPageIndex = this.FIRST_CCD_PAGE;
+    selectedPageIndex = this.FIRST_CCD_PAGE;
+
+    pages = [];
 
     constructor(private caseService: CaseService, private errorFormattingService: ErrorFormattingService) {
     }
@@ -57,7 +59,6 @@ export class SearchResultComponent implements OnInit {
         }
 
         this.componentState = this.CASES_LOAD_SUCCESSFULLY;
-
 
 
         this.cases = cases;
@@ -117,8 +118,12 @@ export class SearchResultComponent implements OnInit {
 
         paginationMetadataObservable.subscribe(
             paginationMetadata => {
-                console.log('paginationMetadata');
-                console.log(paginationMetadata);
+
+                const totalPagesCount = paginationMetadata[0].total_pages_count;
+
+                for (let index = 1; index <= totalPagesCount; index++) {
+                    this.pages.push(index);
+                }
             },
             errorStack => {
                 console.log(errorStack);
@@ -130,16 +135,15 @@ export class SearchResultComponent implements OnInit {
      * TODO: We do not know if we should show the next page button as yet, as not sure if we can get the total
      * number of cases a User has from Ccd.
      */
-    hasNextPage() {
-    }
+    hasNextPage = selectedPageIndex => selectedPageIndex < 9;
 
     /**
      * We should check if there is a previous page of Cases, if yes then we should show the previous page button.
      *
-     * @param ccdPageIndex
+     * @param selectedPageIndex
      * @returns {boolean}
      */
-    hasPreviousPage = ccdPageIndex => ccdPageIndex > this.FIRST_CCD_PAGE;
+    hasPreviousPage = selectedPageIndex => selectedPageIndex > this.FIRST_CCD_PAGE;
 
     /**
      * Retrieves the next page of CCD cases.
@@ -165,28 +169,38 @@ export class SearchResultComponent implements OnInit {
         this.getCasesAndSetCcdPageIndex(prevCcdPageIndex);
     }
 
+    getPage = selectedPageIndex => {
+
+        this.getCasesAndSetCcdPageIndex(selectedPageIndex);
+    }
+
+    pageSelected = (pageIndex, selectedPageIndex) => {
+
+        return pageIndex === selectedPageIndex;
+    }
+
     /**
      * getCasesAndSetCcdPageIndex
      *
      * Get the Ccd cases and maintain the Ccd Page Index.
      *
-     * @param ccdPageIndex - 1
+     * @param selectedPageIndex - 1
      */
-    getCasesAndSetCcdPageIndex = ccdPageIndex => {
+    getCasesAndSetCcdPageIndex = selectedPageIndex => {
 
-        this.setCcdPageIndex(ccdPageIndex);
-        this.getCases(ccdPageIndex);
+        this.setSelectedPageIndex(selectedPageIndex);
+        this.getCases(selectedPageIndex);
     }
 
     /**
-     * setCcdPageIndex
+     * setSelectedPageIndex
      *
      * We maintain the state of the Ccd Page Index within the UI, so that we can request the correct previous or next Ccd page.
      *
      * @param newPageIndex
      */
-    setCcdPageIndex = newPageIndex => {
-        this.ccdPageIndex = newPageIndex;
+    setSelectedPageIndex = newPageIndex => {
+        this.selectedPageIndex = newPageIndex;
     }
 
     /**
@@ -194,7 +208,7 @@ export class SearchResultComponent implements OnInit {
      */
     ngOnInit() {
 
-        // this.getCases(this.ccdPageIndex);
+        this.getCases(this.selectedPageIndex);
         this.getPaginationMetadata();
     }
 }

@@ -103,11 +103,25 @@ export async function getCCDCases(userId: string, jurisdiction: string, caseType
     return response.data
 }
 
-export async function getCCDCasesPaginationMetadata(userId: string, jurisdiction: string, caseType: string): Promise<any> {
+/**
+ * getCasesPaginationMetadata
+ *
+ * Gets the Cases Pagination Metadata.
+ *
+ * @param {string} userId - 510003
+ * @param {string} jurisdiction - 'SSCS'
+ * @param {string} caseType - 'Benefit'
+ * @returns {Promise<any>}
+ */
+export async function getCasesPaginationMetadata(userId: string, jurisdiction: string, caseType: string, filter: string): Promise<any> {
+
+    const paginationUrl = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/pagination_metadata?sortDirection=DESC${filter}`
+    console.log('paginationUrl')
+    console.log(paginationUrl)
 
     try {
-        const paginationMetadata = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/pagination_metadata`)
-        return paginationMetadata
+        const paginationMetadata = await http.get(paginationUrl)
+        return paginationMetadata.data
     } catch (error) {
         return Promise.reject({
             message: 'Error unable to return pagination metadata',
@@ -117,14 +131,25 @@ export async function getCCDCasesPaginationMetadata(userId: string, jurisdiction
             },
         })
     }
+}
 
-    // console.log('getCCDCasesPaginationMetadata')
-    // console.log(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/pagination_metadata`)
-    //
-    // const response = await http.get(
-    //     `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/pagination_metadata`
-    // )
-    // return response.data
+/**
+ * getMultiplyCasesPaginationMetadata
+ *
+ * There could be multiply pagination results for a Users many jurisdictions. We need to interate through this
+ * and find the pagination result for the one jurisdiction?
+ *
+ * @param {string} userId
+ * @param {any[]} jurisdictions
+ * @returns {Promise<any>}
+ */
+export async function getMultiplyCasesPaginationMetadata(userId: string, jurisdictions: any[]): Promise<any> {
+
+    const paginationMetadataMultiplyCaseSets = await map(jurisdictions, async (jurisdiction: any) => {
+        return getCasesPaginationMetadata(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter)
+    })
+
+    return paginationMetadataMultiplyCaseSets
 }
 
 export async function postCCDCase(userId: string, jurisdiction: string, caseType: string, body: any): Promise<any> {

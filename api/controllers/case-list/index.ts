@@ -9,7 +9,7 @@ import * as log4jui from '../../lib/log4jui'
 import { processCaseState } from '../../lib/processors/case-state-model'
 import { dataLookup as valueProcessor } from '../../lib/processors/value-processor'
 import { asyncReturnOrError } from '../../lib/util'
-import { getMutiJudCCDCases, getCCDCasesPaginationMetadata } from '../../services/ccd-store-api/ccd-store'
+import { getMutiJudCCDCases, getMultiplyCasesPaginationMetadata } from '../../services/ccd-store-api/ccd-store'
 import { getDecision } from '../../services/coh'
 import { getHearingByCase } from '../../services/cohQA'
 import { getUser } from '../../services/idam'
@@ -240,8 +240,8 @@ export async function getMutiJudCaseTransformed(res, userDetails, requestCcdPage
         'Jurisdictional assigned cases.', null, logger, false)
 
     // so this is only return 25 cases here from CCD
-    // console.log('caseList')
-    // console.log(caseList)
+    console.log('caseList')
+    console.log(caseList)
 
     // then somewhere along the way before the cases are returned to the UI we are taking off the incorrect case
     if (!isAnyCaseViewableByAJudge(caseList)) {
@@ -380,21 +380,32 @@ export async function getCases(req, res) {
     }
 }
 
+/**
+ * Get Cases Pagination Metadata
+ *
+ * Note that there could be multiply jurisdictions therefore we need to map through the jurisdictions,
+ * and get the pagination results for multiply sets of cases.
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 export async function getCasesPaginationMetadata(req, res) {
 
     try {
         const userDetails = await getUser()
-        const userId = user.id
+        const userId = userDetails.id
 
         const jurisdictions = filterByCaseTypeAndRole(userDetails)
-        const paginationMetadata = await getCCDCasesPaginationMetadata(userId, jurisdiction, caseType)
 
-        console.log('paginationMetadata')
-        console.log(paginationMetadata)
+        console.log('jurisdictions');
+        console.log(jurisdictions);
+
+        const paginationMetadata = await getMultiplyCasesPaginationMetadata(userId, jurisdictions)
+
         res.status(200).send(paginationMetadata)
     } catch (error) {
-        // TODO: Send a proper error.
-        res.status(500).send(error)
+        res.status(error.serviceError.status).send(error)
     }
 }
 

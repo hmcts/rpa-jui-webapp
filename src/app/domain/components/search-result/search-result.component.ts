@@ -36,6 +36,7 @@ export class SearchResultComponent implements OnInit {
     componentState = this.LOADING;
 
     selectedPageIndex = this.FIRST_CCD_PAGE;
+    totalPages;
 
     pages = [];
 
@@ -100,6 +101,7 @@ export class SearchResultComponent implements OnInit {
      */
     getCases(requestCcdPage) {
 
+        this.componentState = this.LOADING;
         const casesObservable = this.caseService.getCases(requestCcdPage);
 
         casesObservable.subscribe(
@@ -119,11 +121,10 @@ export class SearchResultComponent implements OnInit {
         paginationMetadataObservable.subscribe(
             paginationMetadata => {
 
-                console.log('paginationMetadata');
-                console.log(paginationMetadata);
-                const totalPagesForAllCases = paginationMetadata['totalPagesForAllCases'];
+                //TODO: What's the difference between totalPages and pages?
+                this.totalPages = paginationMetadata['totalPagesForAllCases'];
 
-                for (let index = 1; index <= totalPagesForAllCases; index++) {
+                for (let index = 1; index <= this.totalPages; index++) {
                     this.pages.push(index);
                 }
             },
@@ -137,7 +138,7 @@ export class SearchResultComponent implements OnInit {
      * TODO: We do not know if we should show the next page button as yet, as not sure if we can get the total
      * number of cases a User has from Ccd.
      */
-    hasNextPage = selectedPageIndex => selectedPageIndex < 9;
+    hasNextPage = selectedPageIndex => selectedPageIndex < this.totalPages;
 
     /**
      * We should check if there is a previous page of Cases, if yes then we should show the previous page button.

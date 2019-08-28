@@ -403,6 +403,9 @@ export async function getCasesPaginationMetadata(req, res) {
 
         const paginationMetadata = await getMultiplyCasesPaginationMetadata(userId, jurisdictions)
 
+        console.log('paginationMetadata')
+        console.log(paginationMetadata)
+
         res.status(200).send(paginationMetadata)
     } catch (error) {
         res.status(error.serviceError.status).send(error)

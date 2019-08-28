@@ -208,7 +208,7 @@ export class SearchResultComponent implements OnInit {
      */
     ngOnInit() {
 
-        this.getCases(this.selectedPageIndex);
+        // this.getCases(this.selectedPageIndex);
         this.getPaginationMetadata();
     }
 }

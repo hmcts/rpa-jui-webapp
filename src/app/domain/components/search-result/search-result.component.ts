@@ -119,9 +119,11 @@ export class SearchResultComponent implements OnInit {
         paginationMetadataObservable.subscribe(
             paginationMetadata => {
 
-                const totalPagesCount = paginationMetadata[0].total_pages_count;
+                console.log('paginationMetadata');
+                console.log(paginationMetadata);
+                const totalPagesForAllCases = paginationMetadata['totalPagesForAllCases'];
 
-                for (let index = 1; index <= totalPagesCount; index++) {
+                for (let index = 1; index <= totalPagesForAllCases; index++) {
                     this.pages.push(index);
                 }
             },
@@ -208,7 +210,7 @@ export class SearchResultComponent implements OnInit {
      */
     ngOnInit() {
 
-        // this.getCases(this.selectedPageIndex);
+        this.getCases(this.selectedPageIndex);
         this.getPaginationMetadata();
     }
 }

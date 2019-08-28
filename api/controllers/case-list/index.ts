@@ -7,6 +7,7 @@ import * as errorStack from '../../lib/errorStack'
 import { filterByCaseTypeAndRole } from '../../lib/filters'
 import * as log4jui from '../../lib/log4jui'
 import { processCaseState } from '../../lib/processors/case-state-model'
+import { getTotalPages } from '../../lib/pagination'
 import { dataLookup as valueProcessor } from '../../lib/processors/value-processor'
 import { asyncReturnOrError } from '../../lib/util'
 import { getMutiJudCCDCases, getMultiplyCasesPaginationMetadata } from '../../services/ccd-store-api/ccd-store'
@@ -401,12 +402,13 @@ export async function getCasesPaginationMetadata(req, res) {
         console.log('jurisdictions');
         console.log(jurisdictions);
 
+        // This is for multiply set of cases
         const paginationMetadata = await getMultiplyCasesPaginationMetadata(userId, jurisdictions)
+        const totalPages = getTotalPages(paginationMetadata)
 
-        console.log('paginationMetadata')
-        console.log(paginationMetadata)
-
-        res.status(200).send(paginationMetadata)
+        res.status(200).send({
+            totalPagesForAllCases: totalPages,
+        })
     } catch (error) {
         res.status(error.serviceError.status).send(error)
     }

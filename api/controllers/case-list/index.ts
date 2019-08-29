@@ -305,15 +305,15 @@ export async function getMutiJudCaseRawCoh(res, userDetails) {
     return caseLists
 }
 
-// export async function unassignAll(req, res) {
-//     const filters = filterByCaseTypeAndRole(req.auth)
-//
-//     let caseLists = await getMutiJudCCDCases(req.auth.id, filters)
-//     caseLists = combineLists(caseLists)
-//     caseLists = unassignAllCaseFromJudge(req.auth.id, caseLists)
-//
-//     return caseLists
-// }
+export async function unassignAll(req, res) {
+    const filters = filterByCaseTypeAndRole(req.auth)
+
+    let caseLists = await getMutiJudCCDCases(req.auth.id, filters, 0)
+    caseLists = combineLists(caseLists)
+    caseLists = unassignAllCaseFromJudge(req.auth.id, caseLists)
+
+    return caseLists
+}
 
 /**
  * Get Cases
@@ -414,21 +414,20 @@ export async function getCasesPaginationMetadata(req, res) {
     }
 }
 
-// So this might be used.
-// export async function unassign(res) {
-//     {
-//         const user = await getUser()
-//
-//         const results = await asyncReturnOrError(getMutiJudCaseTransformed(res, user),
-//             ' Error unassigning all', res, logger)
-//
-//         if (results) {
-//             res.setHeader('Access-Control-Allow-Origin', '*')
-//             res.setHeader('content-type', 'application/json')
-//             res.status(200).send(JSON.stringify(results))
-//         }
-//     }
-// }
+export async function unassign(res) {
+    {
+        const user = await getUser()
+
+        const results = await asyncReturnOrError(that.getMutiJudCaseTransformed(res, user, 0),
+            ' Error unassigning all', res, logger)
+
+        if (results) {
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.setHeader('content-type', 'application/json')
+            res.status(200).send(JSON.stringify(results))
+        }
+    }
+}
 
 export async function assign(req, res) {
     {
@@ -482,7 +481,7 @@ export default app => {
     router.get('/', async (req: any, res, next) => getCases(req, res))
     router.get('/paginationMetadata', async (req: any, res, next) => getCasesPaginationMetadata(req, res))
 
-    // router.get('/unassign/all', async (req: any, res, next) => unassign(res))
+    router.get('/unassign/all', async (req: any, res, next) => unassign(res))
     router.post('/assign/new', async (req: any, res, next) => assign(req, res))
     router.get('/raw', async (req: any, res, next) => raw(res))
     router.get('/raw/coh', async (req: any, res, next) => rawCOH(res))

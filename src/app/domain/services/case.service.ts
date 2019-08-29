@@ -36,14 +36,12 @@ export class CaseService {
     }
 
     /**
-     * getCases
+     * Get Cases
      *
      * @param requestCcdPage - page number 0
      * @returns {Observable<Object>}
      */
     getCases(requestCcdPage): Observable<Object> {
-        console.log('requestCcdPage')
-        console.log(requestCcdPage)
         const url = `${this.configService.config.api_base_url}/api/cases`;
         return this.httpClient
             .get(url,
@@ -58,7 +56,13 @@ export class CaseService {
             .pipe(catchError(error => throwError(error)));
     }
 
-    // So over here we want to hit the pagination endpoint and be returned the total pages or total result.
+    /**
+     * Get Pagination Metadata
+     *
+     * Returns the number of pages of Case results a User has.
+     *
+     * @returns {Observable<Object>}
+     */
     getPaginationMetadata(): Observable<Object> {
         const url = `${this.configService.config.api_base_url}/api/cases/paginationMetadata`;
         return this.httpClient
@@ -67,22 +71,5 @@ export class CaseService {
                 return data;
             }))
             .pipe(catchError(error => throwError(error)));
-    }
-
-    // TODO: I don't think this is being used.
-    getNewCase(): Observable<Object> {
-        const url = `${this.configService.config.api_base_url}/api/cases/assign/new`;
-        this.checkCache(url);
-        return this.httpClient
-            .post(url, {})
-            .pipe(map(data => {
-                this.state.set(this.key, data);
-                return data;
-            }))
-            .pipe(catchError(error => {
-                const value: any = {error};
-                this.state.set(this.key, value);
-                return of(value);
-            }));
     }
 }

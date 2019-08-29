@@ -399,8 +399,8 @@ export async function getCasesPaginationMetadata(req, res) {
 
         const jurisdictions = filterByCaseTypeAndRole(userDetails)
 
-        console.log('jurisdictions');
-        console.log(jurisdictions);
+        console.log('jurisdictions')
+        console.log(jurisdictions)
 
         // This is for multiply set of cases
         const paginationMetadata = await getMultiplyCasesPaginationMetadata(userId, jurisdictions)

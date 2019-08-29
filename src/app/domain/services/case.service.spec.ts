@@ -98,20 +98,6 @@ describe('CaseService', () => {
         httpMock.verify();
     });
 
-    // This one works
-    it('should get new case', () => {
-        const mockCaseData = [{is: 1}, {id: 2}];
-        const url = `/api/cases/assign/new`;
-        caseService.getNewCase().subscribe(data => {
-            expect(data).toEqual(mockCaseData);
-        });
-        const mockReq = httpMock.expectOne(url);
-        expect(mockReq.request.method).toBe('POST');
-        expect(mockReq.request.responseType).toEqual('json');
-        mockReq.flush(mockCaseData);
-        httpMock.verify();
-    });
-
     it('should make a request to get the pagination metadata.', () => {
 
         const mockCaseData = {
@@ -127,15 +113,4 @@ describe('CaseService', () => {
         mockReq.flush(mockCaseData);
         httpMock.verify();
     });
-
-    // it('should throw the error if there is an api connections errors in get new case', () => {
-    //     const mockCaseData = [{is: 1}, {id: 2}];
-    //     const url = `/api/cases/assign/new`;
-    //     const mockErrorResponse = { status: 400, statusText: 'Bad Request' };
-    //     caseService.getNewCase().subscribe(data => {}, err => errResponse = err);
-    //     const mockReq = httpMock.expectOne(url);
-    //     mockReq.flush(mockCaseData, mockErrorResponse);
-    //     expect(errResponse.status).toBe(400);
-    //     httpMock.verify();
-    // });
 });

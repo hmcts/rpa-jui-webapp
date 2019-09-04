@@ -61,7 +61,6 @@ const routes: Routes = [
                 component: PrivacyPolicyComponent
             },
         ],
-        canActivate: [AuthGuardService],
     },
     {
         path: 'case/:jur/:casetype/:case_id',

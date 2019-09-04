@@ -59,7 +59,8 @@ const routes: Routes = [
                 path: 'privacy-policy',
                 component: PrivacyPolicyComponent
             },
-        ]
+        ],
+        canActivate: [AuthGuardService],
     },
     {
         path: 'case/:jur/:casetype/:case_id',
@@ -68,7 +69,8 @@ const routes: Routes = [
         },
         children: [
             {
-                path: 'decision', component: DecisionRootComponent,
+                path: 'decision',
+                component: DecisionRootComponent,
                 children: [
                     //Common routes
                     { path: 'create', component: MakeDecisionComponent },
@@ -144,7 +146,8 @@ const routes: Routes = [
                 path: '',
                 component: ViewCaseComponent
             }
-        ]
+        ],
+        canActivate: [AuthGuardService],
     }
 ];
 

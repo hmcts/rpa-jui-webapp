@@ -151,8 +151,8 @@ const routes: Routes = [
         canActivate: [AuthGuardService],
     },
     /**
-     * AuthGuard placed on the wildcard path so that i. a User is redirected to the login page, if
-     * a User unauthenticated.
+     * AuthGuard placed on the wildcard path so that a User is redirected to the login page if
+     * they are unauthenticated, and attempt to navigate to a url.
      */
     {
         path: '**',

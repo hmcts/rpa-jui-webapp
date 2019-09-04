@@ -36,6 +36,7 @@ import { TermsAndConditionsComponent } from './pages/generic-page/terms-and-cond
 import { CookiesComponent } from './pages/generic-page/cookies/cookies.component';
 import { PrivacyPolicyComponent } from './pages/generic-page/privacy-policy/privacy-policy.component';
 import { CaseDataService } from './pages/view-case/view-case.services';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 const routes: Routes = [
     {
@@ -148,6 +149,15 @@ const routes: Routes = [
             }
         ],
         canActivate: [AuthGuardService],
+    },
+    /**
+     * AuthGuard placed on the wildcard path so that i. a User is redirected to the login page, if
+     * a User unauthenticated.
+     */
+    {
+        path: '**',
+        component: PageNotFoundComponent,
+        canActivate: [AuthGuardService],
     }
 ];
 
@@ -185,7 +195,8 @@ const routes: Routes = [
         ErrorServiceUnavailableComponent,
         ConfirmationComponent,
         CheckYourAnswersComponent,
-        TaskListComponent
+        TaskListComponent,
+        PageNotFoundComponent,
     ],
     providers: [
         CaseResolve,

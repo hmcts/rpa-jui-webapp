@@ -20,8 +20,3 @@ beforeEach(async(() => {
         expect(component).toBeTruthy();
     });
 });
-
-
-
-
-

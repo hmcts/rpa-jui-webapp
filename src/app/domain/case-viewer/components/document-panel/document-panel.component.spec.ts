@@ -214,6 +214,26 @@ describe('DocumentPanelComponent', () => {
             it('should show a friendly message that there are no documents', () => {
                 expect(nativeElement.querySelector(Selector.selector('no-documents'))).toBeNull();
             });
+
+            it('should determine the correct content type from the mime type', () => {
+                const mimes = [
+                    {
+                        mime: 'image/*',
+                        expected: 'image'
+                    },
+                    {
+                        mime: 'application/pdf',
+                        expected: 'pdf'
+                    },
+                    {
+                        mime: 'foo/bar',
+                        expected: 'txt'
+                    },
+                ];
+                mimes.forEach( mime => {
+                    expect(DocumentPanelComponent.getContentType(mime.mime)).toBe(mime.expected);
+                });
+            });
         });
     });
 

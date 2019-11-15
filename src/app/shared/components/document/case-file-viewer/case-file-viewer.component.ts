@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-case-file-viewer',
@@ -10,9 +10,19 @@ export class CaseFileViewerComponent implements OnInit {
     @Input() documentUrl: string;
     @Input() allowAnnotations = true;
 
+    toolbarButtons = { showDownload: false, showPrint: true };
+
     constructor() { }
 
     ngOnInit() {
+    }
+
+    onMediaLoadStatus($event: any) {
+        console.log('onMediaLoadStatus', $event, this.selectedDocument);
+    }
+
+    onMediaLoadException($event: any) {
+        console.log('onMediaLoadException', $event);
     }
 
 }

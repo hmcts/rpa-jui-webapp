@@ -40,6 +40,11 @@
                             },
                             {
                                 "glob": "**/*",
+                                "input": "node_modules/@hmcts/media-viewer/assets",
+                                "output": "/assets"
+                            },
+                            {
+                                "glob": "**/*",
                                 "input": "node_modules/govuk-frontend/assets",
                                 "output": "/public"
                             },
@@ -52,6 +57,7 @@
                         "styles": [
                             "node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
                             "src/public/sass/annotation-ui-theme.scss",
+                            "node_modules/@hmcts/media-viewer/assets/aui-styles.scss",
                             "src/styles.scss"
                         ],
                         "scripts": [

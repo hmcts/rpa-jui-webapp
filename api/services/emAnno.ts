@@ -43,7 +43,7 @@ export async function handlePost(req: Request, res: Response): Promise<void> {
 }
 
 export async function handleGet(req: Request, res: Response): Promise<void> {
-    const uuid = req.params.uuid
+    const uuid = req.query.documentId
     const response = await asyncReturnOrError(getAnnotionSet(uuid), ' Error getting annotations', res, logger)
 
     if (response) {
@@ -73,7 +73,7 @@ export default async app => {
     app.use('/em-anno', router)
 
     router.post('/annotation-sets', await handlePost)
-    router.get('/annotation-sets/:uuid', await handleGet)
+    router.get('/annotation-sets/filter', await handleGet)
     router.delete('/annotations/:uuid', await handleDelete)
     router.post('/annotations', await handleAdd)
 }

@@ -13,7 +13,7 @@ export default {
         draft_store_api:
             'http://draft-store-service-prod.service.core-compute-prod.internal',
         dm_store_api:
-            'https://dm-store-prod.service.core-compute-prod.internal',
+            'http://dm-store-prod.service.core-compute-prod.internal',
         em_anno_api: 'http://em-anno-prod.service.core-compute-prod.internal',
         em_npa_api: 'http://em-npa-prod.service.core-compute-prod.internal',
         coh_cor_api: 'https://coh-cor-prod.service.core-compute-prod.internal'

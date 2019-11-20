@@ -18,6 +18,7 @@ def product = "jui"
 def component = "webapp"
 def vault = "rpa"
 def channel = '#jui-pipeline'
+def deployToAatOnly = true
 
 List<LinkedHashMap<String, Object>> secrets = [
     secret('test-email', 'TEST_EMAIL'),
@@ -60,6 +61,14 @@ withPipeline(type, product, component) {
     installCharts()
 
     after('checkout') {sh 'yarn cache clean'}
+
+    if (deployToAatOnly) {
+        before('buildinfra:prod') {
+            currentBuild.result = 'SUCCESS'
+            currentBuild.description = "SUCCESS TILL AAT"
+        }
+    }
+
 
     after('build') {
         sh 'npm run build'

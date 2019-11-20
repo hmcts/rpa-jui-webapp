@@ -11,7 +11,7 @@ export default {
         draft_store_api:
             'http://draft-store-service-demo.service.core-compute-demo.internal',
         dm_store_api:
-            'https://dm-store-demo.service.core-compute-demo.internal',
+            'http://dm-store-demo.service.core-compute-demo.internal',
         em_anno_api: 'http://em-anno-demo.service.core-compute-demo.internal',
         em_npa_api: 'http://em-npa-demo.service.core-compute-demo.internal',
         coh_cor_api: 'https://coh-cor-demo.service.core-compute-demo.internal'

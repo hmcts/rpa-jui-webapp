@@ -1,3 +1,4 @@
+i
 locals {
     app_full_name = "${var.product}-${var.component}"
     //ase_name = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
@@ -24,6 +25,7 @@ module "app" {
     asp_rg = "${var.shared_product_name}-${var.env}"
     #asp_name = "${var.shared_product_name}-${var.env}"
     asp_name = "${var.env == "prod" ? "rpa-rd-prod" : "${var.shared_product_name}-${var.env}"}"
+    enable_ase = false
 
     app_settings = {
         # REDIS_HOST = "${module.redis-cache.host_name}"
@@ -74,6 +76,6 @@ data "azurerm_key_vault_secret" "oauth2_secret" {
 
 provider "azurerm" {
     version = "1.22.1"
-    enable_ase = false
 }
+
 

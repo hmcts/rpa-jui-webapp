@@ -75,3 +75,5 @@ data "azurerm_key_vault_secret" "oauth2_secret" {
 provider "azurerm" {
     version = "1.22.1"
 }
+
+enable_ase = false

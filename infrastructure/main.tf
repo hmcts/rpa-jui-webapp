@@ -25,7 +25,7 @@ module "app" {
     asp_rg = "${var.shared_product_name}-${var.env}"
     #asp_name = "${var.shared_product_name}-${var.env}"
     asp_name = "${var.env == "prod" ? "rpa-rd-prod" : "${var.shared_product_name}-${var.env}"}"
-    enable_ase ="false"
+    enable_ase="false"
 
     app_settings = {
         # REDIS_HOST = "${module.redis-cache.host_name}"
